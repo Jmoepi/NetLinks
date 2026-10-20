@@ -563,6 +563,38 @@ button.icon-button:focus-visible:not(:disabled) {
   margin-top: var(--space-4);
 }
 
+/* Primary-styled link (e.g. "Sign in to the demo"): looks like the default button. */
+.button-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-6);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--tr-widest);
+  line-height: 1.2;
+  text-decoration: none;
+  border-radius: var(--radius-none);
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: var(--on-accent);
+  transition: background-color var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease),
+    border-color var(--dur-fast) var(--ease);
+}
+
+.button-link:hover,
+.button-link:focus-visible {
+  background: #ffffff;
+  border-color: #ffffff;
+  color: #000000;
+}
+
+.button-link svg {
+  flex: none;
+}
+
 /* Underlined uppercase text link with accent arrow that nudges on hover/focus */
 .link-arrow {
   display: inline-flex;
@@ -2075,6 +2107,7 @@ button.account-signout {
 .hero-links {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: var(--space-6) var(--space-12);
 }
 
@@ -2161,56 +2194,36 @@ button.account-signout {
   margin-bottom: var(--space-12);
 }
 
-.role-rows .row-button {
-  width: 100%;
-  display: grid;
-  grid-template-columns: 4rem minmax(0, 1fr) auto;
-  align-items: center;
-  gap: var(--space-6);
-  padding: var(--space-10) var(--space-4);
-  background: transparent;
-  border: 0;
-  color: var(--text);
-  text-align: left;
-  text-transform: none;
-  letter-spacing: normal;
-  font-size: var(--fs-base);
-  font-weight: var(--fw-regular);
-  line-height: var(--lh-body);
-  cursor: pointer;
+/* Landing rows: larger index and statement text, reusing .row-list / .row-inner. */
+.landing-section .row-inner {
+  padding-block: var(--space-6);
 }
 
-.role-rows .row-button:hover:not(:disabled),
-.role-rows .row-button:focus-visible:not(:disabled) {
-  background: transparent;
-  color: var(--text);
-}
-
-.role-rows .row-button:focus-visible {
-  outline-offset: -2px;
-}
-
-.role-rows .row-index {
+.landing-section .row-index {
   font-size: var(--fs-xl);
 }
 
-.role-title {
-  display: block;
-  font-size: clamp(1.875rem, 4vw, 3rem);
-  font-weight: var(--fw-semibold);
-  text-transform: uppercase;
-  letter-spacing: var(--tr-tight);
-  line-height: var(--lh-heading);
+.landing-statement {
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-light);
   color: var(--text-strong);
-  margin-bottom: var(--space-3);
+  line-height: var(--lh-heading);
+  max-width: 44rem;
 }
 
-.role-desc {
-  display: block;
-  font-size: var(--fs-lg);
-  font-weight: var(--fw-light);
-  color: var(--text-muted);
-  max-width: 32rem;
+.landing-note {
+  margin-top: var(--space-6);
+}
+
+.landing-cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-4) var(--space-8);
+}
+
+.landing-cta p {
+  margin: 0;
 }
 
 .row:hover .btn-circle,
@@ -2223,16 +2236,6 @@ button.account-signout {
 .row:hover .btn-circle svg,
 .row:focus-within .btn-circle svg {
   transform: rotate(45deg);
-}
-
-@media (min-width: 768px) {
-  .role-rows .row-button {
-    grid-template-columns: 2fr 6fr 4fr;
-    padding-block: var(--space-16);
-  }
-  .role-rows .btn-circle {
-    justify-self: end;
-  }
 }
 
 .manifesto {

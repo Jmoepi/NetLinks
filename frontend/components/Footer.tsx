@@ -12,7 +12,9 @@ export function Footer() {
           </span>
           <span className="sr-only">NetLinks</span>
         </div>
-        <p className="footer-note">Fictional demo data · Hackathon prototype · No real authentication</p>
+        <p className="footer-note">
+          Built for the YES AI Hackathon 2026 · Prototype with fictional demo data · No real authentication
+        </p>
         <p className="footer-copy">© NetLinks prototype</p>
       </div>
     </footer>
