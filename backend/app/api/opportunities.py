@@ -15,6 +15,7 @@ from sqlalchemy.orm import Session
 
 from app.ai import gateway, prompts
 from app.api.common import CACHE_MISS_EMBEDDING, CACHE_MISS_RFQ, ai_error, iso
+from app.api.pagination import PageQuery, PageSizeQuery, paginate
 from app.audit import write_audit
 from app.engine import scoring
 from app.engine.eligibility import rand
@@ -37,6 +38,7 @@ NUMERIC_PARAMS = {
     "zero_score_km",
 }
 REASON_REQUIRED = "A written reason is required to change the shortlist order."
+DEFAULT_OPPORTUNITY_PAGE_SIZE = 10
 
 
 # ---------------------------------------------------------------------------
@@ -300,11 +302,22 @@ def run_payload(db: Session, opp: Opportunity) -> dict[str, Any]:
 
 
 @router.get("")
-def list_opportunities(db: DbSession, actor: BuyerOrAdmin) -> list[dict[str, Any]]:
+def list_opportunities(
+    db: DbSession, actor: BuyerOrAdmin, page: PageQuery = None, page_size: PageSizeQuery = None
+) -> list[dict[str, Any]] | dict[str, Any]:
+    """Bare list (id ascending) without page params; {items, total, page, page_size} with either."""
     stmt = select(Opportunity).order_by(Opportunity.id)
     if actor.role == "buyer":
         stmt = stmt.where(Opportunity.buyer_org == actor.buyer_org)
-    return [_summary(db, o) for o in db.scalars(stmt)]
+    if page is None and page_size is None:
+        return [_summary(db, o) for o in db.scalars(stmt)]
+    opps, meta = paginate(list(db.scalars(stmt)), page or 1, page_size or DEFAULT_OPPORTUNITY_PAGE_SIZE)
+    return {
+        "items": [_summary(db, o) for o in opps],
+        "total": meta["total"],
+        "page": meta["page"],
+        "page_size": meta["page_size"],
+    }
 
 
 @router.get("/{opportunity_id}")

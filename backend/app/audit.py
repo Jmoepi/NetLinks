@@ -101,13 +101,16 @@ def list_audit(
     actor: ActorLike,
     opportunity_id: int | None = None,
     buyer_org: str | None = None,
+    *,
+    action: str | None = None,
+    actor_role: str | None = None,
 ) -> list[AuditLog]:
     """Audit entries visible to the actor, oldest first.
 
     admin: everything. buyer: entries about their own opportunities (buyer_org) and entries about
     SMEs that have consented to share their profile; platform entries (AI mode, reset) are hidden.
     opportunity_id narrows to that opportunity's entries plus SME entries (entries tied to another
-    opportunity are dropped).
+    opportunity are dropped). action / actor_role keep only entries with that exact value.
     """
     rows = list(session.scalars(select(AuditLog).order_by(AuditLog.id)))
     own_opps: set[int] | None = None
@@ -118,6 +121,10 @@ def list_audit(
 
     visible: list[AuditLog] = []
     for row in rows:
+        if action is not None and row.action != action:
+            continue
+        if actor_role is not None and row.actor_role != actor_role:
+            continue
         opp_id = _entry_opportunity_id(row)
         sme_id = _entry_sme_id(row)
         if opportunity_id is not None and opp_id is not None and opp_id != opportunity_id:
