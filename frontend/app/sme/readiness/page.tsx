@@ -1,0 +1,109 @@
+"use client";
+
+import Link from "next/link";
+import { Notice } from "@/components/Notice";
+import { RoleGate } from "@/components/RoleGate";
+import { StatusBadge } from "@/components/StatusBadge";
+import { UploadForm } from "@/components/UploadForm";
+import { formatDateTime } from "@/lib/format";
+import { useLoad } from "@/lib/useLoad";
+import type { Readiness } from "@/lib/types";
+
+function ReadinessView() {
+  const { data, error, loading, reload } = useLoad<Readiness>("/api/sme/me/readiness");
+
+  if (!data) return loading ? <p>Loading readiness…</p> : <Notice kind="error">{error}</Notice>;
+
+  const openRequests = data.requests.filter((r) => r.status === "open");
+
+  return (
+    <>
+      <div className="page-header">
+        <div>
+          <h1>Readiness: {data.sme.name}</h1>
+          <p className="muted">Buyer requests and what would help you qualify. Guidance never changes a current ranking.</p>
+        </div>
+        <Link href="/sme">Back to my profile</Link>
+      </div>
+
+      <section className="panel" aria-labelledby="requests-heading">
+        <h2 id="requests-heading">Buyer requests ({openRequests.length} open)</h2>
+        {data.requests.length ? (
+          <ul>
+            {data.requests.map((r) => (
+              <li key={r.id}>
+                <strong>{r.kind === "information" ? "Request for information" : "Request for clarification"}</strong> from{" "}
+                {r.buyer_org} ({formatDateTime(r.created_at)}): <q>{r.message}</q>{" "}
+                {r.status === "open" ? (
+                  <span className="badge badge-awaiting">
+                    <span aria-hidden="true">⏳</span>Open - awaiting your response
+                  </span>
+                ) : (
+                  <span className="badge badge-eligible">
+                    <span aria-hidden="true">✓</span>Responded {formatDateTime(r.responded_at)}
+                  </span>
+                )}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="muted">No buyer requests yet.</p>
+        )}
+      </section>
+
+      <section className="panel" aria-labelledby="reupload-heading">
+        <h2 id="reupload-heading">Upload new or renewed documents</h2>
+        <p>Uploading answers your open buyer requests. The buyer re-runs matching to see the update.</p>
+        <UploadForm label="Upload renewed documents (PDF)" buttonText="Upload" onUploaded={() => void reload()} />
+      </section>
+
+      {data.opportunities.map((o) => {
+        const issues = o.checks.filter((c) => c.outcome !== "pass");
+        return (
+          <section className="panel" key={o.opportunity_id} aria-labelledby={`opp-${o.opportunity_id}`}>
+            <h2 id={`opp-${o.opportunity_id}`}>{o.title}</h2>
+            <p className="muted">
+              {o.buyer_org} · closes {o.closing_date}
+            </p>
+            <p>
+              Current status: <StatusBadge status={o.status} />{" "}
+              {o.awaiting_sme ? <StatusBadge status="awaiting_sme" /> : null}
+              {o.run_at ? <span className="muted"> (assessed {formatDateTime(o.run_at)})</span> : null}
+            </p>
+            {issues.length ? (
+              <>
+                <h3>Why</h3>
+                <ul>
+                  {issues.map((c) => (
+                    <li key={c.rule}>
+                      <StatusBadge status={c.outcome} /> <strong>{c.label}:</strong> {c.reason}
+                    </li>
+                  ))}
+                </ul>
+              </>
+            ) : null}
+            <h3>Readiness actions</h3>
+            {o.actions.length ? (
+              <ul>
+                {o.actions.map((a, i) => (
+                  <li key={`${a.category}-${i}`}>{a.text}</li>
+                ))}
+              </ul>
+            ) : (
+              <p className="muted">{o.run_id ? "No actions: nothing is holding you back here." : "Not assessed yet."}</p>
+            )}
+            <p className="hint">Readiness actions help you qualify next time. They do not change the current ranking.</p>
+          </section>
+        );
+      })}
+    </>
+  );
+}
+
+export default function ReadinessPage() {
+  return (
+    <RoleGate roles={["sme"]}>
+      <ReadinessView />
+    </RoleGate>
+  );
+}

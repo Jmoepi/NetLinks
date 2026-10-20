@@ -48,8 +48,16 @@ services:
       db:
         condition: service_healthy
 
-  # frontend: added in FEAT-005 (Next.js, pinned node:22-alpine, NEXT_PUBLIC_API_URL build arg,
-  # port "127.0.0.1:3000:3000").
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        # The browser calls the API directly on the host (port bound to 127.0.0.1 above).
+        NEXT_PUBLIC_API_URL: http://localhost:8000
+    ports:
+      - "127.0.0.1:3000:3000"
+    depends_on:
+      - backend
 
 volumes:
   pgdata:

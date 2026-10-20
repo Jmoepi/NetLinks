@@ -11,3 +11,4 @@ __pycache__/
 .agents/
 data/
 frontend/.next/
+*.tsbuildinfo

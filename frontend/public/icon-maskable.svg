@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="NetLinks">
+  <rect width="512" height="512" fill="#0b4f6c"/>
+  <g fill="none" stroke="#ffffff" stroke-width="22" stroke-linecap="round">
+    <line x1="180" y1="200" x2="332" y2="200"/>
+    <line x1="180" y1="200" x2="256" y2="330"/>
+    <line x1="332" y1="200" x2="256" y2="330"/>
+  </g>
+  <g fill="#f2c14e">
+    <circle cx="180" cy="200" r="36"/>
+    <circle cx="332" cy="200" r="36"/>
+    <circle cx="256" cy="330" r="36"/>
+  </g>
+</svg>

@@ -1,0 +1,13 @@
+{
+  "name": "NetLinks (prototype, fictional demo data)",
+  "short_name": "NetLinks",
+  "description": "Evidenced, explainable procurement matching for youth-owned SMEs.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0b4f6c",
+  "icons": [
+    { "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "/icon-maskable.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "maskable" }
+  ]
+}
