@@ -20,12 +20,23 @@ const ROLES: { role: Role; title: string; description: string }[] = [
   { role: "admin", title: "YES Admin", description: "See pipeline outcomes, readiness gaps and fairness." },
 ];
 
-/** Returns `next` when it is a same-site path the role may open, otherwise null (prevents open redirects). */
+/**
+ * Returns `next` when it is a same-origin path the role may open, otherwise null (prevents open redirects).
+ * The value is parsed as a URL rather than prefix-matched, because the URL parser strips tab/newline and
+ * treats backslashes as slashes (so "/\t/host" or "/\\host" would otherwise escape to another origin).
+ */
 function safeNext(next: string | null, role: Role): string | null {
-  if (!next || !next.startsWith("/") || next.startsWith("//") || next.startsWith("/\\") || next.startsWith("/login")) {
+  if (!next || !next.startsWith("/") || typeof window === "undefined") return null;
+  let url: URL;
+  try {
+    url = new URL(next, window.location.origin);
+  } catch {
     return null;
   }
-  return canAccess(role, next.split(/[?#]/)[0]) ? next : null;
+  if (url.origin !== window.location.origin || url.pathname === "/login" || url.pathname.startsWith("/login/")) {
+    return null;
+  }
+  return canAccess(role, url.pathname) ? `${url.pathname}${url.search}${url.hash}` : null;
 }
 
 function LoginForm() {
