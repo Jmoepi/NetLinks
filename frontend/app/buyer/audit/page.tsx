@@ -29,7 +29,7 @@ function summarize(entry: AuditEntry): string {
   const d = entry.details as Record<string, unknown>;
   switch (entry.action) {
     case "extraction":
-      return `${d.filename} (${d.field_count} fields) by ${d.provider} / ${d.model_id}${d.cache_hit ? ", cached" : ""}`;
+      return `${d.filename} (${d.field_count} field${d.field_count === 1 ? "" : "s"}) by ${d.provider} / ${d.model_id}${d.cache_hit ? ", cached" : ""}`;
     case "sme_correction": {
       const old = ((d.old as { value: unknown }[]) || []).map((o) => JSON.stringify(o.value)).join(" / ");
       return `${d.field_key}: ${old || "(none)"} -> ${JSON.stringify(d.new)}${d.note ? ` (note: ${d.note})` : ""}`;

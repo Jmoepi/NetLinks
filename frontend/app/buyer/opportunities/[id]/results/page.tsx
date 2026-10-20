@@ -213,7 +213,11 @@ function ResultCard({
       </div>
       <p className="muted" style={{ margin: "0.25rem 0" }}>
         {result.sme.base_town} · {result.sme.size_band} business
-        {result.provisional ? " · no rank until the review items are resolved" : ""}
+        {result.provisional
+          ? result.status === "not_eligible"
+            ? " · not ranked: a mandatory requirement is not met"
+            : " · no rank until the review items are resolved"
+          : ""}
       </p>
 
       {issues.length ? (

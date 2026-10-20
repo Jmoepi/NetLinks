@@ -42,6 +42,13 @@ const PARAM_LABELS: Record<string, string> = {
   zero_score_km: "Zero score beyond (km)",
 };
 
+// Stored criteria come back from JSONB with keys reordered, so display params in a fixed order.
+const PARAM_ORDER = Object.keys(PARAM_LABELS);
+function paramOrder(name: string): number {
+  const i = PARAM_ORDER.indexOf(name);
+  return i === -1 ? PARAM_ORDER.length : i;
+}
+
 const WEIGHT_LABELS: Record<keyof Weights, string> = {
   capability: "Capability",
   experience: "Experience",
@@ -128,7 +135,7 @@ function CriteriaEditor({
           ) : null}
           {Object.keys(c.params).length ? (
             <div className="field-inline">
-              {Object.entries(c.params).map(([k, v]) => (
+              {Object.entries(c.params).sort(([a], [b]) => paramOrder(a) - paramOrder(b)).map(([k, v]) => (
                 <ParamInput key={k} name={k} value={v} onChange={(nv) => setParam(i, k, nv)} />
               ))}
             </div>

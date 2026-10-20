@@ -257,8 +257,7 @@ function DashboardView() {
           <section className="panel" aria-labelledby="fairness-heading">
             <h2 id="fairness-heading">Fairness view: outcomes by province and business size</h2>
             <p className="notice notice-info" role="note">
-              Small sample: shows the mechanism, not a finding.
-              {data.fairness?.note ? ` ${data.fairness.note}` : ""}
+              {data.fairness?.note || "Small sample: shows the mechanism, not a finding."}
             </p>
             {data.fairness && data.fairness.run_id ? (
               <div className="grid-2">
