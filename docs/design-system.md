@@ -167,7 +167,7 @@ Computed contrast and automated keyboard and axe checks aren't full WCAG validat
 8. Nothing is revealed only on hover. The reference hides service descriptions until hover; here they are always visible, and hover/focus-within only adds decoration. That works for keyboard and touch.
 9. Reduced motion is honoured (see section 6).
 10. Every interactive element has a visible accent focus ring. The Dialog keeps its focus trap, and the mobile menu traps focus, closes on Escape and restores focus to its trigger.
-11. UX changes: `/` is now a landing page with role entries instead of an auto-redirect (the walkthrough never relied on the redirect, and the top-bar switcher still works everywhere). The audit log is a labelled timeline instead of a table, with the same seven data points, each labelled. The fairness tables became focusable scroll regions to fix the axe finding.
+11. UX changes: `/` is now a public landing page (hero, problem, how it works, who it's for, trust and privacy, roadmap and a "Try the demo" sign-in call to action) instead of an auto-redirect; signing in happens on `/login`, and the top-bar account menu switches or signs out the demo persona. The audit log is a labelled timeline instead of a table, with the same seven data points, each labelled. The fairness tables became focusable scroll regions to fix the axe finding.
 12. The top-bar role-switcher `<select>` is replaced by an account menu. It uses the disclosure pattern (a button with `aria-expanded` plus a panel of ordinary buttons) rather than an ARIA `role="menu"`: it is simpler, fully keyboard operable (Tab, Enter, Escape with focus restore) and works with screen readers in browse mode, where ARIA menus need application-mode keyboard handling.
 
 ## 8. Verification record
