@@ -1,0 +1,37 @@
+{
+  "cache_key": "66a89fe6b8105a1b4507aea5df2cfab5076eae16ce64879391ca8170fdac2c5a",
+  "generated_at": "2026-10-20T16:33:18.023517+00:00",
+  "generated_by": "local-fallback (regenerate with Bedrock before demo)",
+  "input_ref": "Lerato_Technician_Certifications.pdf",
+  "kind": "extraction",
+  "model_id": "local-rules-v1",
+  "prompt_version": "extraction-v1",
+  "provider": "local-fallback",
+  "result": {
+    "doc_type": "certification_summary",
+    "fields": [
+      {
+        "confidence": 0.95,
+        "field_key": "certifications",
+        "page": 1,
+        "quote": "Technician: Karabo Petersen (fictional), CompTIA A+, expires 2027-12-31. Technician: Aisha Jacobs (fictional), ITIL 4 Foundation, expires 2028-05-31.",
+        "span_end": 351,
+        "span_start": 202,
+        "value": [
+          {
+            "cert_name": "CompTIA A+",
+            "expiry_date": "2027-12-31",
+            "holder": "Karabo Petersen"
+          },
+          {
+            "cert_name": "ITIL 4 Foundation",
+            "expiry_date": "2028-05-31",
+            "holder": "Aisha Jacobs"
+          }
+        ]
+      }
+    ],
+    "issue_date": null,
+    "period_end": null
+  }
+}

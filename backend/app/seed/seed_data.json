@@ -1,0 +1,177 @@
+{
+  "_note": "Fictional demo data. Document facts come from demo-assets via the AI cache; this file holds only non-document facts (plan A5/A14).",
+  "buyer": {
+    "contact": "Naledi",
+    "org": "Ubuntu Office Parks (fictional)",
+    "label": "Buyer: Naledi (Ubuntu Office Parks)"
+  },
+  "smes": [
+    {
+      "slug": "thuto",
+      "name": "Thuto Tech Solutions",
+      "doc_prefix": "Thuto",
+      "base_town": "Midrand",
+      "province": "GP",
+      "lat": -25.9992,
+      "lon": 28.1263,
+      "size_band": "small",
+      "employees": 14,
+      "preseed_documents": false,
+      "consent": "pending"
+    },
+    {
+      "slug": "mmapula",
+      "name": "Mmapula Digital Workplace",
+      "doc_prefix": "Mmapula",
+      "base_town": "Soshanguve",
+      "province": "GP",
+      "lat": -25.5236,
+      "lon": 28.0989,
+      "size_band": "micro",
+      "employees": 9,
+      "preseed_documents": true,
+      "consent": "granted"
+    },
+    {
+      "slug": "zola",
+      "name": "Zola Systems",
+      "doc_prefix": "Zola",
+      "base_town": "Soweto",
+      "province": "GP",
+      "lat": -26.2485,
+      "lon": 27.854,
+      "size_band": "small",
+      "employees": 13,
+      "preseed_documents": true,
+      "consent": "granted"
+    },
+    {
+      "slug": "brightpath",
+      "name": "Bright Path Networks",
+      "doc_prefix": "BrightPath",
+      "base_town": "Germiston",
+      "province": "GP",
+      "lat": -26.2309,
+      "lon": 28.1772,
+      "size_band": "small",
+      "employees": 18,
+      "preseed_documents": true,
+      "consent": "granted"
+    },
+    {
+      "slug": "lerato",
+      "name": "Lerato Web Studio",
+      "doc_prefix": "Lerato",
+      "base_town": "Cape Town",
+      "province": "WC",
+      "lat": -33.9249,
+      "lon": 18.4241,
+      "size_band": "micro",
+      "employees": 6,
+      "preseed_documents": true,
+      "consent": "granted"
+    }
+  ],
+  "exclude_documents": ["Zola_PI_Insurance_Schedule_Renewed.pdf"],
+  "confirmations": [
+    {
+      "sme": "brightpath",
+      "field_key": "technician_count",
+      "value": 15,
+      "mode": "form",
+      "source_label": "SME profile form",
+      "note": "Entered by the SME on the profile form."
+    },
+    {
+      "sme": "lerato",
+      "field_key": "service_regions",
+      "value": ["WC"],
+      "mode": "confirm"
+    }
+  ],
+  "opportunities": [
+    {
+      "key": "ubuntu_managed_it",
+      "buyer_org": "Ubuntu Office Parks (fictional)",
+      "buyer_contact": "Naledi",
+      "title": "Managed IT support & end-user computing: 450 users, 3 sites (Midrand, Centurion, Sandton), 36-month contract, 4-hour on-site response SLA",
+      "description": "Managed IT support and end-user computing for about 450 users across three office parks (Midrand, Centurion, Sandton). 36-month contract with a 4-hour on-site response SLA.",
+      "raw_rfq_file": "Ubuntu_Office_Parks_RFQ_raw.txt",
+      "closing_date": "2027-02-26",
+      "contract_start": "2027-04-01",
+      "status": "published",
+      "weights": {"capability": 40, "experience": 25, "capacity": 20, "location": 15},
+      "mandatory_criteria": [
+        {"rule_type": "tax_compliance", "params": {}},
+        {"rule_type": "csd_registration", "params": {}},
+        {"rule_type": "ownership_or_bbbee", "params": {"min_black_ownership_pct": 51, "max_bbbee_level": 2}},
+        {"rule_type": "operating_region", "params": {"region": "GP"}},
+        {"rule_type": "pi_insurance", "params": {"min_amount": 2000000}},
+        {"rule_type": "infosec_policy", "params": {}},
+        {"rule_type": "certified_technicians", "params": {"min_count": 2}}
+      ],
+      "preferred_criteria": [
+        {
+          "rule_type": "capability",
+          "params": {
+            "text": "Service desk, desktop/device support, Microsoft 365 administration",
+            "tags": ["service_desk", "desktop_device_support", "m365_admin"]
+          }
+        },
+        {"rule_type": "experience", "params": {"min_years": 3, "min_client_users": 200}},
+        {"rule_type": "capacity", "params": {"min_technicians": 8, "hours_start": "07:00", "hours_end": "18:00"}},
+        {"rule_type": "location", "params": {"anchor": "Midrand", "full_score_km": 50, "zero_score_km": 150}}
+      ],
+      "capability_text": "Service desk, desktop/device support, Microsoft 365 administration"
+    },
+    {
+      "key": "karoo_device_refresh",
+      "buyer_org": "Karoo Freight Holdings (fictional)",
+      "buyer_contact": "Procurement desk (fictional)",
+      "title": "Desktop and device management with service desk support: 180 users, 12-month contract",
+      "description": "Closed historical opportunity (fictional) used for dashboard skills insights.",
+      "raw_rfq_file": null,
+      "closing_date": "2026-03-31",
+      "contract_start": "2026-05-01",
+      "status": "closed",
+      "weights": {"capability": 40, "experience": 25, "capacity": 20, "location": 15},
+      "mandatory_criteria": [
+        {"rule_type": "tax_compliance", "params": {}},
+        {"rule_type": "csd_registration", "params": {}}
+      ],
+      "preferred_criteria": [
+        {
+          "rule_type": "capability",
+          "params": {"text": "Device management, service desk", "tags": ["device_management", "service_desk"]}
+        }
+      ],
+      "capability_text": "Device management, service desk"
+    },
+    {
+      "key": "mopani_m365_migration",
+      "buyer_org": "Mopani Agri Co-operative (fictional)",
+      "buyer_contact": "Procurement desk (fictional)",
+      "title": "Microsoft 365 migration and administration with user service desk: 260 users, 24-month contract",
+      "description": "Closed historical opportunity (fictional) used for dashboard skills insights.",
+      "raw_rfq_file": null,
+      "closing_date": "2026-06-30",
+      "contract_start": "2026-08-01",
+      "status": "closed",
+      "weights": {"capability": 40, "experience": 25, "capacity": 20, "location": 15},
+      "mandatory_criteria": [
+        {"rule_type": "tax_compliance", "params": {}},
+        {"rule_type": "csd_registration", "params": {}}
+      ],
+      "preferred_criteria": [
+        {
+          "rule_type": "capability",
+          "params": {
+            "text": "Microsoft 365 administration, service desk, device management",
+            "tags": ["m365_admin", "service_desk", "device_management"]
+          }
+        }
+      ],
+      "capability_text": "Microsoft 365 administration, service desk, device management"
+    }
+  ]
+}

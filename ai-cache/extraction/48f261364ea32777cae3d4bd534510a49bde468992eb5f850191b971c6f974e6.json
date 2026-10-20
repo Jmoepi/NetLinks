@@ -1,0 +1,35 @@
+{
+  "cache_key": "48f261364ea32777cae3d4bd534510a49bde468992eb5f850191b971c6f974e6",
+  "generated_at": "2026-10-20T16:33:18.454922+00:00",
+  "generated_by": "local-fallback (regenerate with Bedrock before demo)",
+  "input_ref": "Zola_PI_Insurance_Schedule_Renewed.pdf",
+  "kind": "extraction",
+  "model_id": "local-rules-v1",
+  "prompt_version": "extraction-v1",
+  "provider": "local-fallback",
+  "result": {
+    "doc_type": "pi_schedule",
+    "fields": [
+      {
+        "confidence": 0.95,
+        "field_key": "pi_cover_amount",
+        "page": 1,
+        "quote": "Limit of indemnity: R2,500,000.",
+        "span_end": 390,
+        "span_start": 359,
+        "value": 2500000
+      },
+      {
+        "confidence": 0.95,
+        "field_key": "pi_expiry_date",
+        "page": 1,
+        "quote": "Cover expires: 2028-02-16.",
+        "span_end": 443,
+        "span_start": 417,
+        "value": "2028-02-16"
+      }
+    ],
+    "issue_date": "2026-10-01",
+    "period_end": "2028-02-16"
+  }
+}

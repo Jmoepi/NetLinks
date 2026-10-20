@@ -1,0 +1,37 @@
+{
+  "cache_key": "7956db91f98c2cc6d626a40b3467fba8b84e78257f1d3c2c4056ebbf8bc9e62b",
+  "generated_at": "2026-10-20T16:33:18.515839+00:00",
+  "generated_by": "local-fallback (regenerate with Bedrock before demo)",
+  "input_ref": "Zola_Technician_Certifications.pdf",
+  "kind": "extraction",
+  "model_id": "local-rules-v1",
+  "prompt_version": "extraction-v1",
+  "provider": "local-fallback",
+  "result": {
+    "doc_type": "certification_summary",
+    "fields": [
+      {
+        "confidence": 0.95,
+        "field_key": "certifications",
+        "page": 1,
+        "quote": "Technician: Mandla Zulu (fictional), CompTIA A+, expires 2027-10-31. Technician: Palesa Nkosi (fictional), ITIL 4 Foundation, expires 2028-04-30.",
+        "span_end": 342,
+        "span_start": 197,
+        "value": [
+          {
+            "cert_name": "CompTIA A+",
+            "expiry_date": "2027-10-31",
+            "holder": "Mandla Zulu"
+          },
+          {
+            "cert_name": "ITIL 4 Foundation",
+            "expiry_date": "2028-04-30",
+            "holder": "Palesa Nkosi"
+          }
+        ]
+      }
+    ],
+    "issue_date": null,
+    "period_end": null
+  }
+}

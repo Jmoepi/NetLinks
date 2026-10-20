@@ -1,0 +1,152 @@
+{
+  "cache_key": "fef90c4c66d86e68bb1d332481c36f2d1642828502f95313ec6a26f7982a3cce",
+  "generated_at": "2026-10-20T16:33:17.635494+00:00",
+  "generated_by": "local-fallback (regenerate with Bedrock before demo)",
+  "input_ref": "BrightPath_Capability_Statement.pdf",
+  "kind": "extraction",
+  "model_id": "local-rules-v1",
+  "prompt_version": "extraction-v1",
+  "provider": "local-fallback",
+  "result": {
+    "doc_type": "capability_statement",
+    "fields": [
+      {
+        "confidence": 0.95,
+        "field_key": "company_name",
+        "page": 1,
+        "quote": "Company name: Bright Path Networks.",
+        "span_end": 223,
+        "span_start": 188,
+        "value": "Bright Path Networks"
+      },
+      {
+        "confidence": 0.95,
+        "field_key": "base_town",
+        "page": 1,
+        "quote": "Head office: Germiston, Gauteng.",
+        "span_end": 256,
+        "span_start": 224,
+        "value": "Germiston"
+      },
+      {
+        "confidence": 0.95,
+        "field_key": "province",
+        "page": 1,
+        "quote": "Head office: Germiston, Gauteng.",
+        "span_end": 256,
+        "span_start": 224,
+        "value": "GP"
+      },
+      {
+        "confidence": 0.95,
+        "field_key": "service_regions",
+        "page": 1,
+        "quote": "Service regions: Gauteng.",
+        "span_end": 282,
+        "span_start": 257,
+        "value": [
+          "GP"
+        ]
+      },
+      {
+        "confidence": 0.95,
+        "field_key": "years_trading",
+        "page": 1,
+        "quote": "We have been trading for 5 years.",
+        "span_end": 316,
+        "span_start": 283,
+        "value": 5
+      },
+      {
+        "confidence": 0.9,
+        "field_key": "services_description",
+        "page": 1,
+        "quote": "Our services: network installation, device support and service desk.",
+        "span_end": 565,
+        "span_start": 497,
+        "value": "network installation, device support and service desk"
+      },
+      {
+        "confidence": 0.8,
+        "field_key": "service_tags",
+        "page": 1,
+        "quote": "Our services: network installation, device support and service desk.",
+        "span_end": 565,
+        "span_start": 497,
+        "value": [
+          "service_desk",
+          "desktop_device_support",
+          "networking"
+        ]
+      },
+      {
+        "confidence": 0.95,
+        "field_key": "service_desk_hours",
+        "page": 1,
+        "quote": "Service desk hours: 07:00 to 17:00, Monday to Friday.",
+        "span_end": 619,
+        "span_start": 566,
+        "value": {
+          "end": "17:00",
+          "start": "07:00"
+        }
+      },
+      {
+        "confidence": 0.95,
+        "field_key": "technician_count",
+        "page": 1,
+        "quote": "Our team currently has 4 field technicians.",
+        "span_end": 668,
+        "span_start": 625,
+        "value": 4
+      },
+      {
+        "confidence": 0.95,
+        "field_key": "past_clients",
+        "page": 1,
+        "quote": "Client: Ekurhuleni Packaging Co (fictional), 230 users. Client: Primrose Dental Studio (fictional), 90 users.",
+        "span_end": 797,
+        "span_start": 688,
+        "value": [
+          {
+            "name": "Ekurhuleni Packaging Co",
+            "user_count": 230
+          },
+          {
+            "name": "Primrose Dental Studio",
+            "user_count": 90
+          }
+        ]
+      },
+      {
+        "confidence": 0.95,
+        "field_key": "csd_number",
+        "page": 1,
+        "quote": "CSD supplier number: MAAA0745678.",
+        "span_end": 350,
+        "span_start": 317,
+        "value": "MAAA0745678"
+      },
+      {
+        "confidence": 0.95,
+        "field_key": "black_ownership_pct",
+        "page": 1,
+        "quote": "Black ownership: 60% Black-owned.",
+        "span_end": 384,
+        "span_start": 351,
+        "value": 60
+      },
+      {
+        "confidence": 0.95,
+        "field_key": "bbbee_level",
+        "page": 1,
+        "quote": "B-BBEE status: Level 2.",
+        "span_end": 408,
+        "span_start": 385,
+        "value": 2
+      }
+    ],
+    "issue_date": null,
+    "period_end": null
+  }
+}

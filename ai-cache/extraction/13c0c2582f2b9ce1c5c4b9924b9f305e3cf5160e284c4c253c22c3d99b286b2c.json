@@ -1,0 +1,16 @@
+{
+  "cache_key": "13c0c2582f2b9ce1c5c4b9924b9f305e3cf5160e284c4c253c22c3d99b286b2c",
+  "generated_at": "2026-10-20T16:33:17.912594+00:00",
+  "generated_by": "local-fallback (regenerate with Bedrock before demo)",
+  "input_ref": "Lerato_InfoSec_POPIA_Policy.pdf",
+  "kind": "extraction",
+  "model_id": "local-rules-v1",
+  "prompt_version": "extraction-v1",
+  "provider": "local-fallback",
+  "result": {
+    "doc_type": "infosec_popia_policy",
+    "fields": [],
+    "issue_date": "2026-05-01",
+    "period_end": "2027-05-01"
+  }
+}

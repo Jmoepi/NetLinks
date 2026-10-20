@@ -1,0 +1,16 @@
+{
+  "cache_key": "9b6a493f90af202f8ab775a9fbd1dd9dbbc15a5d4169f71d5c617a3f6bf2b481",
+  "generated_at": "2026-10-20T16:33:18.376351+00:00",
+  "generated_by": "local-fallback (regenerate with Bedrock before demo)",
+  "input_ref": "Zola_InfoSec_POPIA_Policy.pdf",
+  "kind": "extraction",
+  "model_id": "local-rules-v1",
+  "prompt_version": "extraction-v1",
+  "provider": "local-fallback",
+  "result": {
+    "doc_type": "infosec_popia_policy",
+    "fields": [],
+    "issue_date": "2026-01-15",
+    "period_end": "2027-01-15"
+  }
+}

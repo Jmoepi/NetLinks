@@ -1,0 +1,35 @@
+{
+  "cache_key": "b8772ee340f21836dacde405ad6db2c07f4572f2be2226aab0c80f273d65f3b7",
+  "generated_at": "2026-10-20T16:33:18.159263+00:00",
+  "generated_by": "local-fallback (regenerate with Bedrock before demo)",
+  "input_ref": "Mmapula_Tax_Compliance_Letter.pdf",
+  "kind": "extraction",
+  "model_id": "local-rules-v1",
+  "prompt_version": "extraction-v1",
+  "provider": "local-fallback",
+  "result": {
+    "doc_type": "tax_compliance_letter",
+    "fields": [
+      {
+        "confidence": 0.95,
+        "field_key": "tax_compliance_status",
+        "page": 1,
+        "quote": "Tax compliance status: compliant.",
+        "span_end": 280,
+        "span_start": 247,
+        "value": "compliant"
+      },
+      {
+        "confidence": 0.95,
+        "field_key": "tax_expiry_date",
+        "page": 1,
+        "quote": "Status valid until: 2027-09-30.",
+        "span_end": 312,
+        "span_start": 281,
+        "value": "2027-09-30"
+      }
+    ],
+    "issue_date": "2026-09-30",
+    "period_end": "2027-09-30"
+  }
+}

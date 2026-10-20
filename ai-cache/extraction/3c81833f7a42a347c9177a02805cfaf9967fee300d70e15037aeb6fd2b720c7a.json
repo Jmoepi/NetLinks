@@ -1,0 +1,152 @@
+{
+  "cache_key": "3c81833f7a42a347c9177a02805cfaf9967fee300d70e15037aeb6fd2b720c7a",
+  "generated_at": "2026-10-20T16:33:17.869463+00:00",
+  "generated_by": "local-fallback (regenerate with Bedrock before demo)",
+  "input_ref": "Lerato_Capability_Statement.pdf",
+  "kind": "extraction",
+  "model_id": "local-rules-v1",
+  "prompt_version": "extraction-v1",
+  "provider": "local-fallback",
+  "result": {
+    "doc_type": "capability_statement",
+    "fields": [
+      {
+        "confidence": 0.95,
+        "field_key": "company_name",
+        "page": 1,
+        "quote": "Company name: Lerato Web Studio.",
+        "span_end": 217,
+        "span_start": 185,
+        "value": "Lerato Web Studio"
+      },
+      {
+        "confidence": 0.95,
+        "field_key": "base_town",
+        "page": 1,
+        "quote": "Head office: Cape Town, Western Cape.",
+        "span_end": 255,
+        "span_start": 218,
+        "value": "Cape Town"
+      },
+      {
+        "confidence": 0.95,
+        "field_key": "province",
+        "page": 1,
+        "quote": "Head office: Cape Town, Western Cape.",
+        "span_end": 255,
+        "span_start": 218,
+        "value": "WC"
+      },
+      {
+        "confidence": 0.95,
+        "field_key": "service_regions",
+        "page": 1,
+        "quote": "Service regions: Western Cape only.",
+        "span_end": 291,
+        "span_start": 256,
+        "value": [
+          "WC"
+        ]
+      },
+      {
+        "confidence": 0.95,
+        "field_key": "years_trading",
+        "page": 1,
+        "quote": "We have been trading for 5 years.",
+        "span_end": 325,
+        "span_start": 292,
+        "value": 5
+      },
+      {
+        "confidence": 0.9,
+        "field_key": "services_description",
+        "page": 1,
+        "quote": "Our services: web design, SEO and WordPress hosting.",
+        "span_end": 559,
+        "span_start": 507,
+        "value": "web design, SEO and WordPress hosting"
+      },
+      {
+        "confidence": 0.8,
+        "field_key": "service_tags",
+        "page": 1,
+        "quote": "Our services: web design, SEO and WordPress hosting.",
+        "span_end": 559,
+        "span_start": 507,
+        "value": [
+          "web_design",
+          "seo",
+          "hosting"
+        ]
+      },
+      {
+        "confidence": 0.95,
+        "field_key": "service_desk_hours",
+        "page": 1,
+        "quote": "Studio hours: 09:00 to 17:00, Monday to Friday.",
+        "span_end": 607,
+        "span_start": 560,
+        "value": {
+          "end": "17:00",
+          "start": "09:00"
+        }
+      },
+      {
+        "confidence": 0.95,
+        "field_key": "technician_count",
+        "page": 1,
+        "quote": "Our team currently has 3 field technicians.",
+        "span_end": 656,
+        "span_start": 613,
+        "value": 3
+      },
+      {
+        "confidence": 0.95,
+        "field_key": "past_clients",
+        "page": 1,
+        "quote": "Client: Bo-Kaap Spice Traders (fictional), 15 users. Client: Atlantic Surf School (fictional), 8 users.",
+        "span_end": 768,
+        "span_start": 665,
+        "value": [
+          {
+            "name": "Bo-Kaap Spice Traders",
+            "user_count": 15
+          },
+          {
+            "name": "Atlantic Surf School",
+            "user_count": 8
+          }
+        ]
+      },
+      {
+        "confidence": 0.95,
+        "field_key": "csd_number",
+        "page": 1,
+        "quote": "CSD supplier number: MAAA0856789.",
+        "span_end": 359,
+        "span_start": 326,
+        "value": "MAAA0856789"
+      },
+      {
+        "confidence": 0.95,
+        "field_key": "black_ownership_pct",
+        "page": 1,
+        "quote": "Black ownership: 100% Black-owned.",
+        "span_end": 394,
+        "span_start": 360,
+        "value": 100
+      },
+      {
+        "confidence": 0.95,
+        "field_key": "bbbee_level",
+        "page": 1,
+        "quote": "B-BBEE status: Level 1.",
+        "span_end": 418,
+        "span_start": 395,
+        "value": 1
+      }
+    ],
+    "issue_date": null,
+    "period_end": null
+  }
+}

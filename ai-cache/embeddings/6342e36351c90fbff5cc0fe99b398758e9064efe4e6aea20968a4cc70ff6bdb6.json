@@ -1,0 +1,24 @@
+{
+  "cache_key": "6342e36351c90fbff5cc0fe99b398758e9064efe4e6aea20968a4cc70ff6bdb6",
+  "generated_at": "2026-10-20T16:33:18.580347+00:00",
+  "generated_by": "local-fallback (regenerate with Bedrock before demo)",
+  "input_ref": "Zola_Capability_Statement.pdf#services_description",
+  "kind": "embedding",
+  "model_id": "local-lexicon-v1",
+  "prompt_version": "embedding-v1",
+  "provider": "local-fallback",
+  "result": {
+    "text": "desktop and device support, service desk and network cabling",
+    "vector": [
+      0.4082482904638631,
+      0.8164965809277261,
+      0.0,
+      0.4082482904638631,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
+  }
+}

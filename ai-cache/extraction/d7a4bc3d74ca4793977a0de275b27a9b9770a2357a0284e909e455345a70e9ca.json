@@ -1,0 +1,35 @@
+{
+  "cache_key": "d7a4bc3d74ca4793977a0de275b27a9b9770a2357a0284e909e455345a70e9ca",
+  "generated_at": "2026-10-20T16:33:17.991376+00:00",
+  "generated_by": "local-fallback (regenerate with Bedrock before demo)",
+  "input_ref": "Lerato_Tax_Compliance_Letter.pdf",
+  "kind": "extraction",
+  "model_id": "local-rules-v1",
+  "prompt_version": "extraction-v1",
+  "provider": "local-fallback",
+  "result": {
+    "doc_type": "tax_compliance_letter",
+    "fields": [
+      {
+        "confidence": 0.95,
+        "field_key": "tax_compliance_status",
+        "page": 1,
+        "quote": "Tax compliance status: compliant.",
+        "span_end": 272,
+        "span_start": 239,
+        "value": "compliant"
+      },
+      {
+        "confidence": 0.95,
+        "field_key": "tax_expiry_date",
+        "page": 1,
+        "quote": "Status valid until: 2027-08-31.",
+        "span_end": 304,
+        "span_start": 273,
+        "value": "2027-08-31"
+      }
+    ],
+    "issue_date": "2026-08-31",
+    "period_end": "2027-08-31"
+  }
+}

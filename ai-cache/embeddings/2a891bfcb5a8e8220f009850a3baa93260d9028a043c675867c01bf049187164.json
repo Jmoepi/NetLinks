@@ -1,0 +1,24 @@
+{
+  "cache_key": "2a891bfcb5a8e8220f009850a3baa93260d9028a043c675867c01bf049187164",
+  "generated_at": "2026-10-20T16:33:18.602553+00:00",
+  "generated_by": "local-fallback (regenerate with Bedrock before demo)",
+  "input_ref": "BrightPath_Capability_Statement.pdf#services_description",
+  "kind": "embedding",
+  "model_id": "local-lexicon-v1",
+  "prompt_version": "embedding-v1",
+  "provider": "local-fallback",
+  "result": {
+    "text": "network installation, device support and service desk",
+    "vector": [
+      0.5773502691896258,
+      0.5773502691896258,
+      0.0,
+      0.5773502691896258,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
+  }
+}

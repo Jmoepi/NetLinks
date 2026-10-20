@@ -1,0 +1,24 @@
+{
+  "cache_key": "eb75a06679a3ace71ebc4792b0d1e2ee58047346bf8157f0840cc8c195143648",
+  "generated_at": "2026-10-20T16:33:18.570029+00:00",
+  "generated_by": "local-fallback (regenerate with Bedrock before demo)",
+  "input_ref": "Ubuntu_Office_Parks_RFQ_raw.txt#capability_text",
+  "kind": "embedding",
+  "model_id": "local-lexicon-v1",
+  "prompt_version": "embedding-v1",
+  "provider": "local-fallback",
+  "result": {
+    "text": "Service desk, desktop/device support, Microsoft 365 administration",
+    "vector": [
+      0.4082482904638631,
+      0.8164965809277261,
+      0.4082482904638631,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
+  }
+}

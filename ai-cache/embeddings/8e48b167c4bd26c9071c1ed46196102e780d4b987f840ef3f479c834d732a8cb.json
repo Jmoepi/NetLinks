@@ -1,0 +1,24 @@
+{
+  "cache_key": "8e48b167c4bd26c9071c1ed46196102e780d4b987f840ef3f479c834d732a8cb",
+  "generated_at": "2026-10-20T16:33:18.679604+00:00",
+  "generated_by": "local-fallback (regenerate with Bedrock before demo)",
+  "input_ref": "Mmapula_Capability_Statement.pdf#services_description",
+  "kind": "embedding",
+  "model_id": "local-lexicon-v1",
+  "prompt_version": "embedding-v1",
+  "provider": "local-fallback",
+  "result": {
+    "text": "workplace technology care for corporate teams: device lifecycle, Microsoft 365 tenant administration, remote and on-site user assistance",
+    "vector": [
+      0.4082482904638631,
+      0.4082482904638631,
+      0.8164965809277261,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
+  }
+}

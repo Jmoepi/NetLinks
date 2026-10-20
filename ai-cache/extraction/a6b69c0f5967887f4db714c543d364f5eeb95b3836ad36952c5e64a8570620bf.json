@@ -1,0 +1,152 @@
+{
+  "cache_key": "a6b69c0f5967887f4db714c543d364f5eeb95b3836ad36952c5e64a8570620bf",
+  "generated_at": "2026-10-20T16:33:18.064520+00:00",
+  "generated_by": "local-fallback (regenerate with Bedrock before demo)",
+  "input_ref": "Mmapula_Capability_Statement.pdf",
+  "kind": "extraction",
+  "model_id": "local-rules-v1",
+  "prompt_version": "extraction-v1",
+  "provider": "local-fallback",
+  "result": {
+    "doc_type": "capability_statement",
+    "fields": [
+      {
+        "confidence": 0.95,
+        "field_key": "company_name",
+        "page": 1,
+        "quote": "Company name: Mmapula Digital Workplace.",
+        "span_end": 233,
+        "span_start": 193,
+        "value": "Mmapula Digital Workplace"
+      },
+      {
+        "confidence": 0.95,
+        "field_key": "base_town",
+        "page": 1,
+        "quote": "Head office: Soshanguve, Gauteng.",
+        "span_end": 267,
+        "span_start": 234,
+        "value": "Soshanguve"
+      },
+      {
+        "confidence": 0.95,
+        "field_key": "province",
+        "page": 1,
+        "quote": "Head office: Soshanguve, Gauteng.",
+        "span_end": 267,
+        "span_start": 234,
+        "value": "GP"
+      },
+      {
+        "confidence": 0.95,
+        "field_key": "service_regions",
+        "page": 1,
+        "quote": "Service regions: Gauteng.",
+        "span_end": 293,
+        "span_start": 268,
+        "value": [
+          "GP"
+        ]
+      },
+      {
+        "confidence": 0.95,
+        "field_key": "years_trading",
+        "page": 1,
+        "quote": "We have been trading for 4 years.",
+        "span_end": 327,
+        "span_start": 294,
+        "value": 4
+      },
+      {
+        "confidence": 0.9,
+        "field_key": "services_description",
+        "page": 1,
+        "quote": "We offer workplace technology care for corporate teams: device lifecycle, Microsoft 365 tenant administration, remote and on-site user assistance.",
+        "span_end": 657,
+        "span_start": 511,
+        "value": "workplace technology care for corporate teams: device lifecycle, Microsoft 365 tenant administration, remote and on-site user assistance"
+      },
+      {
+        "confidence": 0.8,
+        "field_key": "service_tags",
+        "page": 1,
+        "quote": "We offer workplace technology care for corporate teams: device lifecycle, Microsoft 365 tenant administration, remote and on-site user assistance.",
+        "span_end": 657,
+        "span_start": 511,
+        "value": [
+          "service_desk",
+          "desktop_device_support",
+          "m365_admin"
+        ]
+      },
+      {
+        "confidence": 0.95,
+        "field_key": "service_desk_hours",
+        "page": 1,
+        "quote": "User assistance hours: 07:30 to 17:00, Monday to Friday.",
+        "span_end": 714,
+        "span_start": 658,
+        "value": {
+          "end": "17:00",
+          "start": "07:30"
+        }
+      },
+      {
+        "confidence": 0.95,
+        "field_key": "technician_count",
+        "page": 1,
+        "quote": "Our team currently has 6 field technicians.",
+        "span_end": 763,
+        "span_start": 720,
+        "value": 6
+      },
+      {
+        "confidence": 0.95,
+        "field_key": "past_clients",
+        "page": 1,
+        "quote": "Client: Tshwane Freight Partners (fictional), 220 users. Client: Bophelo Medical Billing (fictional), 300 users.",
+        "span_end": 895,
+        "span_start": 783,
+        "value": [
+          {
+            "name": "Tshwane Freight Partners",
+            "user_count": 220
+          },
+          {
+            "name": "Bophelo Medical Billing",
+            "user_count": 300
+          }
+        ]
+      },
+      {
+        "confidence": 0.95,
+        "field_key": "csd_number",
+        "page": 1,
+        "quote": "CSD supplier number: MAAA0523456.",
+        "span_end": 361,
+        "span_start": 328,
+        "value": "MAAA0523456"
+      },
+      {
+        "confidence": 0.95,
+        "field_key": "black_ownership_pct",
+        "page": 1,
+        "quote": "Black ownership: 100% Black-owned.",
+        "span_end": 396,
+        "span_start": 362,
+        "value": 100
+      },
+      {
+        "confidence": 0.95,
+        "field_key": "bbbee_level",
+        "page": 1,
+        "quote": "B-BBEE status: Level 1.",
+        "span_end": 420,
+        "span_start": 397,
+        "value": 1
+      }
+    ],
+    "issue_date": null,
+    "period_end": null
+  }
+}

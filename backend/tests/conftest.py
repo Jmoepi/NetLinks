@@ -24,6 +24,12 @@ def truncate_all(engine: Engine) -> None:
         conn.execute(text(f"TRUNCATE TABLE {tables} RESTART IDENTITY CASCADE"))
 
 
+@pytest.fixture(autouse=True)
+def isolated_uploads(tmp_path_factory: pytest.TempPathFactory, monkeypatch: pytest.MonkeyPatch) -> None:
+    """Never let tests write to (or reset) the demo's real upload volume."""
+    monkeypatch.setattr(get_settings(), "upload_dir", str(tmp_path_factory.mktemp("uploads")))
+
+
 @pytest.fixture
 def db(db_engine: Engine) -> Iterator[Session]:
     """Fresh schema state per test: truncate everything, then restore defaults via init_db."""

@@ -1,0 +1,193 @@
+{
+  "cache_key": "8756dbac7b21c39a1496ac12eeeb6ce3c2a540bd90ddd5a37b1dd18b2cd26afe",
+  "generated_at": "2026-10-20T16:33:18.233280+00:00",
+  "generated_by": "local-fallback (regenerate with Bedrock before demo)",
+  "input_ref": "Thuto_Capability_Statement.pdf",
+  "kind": "extraction",
+  "model_id": "local-rules-v1",
+  "prompt_version": "extraction-v1",
+  "provider": "local-fallback",
+  "result": {
+    "doc_type": "capability_statement",
+    "fields": [
+      {
+        "confidence": 0.95,
+        "field_key": "company_name",
+        "page": 1,
+        "quote": "Company name: Thuto Tech Solutions.",
+        "span_end": 223,
+        "span_start": 188,
+        "value": "Thuto Tech Solutions"
+      },
+      {
+        "confidence": 0.95,
+        "field_key": "base_town",
+        "page": 1,
+        "quote": "Head office: Midrand, Gauteng.",
+        "span_end": 254,
+        "span_start": 224,
+        "value": "Midrand"
+      },
+      {
+        "confidence": 0.95,
+        "field_key": "province",
+        "page": 1,
+        "quote": "Head office: Midrand, Gauteng.",
+        "span_end": 254,
+        "span_start": 224,
+        "value": "GP"
+      },
+      {
+        "confidence": 0.95,
+        "field_key": "service_regions",
+        "page": 1,
+        "quote": "Service regions: Gauteng.",
+        "span_end": 280,
+        "span_start": 255,
+        "value": [
+          "GP"
+        ]
+      },
+      {
+        "confidence": 0.95,
+        "field_key": "years_trading",
+        "page": 1,
+        "quote": "We have been trading for 6 years.",
+        "span_end": 314,
+        "span_start": 281,
+        "value": 6
+      },
+      {
+        "confidence": 0.9,
+        "field_key": "services_description",
+        "page": 1,
+        "quote": "Our services: service desk, desktop and device support, Microsoft 365 administration and network support.",
+        "span_end": 508,
+        "span_start": 403,
+        "value": "service desk, desktop and device support, Microsoft 365 administration and network support"
+      },
+      {
+        "confidence": 0.8,
+        "field_key": "service_tags",
+        "page": 1,
+        "quote": "Our services: service desk, desktop and device support, Microsoft 365 administration and network support.",
+        "span_end": 508,
+        "span_start": 403,
+        "value": [
+          "service_desk",
+          "desktop_device_support",
+          "m365_admin",
+          "networking"
+        ]
+      },
+      {
+        "confidence": 0.95,
+        "field_key": "service_desk_hours",
+        "page": 1,
+        "quote": "Service desk hours: 07:00 to 18:00, Monday to Friday.",
+        "span_end": 562,
+        "span_start": 509,
+        "value": {
+          "end": "18:00",
+          "start": "07:00"
+        }
+      },
+      {
+        "confidence": 0.95,
+        "field_key": "technician_count",
+        "page": 1,
+        "quote": "Our team currently has 9 field technicians.",
+        "span_end": 611,
+        "span_start": 568,
+        "value": 9
+      },
+      {
+        "confidence": 0.95,
+        "field_key": "past_clients",
+        "page": 1,
+        "quote": "Client: Kgosi Logistics (fictional), 250 users. Client: Marula Health Group (fictional), 320 users. Client: Highveld Property Trust (fictional), 600 users.",
+        "span_end": 786,
+        "span_start": 631,
+        "value": [
+          {
+            "name": "Kgosi Logistics",
+            "user_count": 250
+          },
+          {
+            "name": "Marula Health Group",
+            "user_count": 320
+          },
+          {
+            "name": "Highveld Property Trust",
+            "user_count": 600
+          }
+        ]
+      },
+      {
+        "confidence": 0.95,
+        "field_key": "tax_compliance_status",
+        "page": 1,
+        "quote": "Tax compliance status: compliant, valid to 2027-06-30.",
+        "span_end": 860,
+        "span_start": 806,
+        "value": "compliant"
+      },
+      {
+        "confidence": 0.95,
+        "field_key": "tax_expiry_date",
+        "page": 1,
+        "quote": "Tax compliance status: compliant, valid to 2027-06-30.",
+        "span_end": 860,
+        "span_start": 806,
+        "value": "2027-06-30"
+      },
+      {
+        "confidence": 0.95,
+        "field_key": "csd_number",
+        "page": 1,
+        "quote": "CSD supplier number: MAAA0412345.",
+        "span_end": 894,
+        "span_start": 861,
+        "value": "MAAA0412345"
+      },
+      {
+        "confidence": 0.95,
+        "field_key": "black_ownership_pct",
+        "page": 1,
+        "quote": "Black ownership: 100% Black-owned.",
+        "span_end": 929,
+        "span_start": 895,
+        "value": 100
+      },
+      {
+        "confidence": 0.95,
+        "field_key": "bbbee_level",
+        "page": 1,
+        "quote": "B-BBEE status: Level 1.",
+        "span_end": 953,
+        "span_start": 930,
+        "value": 1
+      },
+      {
+        "confidence": 0.5,
+        "field_key": "pi_cover_amount",
+        "page": 1,
+        "quote": "Cover: R2 mil professional liability, valid to 31 August 2027.",
+        "span_end": 1016,
+        "span_start": 954,
+        "value": 2000000
+      },
+      {
+        "confidence": 0.95,
+        "field_key": "pi_expiry_date",
+        "page": 1,
+        "quote": "Cover: R2 mil professional liability, valid to 31 August 2027.",
+        "span_end": 1016,
+        "span_start": 954,
+        "value": "2027-08-31"
+      }
+    ],
+    "issue_date": null,
+    "period_end": null
+  }
+}

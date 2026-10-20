@@ -1,0 +1,16 @@
+{
+  "cache_key": "d579d54171cfff91ba11c4cb2bcbaba3e8764436de48ba5e49c9c3e52c71ecbb",
+  "generated_at": "2026-10-20T16:33:17.680380+00:00",
+  "generated_by": "local-fallback (regenerate with Bedrock before demo)",
+  "input_ref": "BrightPath_InfoSec_POPIA_Policy.pdf",
+  "kind": "extraction",
+  "model_id": "local-rules-v1",
+  "prompt_version": "extraction-v1",
+  "provider": "local-fallback",
+  "result": {
+    "doc_type": "infosec_popia_policy",
+    "fields": [],
+    "issue_date": "2026-04-01",
+    "period_end": "2027-04-01"
+  }
+}

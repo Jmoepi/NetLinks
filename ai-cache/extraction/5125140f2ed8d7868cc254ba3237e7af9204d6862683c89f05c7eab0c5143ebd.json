@@ -1,0 +1,152 @@
+{
+  "cache_key": "5125140f2ed8d7868cc254ba3237e7af9204d6862683c89f05c7eab0c5143ebd",
+  "generated_at": "2026-10-20T16:33:18.343975+00:00",
+  "generated_by": "local-fallback (regenerate with Bedrock before demo)",
+  "input_ref": "Zola_Capability_Statement.pdf",
+  "kind": "extraction",
+  "model_id": "local-rules-v1",
+  "prompt_version": "extraction-v1",
+  "provider": "local-fallback",
+  "result": {
+    "doc_type": "capability_statement",
+    "fields": [
+      {
+        "confidence": 0.95,
+        "field_key": "company_name",
+        "page": 1,
+        "quote": "Company name: Zola Systems.",
+        "span_end": 207,
+        "span_start": 180,
+        "value": "Zola Systems"
+      },
+      {
+        "confidence": 0.95,
+        "field_key": "base_town",
+        "page": 1,
+        "quote": "Head office: Soweto, Gauteng.",
+        "span_end": 237,
+        "span_start": 208,
+        "value": "Soweto"
+      },
+      {
+        "confidence": 0.95,
+        "field_key": "province",
+        "page": 1,
+        "quote": "Head office: Soweto, Gauteng.",
+        "span_end": 237,
+        "span_start": 208,
+        "value": "GP"
+      },
+      {
+        "confidence": 0.95,
+        "field_key": "service_regions",
+        "page": 1,
+        "quote": "Service regions: Gauteng.",
+        "span_end": 263,
+        "span_start": 238,
+        "value": [
+          "GP"
+        ]
+      },
+      {
+        "confidence": 0.95,
+        "field_key": "years_trading",
+        "page": 1,
+        "quote": "We have been trading for 3 years.",
+        "span_end": 297,
+        "span_start": 264,
+        "value": 3
+      },
+      {
+        "confidence": 0.9,
+        "field_key": "services_description",
+        "page": 1,
+        "quote": "Our services: desktop and device support, service desk and network cabling.",
+        "span_end": 553,
+        "span_start": 478,
+        "value": "desktop and device support, service desk and network cabling"
+      },
+      {
+        "confidence": 0.8,
+        "field_key": "service_tags",
+        "page": 1,
+        "quote": "Our services: desktop and device support, service desk and network cabling.",
+        "span_end": 553,
+        "span_start": 478,
+        "value": [
+          "service_desk",
+          "desktop_device_support",
+          "networking"
+        ]
+      },
+      {
+        "confidence": 0.95,
+        "field_key": "service_desk_hours",
+        "page": 1,
+        "quote": "Service desk hours: 08:00 to 17:00, Monday to Friday.",
+        "span_end": 607,
+        "span_start": 554,
+        "value": {
+          "end": "17:00",
+          "start": "08:00"
+        }
+      },
+      {
+        "confidence": 0.95,
+        "field_key": "technician_count",
+        "page": 1,
+        "quote": "Our team currently has 9 field technicians.",
+        "span_end": 656,
+        "span_start": 613,
+        "value": 9
+      },
+      {
+        "confidence": 0.95,
+        "field_key": "past_clients",
+        "page": 1,
+        "quote": "Client: Orlando Community Bank (fictional), 210 users. Client: Kliptown Print Works (fictional), 80 users.",
+        "span_end": 782,
+        "span_start": 676,
+        "value": [
+          {
+            "name": "Orlando Community Bank",
+            "user_count": 210
+          },
+          {
+            "name": "Kliptown Print Works",
+            "user_count": 80
+          }
+        ]
+      },
+      {
+        "confidence": 0.95,
+        "field_key": "csd_number",
+        "page": 1,
+        "quote": "CSD supplier number: MAAA0634567.",
+        "span_end": 331,
+        "span_start": 298,
+        "value": "MAAA0634567"
+      },
+      {
+        "confidence": 0.95,
+        "field_key": "black_ownership_pct",
+        "page": 1,
+        "quote": "Black ownership: 70% Black-owned.",
+        "span_end": 365,
+        "span_start": 332,
+        "value": 70
+      },
+      {
+        "confidence": 0.95,
+        "field_key": "bbbee_level",
+        "page": 1,
+        "quote": "B-BBEE status: Level 2.",
+        "span_end": 389,
+        "span_start": 366,
+        "value": 2
+      }
+    ],
+    "issue_date": null,
+    "period_end": null
+  }
+}

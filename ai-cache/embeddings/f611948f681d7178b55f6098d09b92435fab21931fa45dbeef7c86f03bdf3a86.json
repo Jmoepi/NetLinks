@@ -1,0 +1,24 @@
+{
+  "cache_key": "f611948f681d7178b55f6098d09b92435fab21931fa45dbeef7c86f03bdf3a86",
+  "generated_at": "2026-10-20T16:33:18.654557+00:00",
+  "generated_by": "local-fallback (regenerate with Bedrock before demo)",
+  "input_ref": "Lerato_Capability_Statement.pdf#services_description",
+  "kind": "embedding",
+  "model_id": "local-lexicon-v1",
+  "prompt_version": "embedding-v1",
+  "provider": "local-fallback",
+  "result": {
+    "text": "web design, SEO and WordPress hosting",
+    "vector": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.5773502691896258,
+      0.5773502691896258,
+      0.5773502691896258
+    ]
+  }
+}

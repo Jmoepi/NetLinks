@@ -1,0 +1,101 @@
+{
+  "cache_key": "cdd73ee3962b30e55083840634f46789b8a20536933eed68d7c6a7a223bfecd5",
+  "generated_at": "2026-10-20T16:33:18.543720+00:00",
+  "generated_by": "local-fallback (regenerate with Bedrock before demo)",
+  "input_ref": "Ubuntu_Office_Parks_RFQ_raw.txt",
+  "kind": "rfq_structuring",
+  "model_id": "local-rules-v1",
+  "prompt_version": "rfq-v1",
+  "provider": "local-fallback",
+  "result": {
+    "capability_text": "Service desk, desktop/device support, Microsoft 365 administration",
+    "closing_date": "2027-02-26",
+    "mandatory_criteria": [
+      {
+        "params": {},
+        "rule_type": "tax_compliance",
+        "source_quote": "Bidders must hold a valid tax compliance status that remains valid after the closing date."
+      },
+      {
+        "params": {},
+        "rule_type": "csd_registration",
+        "source_quote": "Bidders must be registered on the Central Supplier Database (CSD) and give their CSD supplier number."
+      },
+      {
+        "params": {
+          "max_bbbee_level": 2,
+          "min_black_ownership_pct": 51
+        },
+        "rule_type": "ownership_or_bbbee",
+        "source_quote": "Bidders must be at least 51% Black-owned or hold a B-BBEE Level 1 or Level 2 status."
+      },
+      {
+        "params": {
+          "region": "GP"
+        },
+        "rule_type": "operating_region",
+        "source_quote": "Bidders must operate in Gauteng."
+      },
+      {
+        "params": {
+          "min_amount": 1000000
+        },
+        "rule_type": "pi_insurance",
+        "source_quote": "Bidders must hold professional indemnity insurance of at least R1 million that is still current at the closing date."
+      },
+      {
+        "params": {},
+        "rule_type": "infosec_policy",
+        "source_quote": "Because the supplier will handle our staff's personal information, bidders must provide an information security and POPIA policy."
+      },
+      {
+        "params": {
+          "min_count": 2
+        },
+        "rule_type": "certified_technicians",
+        "source_quote": "Bidders must have at least two technicians with current certifications, for example CompTIA A+, Microsoft 365 Certified or ITIL 4 Foundation."
+      }
+    ],
+    "preferred_criteria": [
+      {
+        "params": {
+          "tags": [
+            "service_desk",
+            "desktop_device_support",
+            "m365_admin"
+          ],
+          "text": "Service desk, desktop/device support, Microsoft 365 administration"
+        },
+        "rule_type": "capability",
+        "source_quote": "We would prefer a supplier with proven service desk, desktop and device support, and Microsoft 365 administration capability."
+      },
+      {
+        "params": {
+          "min_client_users": 200,
+          "min_years": 3
+        },
+        "rule_type": "experience",
+        "source_quote": "We would prefer at least 3 years of trading and experience with comparable clients of 200 or more users."
+      },
+      {
+        "params": {
+          "hours_end": "18:00",
+          "hours_start": "07:00",
+          "min_technicians": 8
+        },
+        "rule_type": "capacity",
+        "source_quote": "We would prefer a team of 8 or more technicians and service desk hours that cover 07:00 to 18:00 on weekdays."
+      },
+      {
+        "params": {
+          "anchor": "Midrand",
+          "full_score_km": 50,
+          "zero_score_km": 150
+        },
+        "rule_type": "location",
+        "source_quote": "Because of the 4-hour on-site response time, we would prefer a supplier based within about 50 km of our Midrand site."
+      }
+    ],
+    "title": "Managed IT support & end-user computing: 450 users, 3 sites (Midrand, Centurion, Sandton), 36-month contract, 4-hour on-site response SLA"
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "cache_key": "2c875ecf85d5c30017f4290b325ee0621da224471119259543125e2a42c905ab",
+  "generated_at": "2026-10-20T16:33:18.187197+00:00",
+  "generated_by": "local-fallback (regenerate with Bedrock before demo)",
+  "input_ref": "Mmapula_Technician_Certifications.pdf",
+  "kind": "extraction",
+  "model_id": "local-rules-v1",
+  "prompt_version": "extraction-v1",
+  "provider": "local-fallback",
+  "result": {
+    "doc_type": "certification_summary",
+    "fields": [
+      {
+        "confidence": 0.95,
+        "field_key": "certifications",
+        "page": 1,
+        "quote": "Technician: Refilwe Mahlangu (fictional), Microsoft 365 Certified, expires 2027-11-30. Technician: Tumelo Sithole (fictional), CompTIA A+, expires 2028-06-30. Technician: Nomsa Baloyi (fictional), ITIL 4 Foundation, expires 2028-12-31.",
+        "span_end": 445,
+        "span_start": 210,
+        "value": [
+          {
+            "cert_name": "Microsoft 365 Certified",
+            "expiry_date": "2027-11-30",
+            "holder": "Refilwe Mahlangu"
+          },
+          {
+            "cert_name": "CompTIA A+",
+            "expiry_date": "2028-06-30",
+            "holder": "Tumelo Sithole"
+          },
+          {
+            "cert_name": "ITIL 4 Foundation",
+            "expiry_date": "2028-12-31",
+            "holder": "Nomsa Baloyi"
+          }
+        ]
+      }
+    ],
+    "issue_date": null,
+    "period_end": null
+  }
+}

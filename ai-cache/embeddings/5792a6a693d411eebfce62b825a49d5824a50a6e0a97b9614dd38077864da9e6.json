@@ -1,0 +1,24 @@
+{
+  "cache_key": "5792a6a693d411eebfce62b825a49d5824a50a6e0a97b9614dd38077864da9e6",
+  "generated_at": "2026-10-20T16:33:18.623194+00:00",
+  "generated_by": "local-fallback (regenerate with Bedrock before demo)",
+  "input_ref": "Thuto_Capability_Statement.pdf#services_description",
+  "kind": "embedding",
+  "model_id": "local-lexicon-v1",
+  "prompt_version": "embedding-v1",
+  "provider": "local-fallback",
+  "result": {
+    "text": "service desk, desktop and device support, Microsoft 365 administration and network support",
+    "vector": [
+      0.3779644730092272,
+      0.7559289460184544,
+      0.3779644730092272,
+      0.3779644730092272,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
+  }
+}

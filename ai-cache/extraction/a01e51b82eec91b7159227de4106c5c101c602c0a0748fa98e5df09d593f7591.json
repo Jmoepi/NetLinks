@@ -1,0 +1,47 @@
+{
+  "cache_key": "a01e51b82eec91b7159227de4106c5c101c602c0a0748fa98e5df09d593f7591",
+  "generated_at": "2026-10-20T16:33:18.304722+00:00",
+  "generated_by": "local-fallback (regenerate with Bedrock before demo)",
+  "input_ref": "Thuto_Technician_Certifications.pdf",
+  "kind": "extraction",
+  "model_id": "local-rules-v1",
+  "prompt_version": "extraction-v1",
+  "provider": "local-fallback",
+  "result": {
+    "doc_type": "certification_summary",
+    "fields": [
+      {
+        "confidence": 0.95,
+        "field_key": "certifications",
+        "page": 1,
+        "quote": "Technician: Sipho Ndlovu (fictional), CompTIA A+, expires 2028-03-31. Technician: Lindiwe Mokoena (fictional), Microsoft 365 Certified, expires 2027-09-30. Technician: Kabelo Dube (fictional), ITIL 4 Foundation, expires 2029-01-31. Technician: Ayanda Khumalo (fictional), CompTIA Network+, expires 2026-05-31.",
+        "span_end": 514,
+        "span_start": 205,
+        "value": [
+          {
+            "cert_name": "CompTIA A+",
+            "expiry_date": "2028-03-31",
+            "holder": "Sipho Ndlovu"
+          },
+          {
+            "cert_name": "Microsoft 365 Certified",
+            "expiry_date": "2027-09-30",
+            "holder": "Lindiwe Mokoena"
+          },
+          {
+            "cert_name": "ITIL 4 Foundation",
+            "expiry_date": "2029-01-31",
+            "holder": "Kabelo Dube"
+          },
+          {
+            "cert_name": "CompTIA Network+",
+            "expiry_date": "2026-05-31",
+            "holder": "Ayanda Khumalo"
+          }
+        ]
+      }
+    ],
+    "issue_date": null,
+    "period_end": null
+  }
+}

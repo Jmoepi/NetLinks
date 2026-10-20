@@ -1,0 +1,35 @@
+{
+  "cache_key": "407aad748ff6798e0a70f7d8a747c2fdf77d7064f657a7e2deb979afcf0f3635",
+  "generated_at": "2026-10-20T16:33:17.956539+00:00",
+  "generated_by": "local-fallback (regenerate with Bedrock before demo)",
+  "input_ref": "Lerato_PI_Insurance_Schedule.pdf",
+  "kind": "extraction",
+  "model_id": "local-rules-v1",
+  "prompt_version": "extraction-v1",
+  "provider": "local-fallback",
+  "result": {
+    "doc_type": "pi_schedule",
+    "fields": [
+      {
+        "confidence": 0.95,
+        "field_key": "pi_cover_amount",
+        "page": 1,
+        "quote": "Limit of indemnity: R2,000,000.",
+        "span_end": 391,
+        "span_start": 360,
+        "value": 2000000
+      },
+      {
+        "confidence": 0.95,
+        "field_key": "pi_expiry_date",
+        "page": 1,
+        "quote": "Cover expires: 2027-09-30.",
+        "span_end": 444,
+        "span_start": 418,
+        "value": "2027-09-30"
+      }
+    ],
+    "issue_date": "2026-09-20",
+    "period_end": "2027-09-30"
+  }
+}

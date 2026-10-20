@@ -1,0 +1,35 @@
+{
+  "cache_key": "3fa441600dd6575dda3c5af2254f3246329dcd823e84d4856af91bdb275b5577",
+  "generated_at": "2026-10-20T16:33:18.135302+00:00",
+  "generated_by": "local-fallback (regenerate with Bedrock before demo)",
+  "input_ref": "Mmapula_PI_Insurance_Schedule.pdf",
+  "kind": "extraction",
+  "model_id": "local-rules-v1",
+  "prompt_version": "extraction-v1",
+  "provider": "local-fallback",
+  "result": {
+    "doc_type": "pi_schedule",
+    "fields": [
+      {
+        "confidence": 0.95,
+        "field_key": "pi_cover_amount",
+        "page": 1,
+        "quote": "Limit of indemnity: R3,000,000.",
+        "span_end": 407,
+        "span_start": 376,
+        "value": 3000000
+      },
+      {
+        "confidence": 0.95,
+        "field_key": "pi_expiry_date",
+        "page": 1,
+        "quote": "Cover expires: 2027-12-31.",
+        "span_end": 460,
+        "span_start": 434,
+        "value": "2027-12-31"
+      }
+    ],
+    "issue_date": "2025-12-15",
+    "period_end": "2027-12-31"
+  }
+}
