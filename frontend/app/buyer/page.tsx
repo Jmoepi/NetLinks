@@ -2,16 +2,25 @@
 
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { Suspense } from "react";
 import { Eyebrow } from "@/components/Eyebrow";
 import { Notice } from "@/components/Notice";
+import { Pagination } from "@/components/Pagination";
 import { RoleGate } from "@/components/RoleGate";
 import { formatDateTime } from "@/lib/format";
+import { usePageParam } from "@/lib/pagination";
 import { useLoad } from "@/lib/useLoad";
-import type { OpportunitySummary } from "@/lib/types";
+import type { OpportunitySummary, Paginated } from "@/lib/types";
+
+const PAGE_SIZE = 10;
 
 function OpportunityList() {
-  const { data, error, loading } = useLoad<OpportunitySummary[]>("/api/opportunities");
+  const { page, setPage } = usePageParam("page");
+  const { data, error, loading } = useLoad<Paginated<OpportunitySummary>>(
+    `/api/opportunities?page=${page}&page_size=${PAGE_SIZE}`,
+  );
   if (!data) return loading ? <p>Loading opportunities…</p> : <Notice kind="error">{error}</Notice>;
+  const offset = (data.page - 1) * data.page_size;
 
   return (
     <>
@@ -23,11 +32,11 @@ function OpportunityList() {
         </div>
       </div>
       <div className="row-list">
-      {data.map((o, i) => (
+      {data.items.map((o, i) => (
         <section className="row" key={o.id} aria-labelledby={`opp-${o.id}`}>
           <div className="row-inner">
           <span className="row-index" aria-hidden="true">
-            {String(i + 1).padStart(2, "0")}
+            {String(offset + i + 1).padStart(2, "0")}
           </span>
           <div className="row-body">
           <h2 id={`opp-${o.id}`} className="row-title-lg">{o.title}</h2>
@@ -58,6 +67,13 @@ function OpportunityList() {
         </section>
       ))}
       </div>
+      <Pagination
+        label="Opportunities"
+        page={data.page}
+        pageSize={data.page_size}
+        total={data.total}
+        onPageChange={setPage}
+      />
     </>
   );
 }
@@ -65,7 +81,9 @@ function OpportunityList() {
 export default function BuyerPage() {
   return (
     <RoleGate roles={["buyer"]}>
-      <OpportunityList />
+      <Suspense fallback={<p>Loading opportunities…</p>}>
+        <OpportunityList />
+      </Suspense>
     </RoleGate>
   );
 }

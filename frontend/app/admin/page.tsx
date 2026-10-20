@@ -1,17 +1,21 @@
 "use client";
 
 import { CircleCheck, CircleX, RotateCcw, TriangleAlert } from "lucide-react";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { Dialog } from "@/components/Dialog";
 import { Eyebrow } from "@/components/Eyebrow";
 import { Notice } from "@/components/Notice";
+import { Pagination } from "@/components/Pagination";
 import { RoleGate } from "@/components/RoleGate";
 import { SectionIndex } from "@/components/SectionIndex";
 import { api, errorMessage } from "@/lib/api";
 import { formatDateTime } from "@/lib/format";
 import { useIdentity } from "@/lib/identity";
+import { pageSlice, usePageParam } from "@/lib/pagination";
 import { useLoad } from "@/lib/useLoad";
 import type { AiModeSettings, Counts, Dashboard, GroupRow } from "@/lib/types";
+
+const OVERRIDES_PAGE_SIZE = 10;
 
 function CountsLine({ counts }: { counts: Counts }) {
   return (
@@ -184,6 +188,8 @@ function ResetControl() {
 
 function DashboardView() {
   const { data, error, loading, reload } = useLoad<Dashboard>("/api/admin/dashboard");
+  const { page: overridesPage, setPage: setOverridesPage } = usePageParam("overrides_page");
+  const overrides = data ? pageSlice(data.decisions.overrides.items, overridesPage, OVERRIDES_PAGE_SIZE) : null;
 
   return (
     <>
@@ -300,10 +306,10 @@ function DashboardView() {
                 <span className="stat-num">{data.decisions.overrides.count}</span>
               </li>
             </ul>
-            {data.decisions.overrides.items.length ? (
+            {overrides && overrides.items.length ? (
               <ul className="row-list" style={{ marginTop: "1.5rem" }}>
-                {data.decisions.overrides.items.map((o, i) => (
-                  <li key={i} className="row" style={{ padding: "1rem" }}>
+                {overrides.items.map((o, i) => (
+                  <li key={overrides.offset + i} className="row" style={{ padding: "1rem" }}>
                     <time className="meta" dateTime={o.at}>
                       {formatDateTime(o.at)}
                     </time>
@@ -312,6 +318,15 @@ function DashboardView() {
                   </li>
                 ))}
               </ul>
+            ) : null}
+            {overrides ? (
+              <Pagination
+                label="Overrides"
+                page={overrides.page}
+                pageSize={OVERRIDES_PAGE_SIZE}
+                total={data.decisions.overrides.items.length}
+                onPageChange={setOverridesPage}
+              />
             ) : null}
           </section>
 
@@ -343,7 +358,9 @@ function DashboardView() {
 export default function AdminPage() {
   return (
     <RoleGate roles={["admin"]}>
-      <DashboardView />
+      <Suspense fallback={<p>Loading dashboard…</p>}>
+        <DashboardView />
+      </Suspense>
     </RoleGate>
   );
 }

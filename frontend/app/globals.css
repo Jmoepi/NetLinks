@@ -2299,6 +2299,107 @@ button.account-signout {
   }
 }
 
+/* ------------------------------------------------------------------ Pagination */
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3) var(--space-6);
+  margin-top: var(--space-6);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--line);
+}
+
+.pagination-status {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  font-variant-numeric: tabular-nums;
+  color: var(--text-muted);
+}
+
+.pagination ul {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pagination button {
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  padding: var(--space-2) var(--space-3);
+  gap: var(--space-2);
+  background: transparent;
+  border-color: var(--control-border);
+  color: var(--text-strong);
+}
+
+.pagination button.pagination-page {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0;
+}
+
+.pagination button:hover:not(:disabled),
+.pagination button:focus-visible:not(:disabled) {
+  background: var(--surface-2);
+  border-color: var(--text-strong);
+  color: var(--text-strong);
+}
+
+.pagination button[aria-current="page"],
+.pagination button[aria-current="page"]:hover,
+.pagination button[aria-current="page"]:focus-visible {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-accent);
+}
+
+/* Ends stay focusable and announced; muted text keeps 8.08:1 contrast (no low opacity). */
+.pagination button[aria-disabled="true"],
+.pagination button[aria-disabled="true"]:hover,
+.pagination button[aria-disabled="true"]:focus-visible {
+  background: transparent;
+  border-color: var(--line-strong);
+  color: var(--text-muted);
+  cursor: not-allowed;
+}
+
+.pagination-gap {
+  display: inline-block;
+  min-width: 1.5rem;
+  text-align: center;
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+}
+
+/* Audit log filters (aside) */
+.audit-filters {
+  margin-top: var(--space-6);
+}
+
+.audit-filters select {
+  width: 100%;
+}
+
+/* Inline capability-match explanation on each result card (always visible, outside the Score breakdown). */
+.capability-line {
+  color: var(--text);
+  margin: var(--space-3) 0 0;
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--line);
+}
+
+.capability-line strong {
+  color: var(--text-strong);
+}
+
 /* ------------------------------------------------------------------ Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   *,

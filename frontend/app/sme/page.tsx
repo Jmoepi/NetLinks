@@ -2,18 +2,22 @@
 
 import { ArrowRight, ArrowUpRight, CircleCheck, EqualNot, FileText, Minus, TriangleAlert } from "lucide-react";
 import Link from "next/link";
-import { useId, useState, type FormEvent } from "react";
+import { Suspense, useId, useState, type FormEvent } from "react";
 import { Dialog } from "@/components/Dialog";
 import { Eyebrow } from "@/components/Eyebrow";
 import { Notice } from "@/components/Notice";
+import { Pagination } from "@/components/Pagination";
 import { RoleGate } from "@/components/RoleGate";
 import { SectionIndex } from "@/components/SectionIndex";
 import { SourceBadge } from "@/components/SourceBadge";
 import { UploadForm } from "@/components/UploadForm";
 import { api, errorMessage } from "@/lib/api";
 import { confidenceText, docTypeLabel, formatDateTime, formatValue, INTEGER_FIELDS, sourceHref } from "@/lib/format";
+import { pageSlice, usePageParam } from "@/lib/pagination";
 import { useLoad } from "@/lib/useLoad";
 import type { Candidate, Profile, ProfileField, Sme } from "@/lib/types";
+
+const DOCS_PAGE_SIZE = 10;
 
 type EditMode = "integer" | "text" | "list" | "json";
 
@@ -305,9 +309,11 @@ function ConsentPanel({ sme, onAnswered }: { sme: Sme; onAnswered: () => Promise
 
 function SmeProfile() {
   const { data, error, loading, reload } = useLoad<Profile>("/api/sme/me/profile");
+  const { page: docsPage, setPage: setDocsPage } = usePageParam("docs_page");
 
   if (!data) return loading ? <p>Loading profile…</p> : <Notice kind="error">{error}</Notice>;
 
+  const docs = pageSlice(data.documents, docsPage, DOCS_PAGE_SIZE);
   const activeDocs = data.documents.filter((d) => !d.superseded_by_document_id);
   const needsAttention = data.low_confidence.length + data.conflicts.length;
 
@@ -335,11 +341,11 @@ function SmeProfile() {
           <>
             <h3>Your documents</h3>
             <ul className="row-list">
-              {data.documents.map((d, i) => (
+              {docs.items.map((d, i) => (
                 <li key={d.id} className="row">
                   <div className="row-inner">
                     <span className="row-index" aria-hidden="true">
-                      {String(i + 1).padStart(2, "0")}
+                      {String(docs.offset + i + 1).padStart(2, "0")}
                     </span>
                     <span className="doc-row">
                       <FileText size={16} strokeWidth={1.5} aria-hidden="true" />
@@ -354,6 +360,13 @@ function SmeProfile() {
                 </li>
               ))}
             </ul>
+            <Pagination
+              label="Documents"
+              page={docs.page}
+              pageSize={DOCS_PAGE_SIZE}
+              total={data.documents.length}
+              onPageChange={setDocsPage}
+            />
           </>
         ) : (
           <p className="muted">No documents uploaded yet.</p>
@@ -407,7 +420,9 @@ function SmeProfile() {
 export default function SmePage() {
   return (
     <RoleGate roles={["sme"]}>
-      <SmeProfile />
+      <Suspense fallback={<p>Loading profile…</p>}>
+        <SmeProfile />
+      </Suspense>
     </RoleGate>
   );
 }

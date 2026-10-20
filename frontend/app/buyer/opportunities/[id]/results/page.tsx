@@ -4,9 +4,10 @@ import { ArrowDown, ArrowRight, ArrowUp, ArrowUpRight, Star } from "lucide-react
 import Link from "next/link";
 import { Eyebrow } from "@/components/Eyebrow";
 import { useParams } from "next/navigation";
-import { useEffect, useId, useState, type FormEvent } from "react";
+import { Suspense, useEffect, useId, useState, type FormEvent } from "react";
 import { EvidenceLinks } from "@/components/EvidenceLinks";
 import { Notice } from "@/components/Notice";
+import { Pagination } from "@/components/Pagination";
 import { RoleGate } from "@/components/RoleGate";
 import { SectionIndex } from "@/components/SectionIndex";
 import { SourceBadge } from "@/components/SourceBadge";
@@ -14,8 +15,11 @@ import { StatusBadge } from "@/components/StatusBadge";
 import { api, errorMessage } from "@/lib/api";
 import { formatDateTime, formatValue, sourceHref } from "@/lib/format";
 import { useIdentity } from "@/lib/identity";
+import { pageSlice, usePageParam } from "@/lib/pagination";
 import { useLoad } from "@/lib/useLoad";
 import type { Check, MatchResult, MatchStatus, RunPayload, ShortlistEntry } from "@/lib/types";
+
+const GROUP_PAGE_SIZE = 10;
 
 const GROUPS: { key: MatchStatus; title: string }[] = [
   { key: "eligible", title: "Eligible" },
@@ -193,6 +197,7 @@ function ResultCard({
   const consistency = result.checks.filter((c) => c.group !== "mandatory");
   const issues = result.checks.filter((c) => c.outcome !== "pass");
   const passCount = mandatory.filter((c) => c.outcome === "pass").length;
+  const cap = result.components.find((c) => c.name === "capability");
   const headingId = useId();
 
   return (
@@ -233,6 +238,11 @@ function ResultCard({
             : " · no rank until the review items are resolved"
           : ""}
       </p>
+      {cap ? (
+        <p className="capability-line">
+          <strong>Capability match ({cap.score.toFixed(1)} / 100):</strong> {cap.explanation}
+        </p>
+      ) : null}
 
       {issues.length ? (
         <div>
@@ -465,6 +475,58 @@ function ShortlistPanel({
   );
 }
 
+/** One match group; paginated client-side (?{key}_page=N), heading count always uses the full group. */
+function GroupSection({
+  group,
+  index,
+  results,
+  opportunityId,
+  shortlisted,
+  onShortlist,
+  onChanged,
+}: {
+  group: { key: MatchStatus; title: string };
+  index: number;
+  results: MatchResult[];
+  opportunityId: string;
+  shortlisted: Set<string>;
+  onShortlist: (slug: string) => Promise<void>;
+  onChanged: () => Promise<void>;
+}) {
+  const { page, setPage } = usePageParam(`${group.key}_page`);
+  const slice = pageSlice(results, page, GROUP_PAGE_SIZE);
+
+  return (
+    <section className="results-group" aria-labelledby={`group-${group.key}`}>
+      <SectionIndex n={index} label={group.title} />
+      <h2 id={`group-${group.key}`}>
+        <StatusBadge status={group.key} suffix={` (${results.length})`} />
+      </h2>
+      {results.length ? (
+        slice.items.map((r) => (
+          <ResultCard
+            key={r.sme.slug}
+            opportunityId={opportunityId}
+            result={r}
+            shortlisted={shortlisted.has(r.sme.slug)}
+            onShortlist={onShortlist}
+            onChanged={onChanged}
+          />
+        ))
+      ) : (
+        <p className="muted">None.</p>
+      )}
+      <Pagination
+        label={`${group.title} results`}
+        page={slice.page}
+        pageSize={GROUP_PAGE_SIZE}
+        total={results.length}
+        onPageChange={setPage}
+      />
+    </section>
+  );
+}
+
 function Results({ id }: { id: string }) {
   const { data, error, loading, setData, reload } = useLoad<RunPayload>(`/api/opportunities/${id}/match-runs/latest`);
   const [running, setRunning] = useState(false);
@@ -544,26 +606,16 @@ function Results({ id }: { id: string }) {
         <div className="grid-results">
           <ShortlistPanel opportunityId={id} shortlist={data.shortlist} onSaved={reload} />
           {GROUPS.map((g, gi) => (
-            <section key={g.key} className="results-group" aria-labelledby={`group-${g.key}`}>
-              <SectionIndex n={gi + 2} label={g.title} />
-              <h2 id={`group-${g.key}`}>
-                <StatusBadge status={g.key} suffix={` (${data.groups[g.key].length})`} />
-              </h2>
-              {data.groups[g.key].length ? (
-                data.groups[g.key].map((r) => (
-                  <ResultCard
-                    key={r.sme.slug}
-                    opportunityId={id}
-                    result={r}
-                    shortlisted={shortlisted.has(r.sme.slug)}
-                    onShortlist={shortlist}
-                    onChanged={reload}
-                  />
-                ))
-              ) : (
-                <p className="muted">None.</p>
-              )}
-            </section>
+            <GroupSection
+              key={g.key}
+              group={g}
+              index={gi + 2}
+              results={data.groups[g.key]}
+              opportunityId={id}
+              shortlisted={shortlisted}
+              onShortlist={shortlist}
+              onChanged={reload}
+            />
           ))}
         </div>
       ) : null}
@@ -579,7 +631,9 @@ function ResultsRoute() {
 export default function ResultsPage() {
   return (
     <RoleGate roles={["buyer"]}>
-      <ResultsRoute />
+      <Suspense fallback={<p>Loading results…</p>}>
+        <ResultsRoute />
+      </Suspense>
     </RoleGate>
   );
 }

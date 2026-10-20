@@ -1,18 +1,24 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
-import { Suspense } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { Suspense, useEffect, useId } from "react";
 import { Eyebrow } from "@/components/Eyebrow";
 import { Notice } from "@/components/Notice";
+import { Pagination } from "@/components/Pagination";
 import { RoleGate } from "@/components/RoleGate";
 import { formatDateTime } from "@/lib/format";
+import { usePageParam } from "@/lib/pagination";
 import { useLoad } from "@/lib/useLoad";
-import type { AuditEntry } from "@/lib/types";
+import type { AuditEntry, AuditPage } from "@/lib/types";
 
+const PAGE_SIZE = 20;
+
+/** Event types offered by the filter; keys match backend app.audit.ACTIONS. */
 const ACTION_LABELS: Record<string, string> = {
   extraction: "AI extraction",
   sme_correction: "SME correction",
   sme_confirmation: "SME confirmation",
+  sme_profile_entry: "SME profile entry",
   consent: "Consent",
   requirement_edit: "Requirement edit",
   rfq_structured: "RFQ structured by AI",
@@ -23,6 +29,14 @@ const ACTION_LABELS: Record<string, string> = {
   override: "Override",
   ai_mode_change: "AI mode change",
   demo_reset: "Demo reset",
+};
+
+/** Role filter (?role=) mapped to the API's actor_role values. */
+const ROLE_LABELS: Record<string, string> = {
+  sme: "SME",
+  buyer: "Buyer",
+  admin: "YES Admin",
+  system: "System",
 };
 
 /** One-line plain-language summary of the audit details; the full JSON is available below it. */
@@ -70,9 +84,40 @@ function formatDetail(value: unknown): string {
 
 function AuditTable() {
   const search = useSearchParams();
+  const pathname = usePathname();
+  const router = useRouter();
+  const { page, setPage, hrefFor } = usePageParam("page");
+  const actionId = useId();
+  const roleId = useId();
+
   const opp = search.get("opportunity_id");
-  const path = opp && /^\d+$/.test(opp) ? `/api/audit?opportunity_id=${opp}` : "/api/audit";
-  const { data, error, loading, reload } = useLoad<{ entries: AuditEntry[] }>(path);
+  const rawAction = search.get("action");
+  const action = rawAction && Object.prototype.hasOwnProperty.call(ACTION_LABELS, rawAction) ? rawAction : "";
+  const rawRole = search.get("role");
+  const role = rawRole && Object.prototype.hasOwnProperty.call(ROLE_LABELS, rawRole) ? rawRole : "";
+
+  let path = `/api/audit?page=${page}&page_size=${PAGE_SIZE}`;
+  if (opp && /^\d+$/.test(opp)) path += `&opportunity_id=${opp}`;
+  if (action) path += `&action=${action}`;
+  if (role) path += `&actor_role=${role}`;
+  const { data, error, loading, reload } = useLoad<AuditPage>(path);
+
+  // A page past the end (e.g. after a reset) jumps to the last page instead of showing an empty list.
+  useEffect(() => {
+    if (data && data.entries.length === 0 && data.total > 0 && data.page > 1) {
+      router.replace(hrefFor(Math.ceil(data.total / data.page_size)), { scroll: false });
+    }
+  }, [data, hrefFor, router]);
+
+  /** Change a filter in the URL; any filter change returns to page 1. */
+  function setFilter(key: "action" | "role", value: string) {
+    const params = new URLSearchParams(search.toString());
+    if (value) params.set(key, value);
+    else params.delete(key);
+    params.delete("page");
+    const qs = params.toString();
+    router.push(`${pathname}${qs ? `?${qs}` : ""}`, { scroll: false });
+  }
 
   if (!data) return loading ? <p>Loading audit log…</p> : <Notice kind="error">{error}</Notice>;
 
@@ -83,8 +128,32 @@ function AuditTable() {
           <Eyebrow label="Audit" />
           <h1>Audit log</h1>
           <p className="muted">
-            Append-only. Every entry is timestamped and attributed to a role. {data.entries.length} entries, oldest first.
+            Append-only. Every entry is timestamped and attributed to a role. {data.total} entries, newest first.
           </p>
+          <div className="audit-filters">
+            <div className="field">
+              <label htmlFor={actionId}>Event type</label>
+              <select id={actionId} value={action} onChange={(e) => setFilter("action", e.target.value)}>
+                <option value="">All</option>
+                {Object.entries(ACTION_LABELS).map(([key, label]) => (
+                  <option key={key} value={key}>
+                    {label}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="field">
+              <label htmlFor={roleId}>Role</label>
+              <select id={roleId} value={role} onChange={(e) => setFilter("role", e.target.value)}>
+                <option value="">All</option>
+                {Object.entries(ROLE_LABELS).map(([key, label]) => (
+                  <option key={key} value={key}>
+                    {label}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
           <div className="button-row">
             <button type="button" className="secondary" onClick={() => void reload()}>
               Refresh
@@ -92,6 +161,8 @@ function AuditTable() {
           </div>
         </div>
       </div>
+      <div>
+      {data.total === 0 ? <p className="muted">No entries match these filters.</p> : null}
       <ol className="timeline-list" aria-label="Audit log entries">
         {data.entries.map((e) => (
           <li key={e.id}>
@@ -132,6 +203,14 @@ function AuditTable() {
           </li>
         ))}
       </ol>
+      <Pagination
+        label="Audit log"
+        page={data.page}
+        pageSize={data.page_size}
+        total={data.total}
+        onPageChange={setPage}
+      />
+      </div>
     </div>
   );
 }

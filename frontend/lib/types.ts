@@ -254,6 +254,23 @@ export interface AuditEntry {
   reason: string | null;
 }
 
+/** GET /api/audit?page=N&page_size=M (newest first when paginated). */
+export interface AuditPage {
+  entries: AuditEntry[];
+  total: number;
+  page: number;
+  page_size: number;
+  order: string;
+}
+
+/** Paginated list envelope, e.g. GET /api/opportunities?page=N&page_size=M. */
+export interface Paginated<T> {
+  items: T[];
+  total: number;
+  page: number;
+  page_size: number;
+}
+
 export interface ReadinessOpportunity {
   opportunity_id: number;
   title: string;
