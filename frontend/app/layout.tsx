@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import { AppShell } from "@/components/AppShell";
+import "./tokens.css";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -11,7 +12,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0b4f6c",
+  themeColor: "#050505",
   width: "device-width",
   initialScale: 1,
 };
@@ -24,8 +25,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           Skip to main content
         </a>
         <div className="demo-banner" role="note">
-          <strong>Fictional demo data</strong> - every company, person, document and buyer shown here is fictional.
-          Hackathon prototype with no real authentication.
+          <span>
+            <strong>Fictional demo data</strong> - every company, person, document and buyer shown here is fictional.
+            Hackathon prototype with no real authentication.
+          </span>
         </div>
         <AppShell>{children}</AppShell>
       </body>

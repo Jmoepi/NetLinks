@@ -1,8 +1,11 @@
 "use client";
 
 import { useParams, useRouter, useSearchParams } from "next/navigation";
+import { ArrowLeft } from "lucide-react";
 import { Suspense, useEffect, useRef } from "react";
+import { Eyebrow } from "@/components/Eyebrow";
 import { Notice } from "@/components/Notice";
+import { SectionIndex } from "@/components/SectionIndex";
 import { docTypeLabel } from "@/lib/format";
 import { useLoad } from "@/lib/useLoad";
 import type { DocumentText } from "@/lib/types";
@@ -37,13 +40,15 @@ function Viewer() {
     <>
       <div className="page-header">
         <div>
+          <Eyebrow label="Source document" />
           <h1>{data.filename}</h1>
-          <p className="muted">
+          <p className="meta">
             {docTypeLabel(data.doc_type)} · {data.sme_name} · {data.page_count} page{data.page_count === 1 ? "" : "s"}
             {data.period_end ? ` · valid to ${data.period_end}` : ""}
           </p>
         </div>
         <button type="button" className="secondary" onClick={() => router.back()}>
+          <ArrowLeft size={14} strokeWidth={1.5} aria-hidden="true" />
           Back
         </button>
       </div>
@@ -55,6 +60,7 @@ function Viewer() {
         const highlight = pageNo === page && start !== null && end !== null && end > start && end <= text.length;
         return (
           <section key={pageNo} aria-label={`Page ${pageNo}`}>
+            <SectionIndex n={pageNo} label="Page" />
             <h2>Page {pageNo}</h2>
             <div className="doc-page">
               {highlight ? (

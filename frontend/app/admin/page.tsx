@@ -1,9 +1,12 @@
 "use client";
 
+import { CircleCheck, CircleX, RotateCcw, TriangleAlert } from "lucide-react";
 import { useState } from "react";
 import { Dialog } from "@/components/Dialog";
+import { Eyebrow } from "@/components/Eyebrow";
 import { Notice } from "@/components/Notice";
 import { RoleGate } from "@/components/RoleGate";
+import { SectionIndex } from "@/components/SectionIndex";
 import { api, errorMessage } from "@/lib/api";
 import { formatDateTime } from "@/lib/format";
 import { useIdentity } from "@/lib/identity";
@@ -12,15 +15,27 @@ import type { AiModeSettings, Counts, Dashboard, GroupRow } from "@/lib/types";
 
 function CountsLine({ counts }: { counts: Counts }) {
   return (
-    <ul className="stat-row" style={{ listStyle: "none", padding: 0, margin: "0.25rem 0" }}>
-      <li className="badge badge-eligible">
-        <span aria-hidden="true">✓</span>Eligible {counts.eligible}
+    <ul className="stat-grid">
+      <li className="stat-eligible">
+        <span className="stat-label">
+          <CircleCheck size={14} strokeWidth={1.5} aria-hidden="true" />
+          Eligible
+        </span>{" "}
+        <span className="stat-num">{counts.eligible}</span>
       </li>
-      <li className="badge badge-review">
-        <span aria-hidden="true">!</span>Needs Review {counts.needs_review}
+      <li className="stat-review">
+        <span className="stat-label">
+          <TriangleAlert size={14} strokeWidth={1.5} aria-hidden="true" />
+          Needs Review
+        </span>{" "}
+        <span className="stat-num">{counts.needs_review}</span>
       </li>
-      <li className="badge badge-fail">
-        <span aria-hidden="true">✕</span>Not Eligible {counts.not_eligible}
+      <li className="stat-fail">
+        <span className="stat-label">
+          <CircleX size={14} strokeWidth={1.5} aria-hidden="true" />
+          Not Eligible
+        </span>{" "}
+        <span className="stat-num">{counts.not_eligible}</span>
       </li>
     </ul>
   );
@@ -28,9 +43,10 @@ function CountsLine({ counts }: { counts: Counts }) {
 
 function FairnessTable({ caption, rows }: { caption: string; rows: GroupRow[] }) {
   return (
-    <div className="table-wrap">
+    // Focusable scroll region so keyboard users can scroll the table when it overflows on narrow screens.
+    <div className="table-wrap" role="region" aria-label={`Fairness: ${caption}`} tabIndex={0}>
       <table>
-        <caption style={{ textAlign: "left", fontWeight: 700, padding: "0.25rem 0" }}>{caption}</caption>
+        <caption className="table-caption">{caption}</caption>
         <thead>
           <tr>
             <th scope="col">Group</th>
@@ -44,10 +60,10 @@ function FairnessTable({ caption, rows }: { caption: string; rows: GroupRow[] })
           {rows.map((r) => (
             <tr key={r.group}>
               <th scope="row">{r.label}</th>
-              <td>{r.total}</td>
-              <td>{r.eligible}</td>
-              <td>{r.needs_review}</td>
-              <td>{r.not_eligible}</td>
+              <td className="num">{r.total}</td>
+              <td className="num">{r.eligible}</td>
+              <td className="num">{r.needs_review}</td>
+              <td className="num">{r.not_eligible}</td>
             </tr>
           ))}
         </tbody>
@@ -77,10 +93,11 @@ function AiModeControl() {
   if (!aiMode) return <p>Loading AI mode…</p>;
   return (
     <section className="panel" aria-labelledby="ai-mode-heading">
+      <SectionIndex n={6} label="AI mode" />
       <h2 id="ai-mode-heading">AI mode</h2>
       <fieldset>
         <legend>Where AI results come from</legend>
-        <div>
+        <div className="radio-row">
           <input
             type="radio"
             id="mode-cached"
@@ -88,10 +105,10 @@ function AiModeControl() {
             checked={aiMode.mode === "cached"}
             disabled={busy}
             onChange={() => change("cached")}
-          />{" "}
+          />
           <label htmlFor="mode-cached">Cached (default): results generated earlier by the pipeline from these exact documents</label>
         </div>
-        <div>
+        <div className="radio-row">
           <input
             type="radio"
             id="mode-live"
@@ -100,7 +117,7 @@ function AiModeControl() {
             disabled={busy || !aiMode.live_available}
             aria-describedby="mode-live-hint"
             onChange={() => change("live")}
-          />{" "}
+          />
           <label htmlFor="mode-live">Live: run Amazon Bedrock now</label>
           <p id="mode-live-hint" className="hint">
             {aiMode.live_available
@@ -133,9 +150,11 @@ function ResetControl() {
 
   return (
     <section className="panel" aria-labelledby="reset-heading">
+      <SectionIndex n={7} label="Reset" />
       <h2 id="reset-heading">Reset demo</h2>
       <p>Restores the seed state: Thuto with no documents, no match runs, no decisions, AI mode Cached.</p>
       <button type="button" className="danger" onClick={() => setOpen(true)}>
+        <RotateCcw size={14} strokeWidth={1.5} aria-hidden="true" />
         Reset demo
       </button>
       <Notice kind="error">{error}</Notice>
@@ -170,6 +189,7 @@ function DashboardView() {
     <>
       <div className="page-header">
         <div>
+          <Eyebrow label="YES Admin" />
           <h1>YES dashboard</h1>
           <p className="muted">Where to aim support: pipeline outcomes, readiness gaps and demand for skills.</p>
         </div>
@@ -186,19 +206,22 @@ function DashboardView() {
       ) : (
         <>
           <section className="panel" aria-labelledby="pipeline-heading">
+            <SectionIndex n={1} label="Pipeline" />
             <h2 id="pipeline-heading">Pipeline</h2>
             {data.pipeline.length ? (
               data.pipeline.map((p) => (
                 <div key={p.opportunity_id}>
                   <h3>{p.title}</h3>
-                  <p className="muted">{p.run_count} matching run{p.run_count === 1 ? "" : "s"}</p>
+                  <p className="meta">
+                    {p.run_count} matching run{p.run_count === 1 ? "" : "s"}
+                  </p>
                   <div className="grid-2">
                     <div>
-                      <strong>Before (first run, {formatDateTime(p.before.run_at)})</strong>
+                      <span className="caption-mono">Before (first run, {formatDateTime(p.before.run_at)})</span>
                       <CountsLine counts={p.before.counts} />
                     </div>
                     <div>
-                      <strong>After (latest run, {formatDateTime(p.after.run_at)})</strong>
+                      <span className="caption-mono">After (latest run, {formatDateTime(p.after.run_at)})</span>
                       <CountsLine counts={p.after.counts} />
                     </div>
                   </div>
@@ -211,12 +234,21 @@ function DashboardView() {
 
           <div className="grid-2">
             <section className="panel" aria-labelledby="gaps-heading">
+              <SectionIndex n={2} label="Readiness gaps" />
               <h2 id="gaps-heading">Top readiness gaps</h2>
               {data.readiness_gaps.length ? (
-                <ol>
-                  {data.readiness_gaps.map((g) => (
-                    <li key={g.label}>
-                      <strong>{g.label}</strong>: {g.smes} SME{g.smes === 1 ? "" : "s"} affected, {g.open} still open
+                <ol className="row-list">
+                  {data.readiness_gaps.map((g, i) => (
+                    <li key={g.label} className="row">
+                      <div className="row-inner">
+                        <span className="row-index" aria-hidden="true">
+                          {String(i + 1).padStart(2, "0")}
+                        </span>
+                        <span className="row-body">
+                          <strong>{g.label}</strong>: <span className="row-count">{g.smes}</span> SME
+                          {g.smes === 1 ? "" : "s"} affected, <span className="row-count">{g.open}</span> still open
+                        </span>
+                      </div>
                     </li>
                   ))}
                 </ol>
@@ -225,11 +257,20 @@ function DashboardView() {
               )}
             </section>
             <section className="panel" aria-labelledby="skills-heading">
+              <SectionIndex n={3} label="Skills" />
               <h2 id="skills-heading">Frequently requested skills</h2>
-              <ol>
-                {data.requested_skills.map((s) => (
-                  <li key={s.tag}>
-                    <strong>{s.label}</strong>: requested {s.count} time{s.count === 1 ? "" : "s"}
+              <ol className="row-list">
+                {data.requested_skills.map((s, i) => (
+                  <li key={s.tag} className="row">
+                    <div className="row-inner">
+                      <span className="row-index" aria-hidden="true">
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      <span className="row-body">
+                        <strong>{s.label}</strong>: requested <span className="row-count">{s.count}</span> time
+                        {s.count === 1 ? "" : "s"}
+                      </span>
+                    </div>
                   </li>
                 ))}
               </ol>
@@ -237,16 +278,36 @@ function DashboardView() {
           </div>
 
           <section className="panel" aria-labelledby="decisions-heading">
+            <SectionIndex n={4} label="Decisions" />
             <h2 id="decisions-heading">Buyer decisions</h2>
-            <p>
-              Shortlisted: {data.decisions.shortlisted} · Information requests: {data.decisions.info_requests} · Overrides:{" "}
-              {data.decisions.overrides.count}
-            </p>
+            <ul className="stat-grid">
+              <li>
+                <span className="stat-label">
+                  Shortlisted<span className="sr-only">:</span>
+                </span>{" "}
+                <span className="stat-num">{data.decisions.shortlisted}</span>
+              </li>
+              <li>
+                <span className="stat-label">
+                  Information requests<span className="sr-only">:</span>
+                </span>{" "}
+                <span className="stat-num">{data.decisions.info_requests}</span>
+              </li>
+              <li>
+                <span className="stat-label">
+                  Overrides<span className="sr-only">:</span>
+                </span>{" "}
+                <span className="stat-num">{data.decisions.overrides.count}</span>
+              </li>
+            </ul>
             {data.decisions.overrides.items.length ? (
-              <ul>
+              <ul className="row-list" style={{ marginTop: "1.5rem" }}>
                 {data.decisions.overrides.items.map((o, i) => (
-                  <li key={i}>
-                    {formatDateTime(o.at)}, {o.actor_label}: order {o.order.join(", ")} (engine ranking{" "}
+                  <li key={i} className="row" style={{ padding: "1rem" }}>
+                    <time className="meta" dateTime={o.at}>
+                      {formatDateTime(o.at)}
+                    </time>
+                    , {o.actor_label}: order {o.order.join(", ")} (engine ranking{" "}
                     {o.engine_ranking.join(", ")}). Reason: <q>{o.reason}</q>
                   </li>
                 ))}
@@ -255,6 +316,7 @@ function DashboardView() {
           </section>
 
           <section className="panel" aria-labelledby="fairness-heading">
+            <SectionIndex n={5} label="Fairness" />
             <h2 id="fairness-heading">Fairness view: outcomes by province and business size</h2>
             <p className="notice notice-info" role="note">
               {data.fairness?.note || "Small sample: shows the mechanism, not a finding."}

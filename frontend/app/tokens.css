@@ -1,0 +1,101 @@
+/*
+ * NetLinks design tokens: the single source for colour, type scale, spacing, motion and the status palette.
+ * Visual language adapted from docs/design-reference.html. Documented in docs/design-system.md.
+ * Contrast ratios (WCAG 2.x, on --canvas #050505) are listed next to each text colour.
+ */
+:root {
+  color-scheme: dark;
+
+  /* Canvas and surfaces */
+  --canvas: #050505; /* body background */
+  --surface-0: #000000; /* alternate section, document page, form fields */
+  --surface-1: #0a0a0a; /* neutral-950: panels, row hover, dialog */
+  --surface-2: #171717; /* neutral-900: table header, pressed states */
+
+  /* Lines (decorative hairlines; never the only boundary of a control) */
+  --line: #171717; /* neutral-900 dividers */
+  --line-strong: #262626; /* neutral-800 panel borders, pill outlines */
+  --control-border: #737373; /* neutral-500 form-field and secondary-button borders: 4.30:1 (non-text >= 3:1) */
+
+  /* Text */
+  --text-strong: #ffffff; /* headings, values: 20.38:1 */
+  --text: #d4d4d4; /* neutral-300 body text: 13.75:1 */
+  --text-muted: #a3a3a3; /* neutral-400 small informational text, labels, hints: 8.08:1 (minimum for information) */
+  --text-decor: #525252; /* neutral-600 DECORATIVE ONLY: 2.61:1 */
+
+  /* Signal accent (single) */
+  --accent: #ff3000; /* primary buttons, active nav, dots, section indices, focus ring, selection: 5.51:1 */
+  --on-accent: #000000; /* text on accent fills: 5.67:1 (white would be 3.70:1, fails for small text) */
+  --focus: var(--accent);
+
+  /* Status palette: deliberately distinct from the accent; always icon + text label + colour */
+  --ok: #4ade80; /* green-400  Eligible, Pass, SME-confirmed, success: 11.70:1 */
+  --warn: #fbbf24; /* amber-400  Needs Review, Low confidence: 12.21:1 */
+  --fail: #fda4af; /* rose-300   Not Eligible, Fail, error, danger: 10.78:1 (pink hue ~350deg vs accent ~11deg) */
+  --info: #7dd3fc; /* sky-300    Awaiting SME, info: 12.22:1 */
+  --ai: #c4b5fd; /* violet-300 AI-extracted: 11.04:1 */
+  --verified: #5eead4; /* teal-300   Verified: 13.78:1 */
+  --neutral-status: #a3a3a3; /* Not yet assessed, Not shared: 8.08:1 */
+  --ok-tint: rgb(74 222 128 / 0.08);
+  --warn-tint: rgb(251 191 36 / 0.08);
+  --fail-tint: rgb(253 164 175 / 0.08);
+  --info-tint: rgb(125 211 252 / 0.08);
+  --ai-tint: rgb(196 181 253 / 0.08);
+  --verified-tint: rgb(94 234 212 / 0.08);
+
+  /* Type */
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, "SFMono-Regular", "Cascadia Mono", Consolas, "Liberation Mono", monospace;
+  --fs-xs: 0.75rem;
+  --fs-sm: 0.875rem;
+  --fs-base: 1rem;
+  --fs-lg: 1.125rem;
+  --fs-xl: 1.25rem;
+  --fs-2xl: 1.5rem;
+  --fs-3xl: 1.875rem;
+  --fs-4xl: 2.25rem;
+  --fs-5xl: 3rem;
+  --fs-page-title: clamp(2.25rem, 4.5vw, 3.5rem); /* workspace h1 */
+  --fs-display: clamp(3.5rem, 11vw, 9rem); /* landing hero only */
+  --fs-manifesto: clamp(2.75rem, 8vw, 8rem); /* landing manifesto only */
+  --fw-light: 300;
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --lh-display: 0.9;
+  --lh-manifesto: 0.85;
+  --lh-heading: 1.05;
+  --lh-body: 1.625;
+  --tr-tight: -0.025em;
+  --tr-widest: 0.1em;
+  --tr-stamp: 0.25em;
+
+  /* Layout and spacing */
+  --container: 1536px; /* screen-2xl */
+  --gutter: 1.5rem; /* 3rem from 768px */
+  --header-h: 4.5rem;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-24: 6rem;
+  --radius-none: 0;
+  --radius-pill: 999px;
+
+  /* Motion */
+  --dur-fast: 300ms;
+  --dur-med: 500ms;
+  --dur-slow: 700ms;
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (min-width: 768px) {
+  :root {
+    --gutter: 3rem;
+  }
+}

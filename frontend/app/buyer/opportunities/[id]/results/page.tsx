@@ -1,11 +1,14 @@
 "use client";
 
+import { ArrowDown, ArrowRight, ArrowUp, ArrowUpRight, Star } from "lucide-react";
 import Link from "next/link";
+import { Eyebrow } from "@/components/Eyebrow";
 import { useParams } from "next/navigation";
 import { useEffect, useId, useState, type FormEvent } from "react";
 import { EvidenceLinks } from "@/components/EvidenceLinks";
 import { Notice } from "@/components/Notice";
 import { RoleGate } from "@/components/RoleGate";
+import { SectionIndex } from "@/components/SectionIndex";
 import { SourceBadge } from "@/components/SourceBadge";
 import { StatusBadge } from "@/components/StatusBadge";
 import { api, errorMessage } from "@/lib/api";
@@ -58,7 +61,7 @@ function ConflictPanel({ check }: { check: Check }) {
       {conflicts.map((c) => (
         <div key={c.field_key} role="group" aria-label={`${c.label}: conflicting sources`}>
           <strong>{c.label}: sources disagree</strong>
-          <div className="side-by-side">
+          <div className="side-by-side conflict">
             {c.values.map((v, i) => {
               const ev = check.evidence.find((e) => e.field_key === c.field_key && e.document_id === v.document_id);
               const href = ev ? sourceHref(ev) : v.document_id ? `/documents/${v.document_id}` : null;
@@ -68,8 +71,9 @@ function ConflictPanel({ check }: { check: Check }) {
                   <div className="big">{formatValue(c.field_key, v.value)}</div>
                   <SourceBadge source={v.source_type} />{" "}
                   {href ? (
-                    <Link href={href}>
+                    <Link href={href} className="link-arrow">
                       View source<span className="sr-only"> ({v.source})</span>
+                      <ArrowUpRight size={14} strokeWidth={1.5} aria-hidden="true" />
                     </Link>
                   ) : null}
                 </div>
@@ -198,20 +202,30 @@ function ResultCard({
           <span className="rank" aria-label={`Rank ${result.rank}`}>
             #{result.rank}
           </span>
-        ) : null}
-        <h3 id={headingId}>{result.sme.name}</h3>
-        <StatusBadge status={result.status} />
-        {result.awaiting_sme ? <StatusBadge status="awaiting_sme" /> : null}
-        {shortlisted ? (
-          <span className="badge badge-confirmed">
-            <span aria-hidden="true">★</span>Shortlisted
+        ) : (
+          <span className="rank rank-none" aria-hidden="true">
+            --
           </span>
-        ) : null}
+        )}
+        <div className="result-title">
+          <h3 id={headingId}>{result.sme.name}</h3>
+          <div className="result-badges">
+            <StatusBadge status={result.status} />
+            {result.awaiting_sme ? <StatusBadge status="awaiting_sme" /> : null}
+            {shortlisted ? (
+              <span className="badge badge-confirmed">
+                <Star size={14} strokeWidth={1.5} aria-hidden="true" />
+                Shortlisted
+              </span>
+            ) : null}
+          </div>
+        </div>
         <span className="score">
-          {result.provisional ? "Provisional score" : "Fit score"} {result.score_total.toFixed(1)} / 100
+          {result.provisional ? "Provisional score" : "Fit score"}{" "}
+          <span className="score-num">{result.score_total.toFixed(1)}</span> / 100
         </span>
       </div>
-      <p className="muted" style={{ margin: "0.25rem 0" }}>
+      <p className="meta result-meta">
         {result.sme.base_town} · {result.sme.size_band} business
         {result.provisional
           ? result.status === "not_eligible"
@@ -222,7 +236,7 @@ function ResultCard({
 
       {issues.length ? (
         <div>
-          <h4 style={{ margin: "0.5rem 0 0.25rem" }}>Needs attention</h4>
+          <h4 style={{ margin: "1rem 0 0.25rem" }}>Needs attention</h4>
           <ul className="check-list">
             {issues.map((c) => (
               <CheckItem key={c.rule} check={c} />
@@ -260,9 +274,9 @@ function ResultCard({
               {result.components.map((c) => (
                 <tr key={c.name}>
                   <th scope="row">{c.label}</th>
-                  <td>{c.weight}%</td>
-                  <td>{c.score.toFixed(1)}</td>
-                  <td>{c.weighted.toFixed(1)}</td>
+                  <td className="num">{c.weight}%</td>
+                  <td className="num">{c.score.toFixed(1)}</td>
+                  <td className="num">{c.weighted.toFixed(1)}</td>
                   <td>
                     {c.explanation}
                     <EvidenceLinks evidence={c.evidence} />
@@ -276,7 +290,7 @@ function ResultCard({
 
       {result.info_requests.length ? (
         <div>
-          <h4 style={{ margin: "0.5rem 0 0.25rem" }}>Requests sent</h4>
+          <h4 style={{ margin: "1rem 0 0.25rem" }}>Requests sent</h4>
           <ul>
             {result.info_requests.map((r) => (
               <li key={r.id}>
@@ -383,26 +397,33 @@ function ShortlistPanel({
 
   return (
     <section className="panel" aria-labelledby="shortlist-heading">
+      <SectionIndex label="Shortlist" />
       <h2 id="shortlist-heading">Your shortlist ({shortlist.length})</h2>
       {order.length ? (
         <form onSubmit={save}>
           <ol className="shortlist">
             {order.map((e, i) => (
               <li key={e.sme_slug}>
-                <strong>{e.sme_name}</strong>{" "}
-                <span className="muted">(engine rank {e.engine_rank ? `#${e.engine_rank}` : "none"})</span>{" "}
-                <StatusBadge status={e.status} />{" "}
-                <button type="button" className="secondary" disabled={i === 0} onClick={() => move(i, -1)}>
-                  Move up<span className="sr-only"> {e.sme_name}</span>
-                </button>{" "}
-                <button
-                  type="button"
-                  className="secondary"
-                  disabled={i === order.length - 1}
-                  onClick={() => move(i, 1)}
-                >
-                  Move down<span className="sr-only"> {e.sme_name}</span>
-                </button>
+                <div className="shortlist-meta">
+                  <strong>{e.sme_name}</strong>{" "}
+                  <span className="meta">(engine rank {e.engine_rank ? `#${e.engine_rank}` : "none"})</span>{" "}
+                  <StatusBadge status={e.status} />
+                </div>{" "}
+                <div className="shortlist-actions">
+                  <button type="button" className="secondary compact" disabled={i === 0} onClick={() => move(i, -1)}>
+                    <ArrowUp size={14} strokeWidth={1.5} aria-hidden="true" />
+                    Move up<span className="sr-only"> {e.sme_name}</span>
+                  </button>{" "}
+                  <button
+                    type="button"
+                    className="secondary compact"
+                    disabled={i === order.length - 1}
+                    onClick={() => move(i, 1)}
+                  >
+                    <ArrowDown size={14} strokeWidth={1.5} aria-hidden="true" />
+                    Move down<span className="sr-only"> {e.sme_name}</span>
+                  </button>
+                </div>
               </li>
             ))}
           </ol>
@@ -479,19 +500,26 @@ function Results({ id }: { id: string }) {
     <>
       <div className="page-header">
         <div>
+          <Eyebrow label="Matching results" />
           <h1>Matching results</h1>
           <p className="muted">
             Rules decide eligibility; AI only helps with understanding capability text. A human makes every decision.
           </p>
         </div>
-        <div className="button-row">
-          <Link href={`/buyer/opportunities/${id}`}>Requirements and weights</Link>
-          <span aria-hidden="true">·</span>
-          <Link href={`/buyer/audit?opportunity_id=${id}`}>Audit log</Link>
+        <div className="page-header-actions">
+          <Link href={`/buyer/opportunities/${id}`} className="link-arrow">
+            Requirements and weights
+            <ArrowRight size={16} strokeWidth={1.5} aria-hidden="true" />
+          </Link>
+          <Link href={`/buyer/audit?opportunity_id=${id}`} className="link-arrow">
+            Audit log
+            <ArrowRight size={16} strokeWidth={1.5} aria-hidden="true" />
+          </Link>
         </div>
       </div>
 
       <section className="panel" aria-labelledby="run-heading">
+        <SectionIndex n={1} label="Run" />
         <h2 id="run-heading">Run</h2>
         <button type="button" onClick={run} disabled={running}>
           {running ? "Running matching…" : data.run ? "Re-run matching" : "Run matching"}
@@ -515,8 +543,9 @@ function Results({ id }: { id: string }) {
       {data.run ? (
         <div className="grid-results">
           <ShortlistPanel opportunityId={id} shortlist={data.shortlist} onSaved={reload} />
-          {GROUPS.map((g) => (
-            <section key={g.key} aria-labelledby={`group-${g.key}`}>
+          {GROUPS.map((g, gi) => (
+            <section key={g.key} className="results-group" aria-labelledby={`group-${g.key}`}>
+              <SectionIndex n={gi + 2} label={g.title} />
               <h2 id={`group-${g.key}`}>
                 <StatusBadge status={g.key} suffix={` (${data.groups[g.key].length})`} />
               </h2>

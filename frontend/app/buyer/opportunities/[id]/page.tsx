@@ -1,10 +1,13 @@
 "use client";
 
+import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useId, useState, type FormEvent } from "react";
+import { Eyebrow } from "@/components/Eyebrow";
 import { Notice } from "@/components/Notice";
 import { RoleGate } from "@/components/RoleGate";
+import { SectionIndex } from "@/components/SectionIndex";
 import { api, errorMessage } from "@/lib/api";
 import { formatDateTime, rand } from "@/lib/format";
 import { useLoad } from "@/lib/useLoad";
@@ -72,7 +75,7 @@ function ParamInput({
   if (Array.isArray(value)) {
     return (
       <div className="field">
-        <span id={id} style={{ fontWeight: 600 }}>
+        <span id={id} className="field-label">
           {label}
         </span>
         <span aria-labelledby={id}>{value.map((v) => String(v).replace(/_/g, " ")).join(", ")}</span>
@@ -111,10 +114,12 @@ function ParamInput({
 }
 
 function CriteriaEditor({
+  index,
   title,
   criteria,
   onChange,
 }: {
+  index: { n: number; label: string };
   title: string;
   criteria: Criterion[];
   onChange: (next: Criterion[]) => void;
@@ -124,6 +129,7 @@ function CriteriaEditor({
   }
   return (
     <section className="panel" aria-label={title}>
+      <SectionIndex n={index.n} label={index.label} />
       <h2>{title}</h2>
       {criteria.map((c, i) => (
         <fieldset key={c.rule_type}>
@@ -241,16 +247,21 @@ function Editor({ id }: { id: string }) {
     <>
       <div className="page-header">
         <div>
+          <Eyebrow label="Requirements" />
           <h1>Requirements</h1>
           <p className="muted">{data.title}</p>
-          <p className="muted">
+          <p className="meta">
             Closes {data.closing_date} · contract starts {data.contract_start}
           </p>
         </div>
-        <Link href={`/buyer/opportunities/${id}/results`}>Go to matching results</Link>
+        <Link href={`/buyer/opportunities/${id}/results`} className="link-arrow">
+          Go to matching results
+          <ArrowRight size={16} strokeWidth={1.5} aria-hidden="true" />
+        </Link>
       </div>
 
       <section className="panel" aria-labelledby="rfq-heading">
+        <SectionIndex n={1} label="RFQ" />
         <h2 id="rfq-heading">RFQ text</h2>
         <div className="field">
           <label htmlFor={rfqId}>Raw RFQ text (paste the buyer&apos;s request)</label>
@@ -274,10 +285,21 @@ function Editor({ id }: { id: string }) {
       </section>
 
       <form onSubmit={save}>
-        <CriteriaEditor title="Mandatory criteria (pass / needs review / fail)" criteria={mandatory} onChange={setMandatory} />
-        <CriteriaEditor title="Preferred criteria (scored)" criteria={preferred} onChange={setPreferred} />
+        <CriteriaEditor
+          index={{ n: 2, label: "Mandatory" }}
+          title="Mandatory criteria (pass / needs review / fail)"
+          criteria={mandatory}
+          onChange={setMandatory}
+        />
+        <CriteriaEditor
+          index={{ n: 3, label: "Preferred" }}
+          title="Preferred criteria (scored)"
+          criteria={preferred}
+          onChange={setPreferred}
+        />
 
         <section className="panel" aria-labelledby="weights-heading">
+          <SectionIndex n={4} label="Weights" />
           <h2 id="weights-heading">Fit weights</h2>
           <p className="hint">Visible, editable settings. Whole numbers that must add up to 100.</p>
           <div className="field-inline">
@@ -299,8 +321,12 @@ function Editor({ id }: { id: string }) {
               </div>
             ))}
           </div>
-          <p id="weights-sum" className={weightsValid ? "notice notice-success" : "notice notice-error"} aria-live="polite">
-            Total: {sum} / 100{weightsValid ? " ✓" : " - weights must sum to 100"}
+          <p
+            id="weights-sum"
+            className={`weights-sum notice ${weightsValid ? "notice-success" : "notice-error"}`}
+            aria-live="polite"
+          >
+            Total: <span className="mono">{sum}</span> / 100{weightsValid ? " ✓" : " - weights must sum to 100"}
           </p>
         </section>
 

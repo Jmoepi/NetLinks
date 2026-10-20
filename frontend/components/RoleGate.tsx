@@ -3,6 +3,7 @@
 import type { ReactNode } from "react";
 import { useIdentity } from "@/lib/identity";
 import type { Role } from "@/lib/types";
+import { Eyebrow } from "./Eyebrow";
 
 const ROLE_NAMES: Record<Role, string> = { sme: "an SME", buyer: "the Buyer", admin: "YES Admin" };
 
@@ -16,6 +17,7 @@ export function RoleGate({ roles, children }: { roles: Role[]; children: ReactNo
   if (!roles.includes(identity.role)) {
     return (
       <section className="panel">
+        <Eyebrow label="Demo role" />
         <h1>Switch role to continue</h1>
         <p>
           This screen is for {roles.map((r) => ROLE_NAMES[r]).join(" or ")}. Choose that role with the

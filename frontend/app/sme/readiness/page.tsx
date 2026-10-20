@@ -1,8 +1,11 @@
 "use client";
 
+import { ArrowLeft, CircleCheck, Hourglass } from "lucide-react";
 import Link from "next/link";
+import { Eyebrow } from "@/components/Eyebrow";
 import { Notice } from "@/components/Notice";
 import { RoleGate } from "@/components/RoleGate";
+import { SectionIndex } from "@/components/SectionIndex";
 import { StatusBadge } from "@/components/StatusBadge";
 import { UploadForm } from "@/components/UploadForm";
 import { formatDateTime } from "@/lib/format";
@@ -20,29 +23,43 @@ function ReadinessView() {
     <>
       <div className="page-header">
         <div>
+          <Eyebrow label="SME readiness" />
           <h1>Readiness: {data.sme.name}</h1>
           <p className="muted">Buyer requests and what would help you qualify. Guidance never changes a current ranking.</p>
         </div>
-        <Link href="/sme">Back to my profile</Link>
+        <Link href="/sme" className="link-arrow">
+          <ArrowLeft size={16} strokeWidth={1.5} aria-hidden="true" />
+          Back to my profile
+        </Link>
       </div>
 
       <section className="panel" aria-labelledby="requests-heading">
+        <SectionIndex n={1} label="Requests" />
         <h2 id="requests-heading">Buyer requests ({openRequests.length} open)</h2>
         {data.requests.length ? (
-          <ul>
-            {data.requests.map((r) => (
-              <li key={r.id}>
+          <ul className="row-list">
+            {data.requests.map((r, i) => (
+              <li key={r.id} className="row">
+                <div className="row-inner">
+                <span className="row-index" aria-hidden="true">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <div className="row-body">
                 <strong>{r.kind === "information" ? "Request for information" : "Request for clarification"}</strong> from{" "}
                 {r.buyer_org} ({formatDateTime(r.created_at)}): <q>{r.message}</q>{" "}
                 {r.status === "open" ? (
                   <span className="badge badge-awaiting">
-                    <span aria-hidden="true">⏳</span>Open - awaiting your response
+                    <Hourglass size={14} strokeWidth={1.5} aria-hidden="true" />
+                    Open - awaiting your response
                   </span>
                 ) : (
                   <span className="badge badge-eligible">
-                    <span aria-hidden="true">✓</span>Responded {formatDateTime(r.responded_at)}
+                    <CircleCheck size={14} strokeWidth={1.5} aria-hidden="true" />
+                    Responded {formatDateTime(r.responded_at)}
                   </span>
                 )}
+                </div>
+                </div>
               </li>
             ))}
           </ul>
@@ -52,17 +69,19 @@ function ReadinessView() {
       </section>
 
       <section className="panel" aria-labelledby="reupload-heading">
+        <SectionIndex n={2} label="Upload" />
         <h2 id="reupload-heading">Upload new or renewed documents</h2>
         <p>Uploading answers your open buyer requests. The buyer re-runs matching to see the update.</p>
         <UploadForm label="Upload renewed documents (PDF)" buttonText="Upload" onUploaded={() => void reload()} />
       </section>
 
-      {data.opportunities.map((o) => {
+      {data.opportunities.map((o, oi) => {
         const issues = o.checks.filter((c) => c.outcome !== "pass");
         return (
           <section className="panel" key={o.opportunity_id} aria-labelledby={`opp-${o.opportunity_id}`}>
+            <SectionIndex n={3 + oi} label="Opportunity" />
             <h2 id={`opp-${o.opportunity_id}`}>{o.title}</h2>
-            <p className="muted">
+            <p className="meta">
               {o.buyer_org} · closes {o.closing_date}
             </p>
             <p>
@@ -73,7 +92,7 @@ function ReadinessView() {
             {issues.length ? (
               <>
                 <h3>Why</h3>
-                <ul>
+                <ul className="check-list">
                   {issues.map((c) => (
                     <li key={c.rule}>
                       <StatusBadge status={c.outcome} /> <strong>{c.label}:</strong> {c.reason}
@@ -84,9 +103,16 @@ function ReadinessView() {
             ) : null}
             <h3>Readiness actions</h3>
             {o.actions.length ? (
-              <ul>
+              <ul className="row-list">
                 {o.actions.map((a, i) => (
-                  <li key={`${a.category}-${i}`}>{a.text}</li>
+                  <li key={`${a.category}-${i}`} className="row">
+                    <div className="row-inner">
+                      <span className="row-index" aria-hidden="true">
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      <span className="row-body">{a.text}</span>
+                    </div>
+                  </li>
                 ))}
               </ul>
             ) : (

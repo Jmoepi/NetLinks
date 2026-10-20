@@ -1,3 +1,4 @@
+import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import { docTypeLabel, formatValue, sourceHref } from "@/lib/format";
 import type { Evidence } from "@/lib/types";
@@ -16,8 +17,9 @@ export function EvidenceLinks({ evidence }: { evidence: Evidence[] }) {
             {e.quote ? <q>{e.quote}</q> : e.field_key ? <span>{formatValue(e.field_key, e.value)}</span> : null}{" "}
             <span className="muted">from {source}</span> <SourceBadge source={e.source_type} />{" "}
             {href ? (
-              <Link href={href}>
+              <Link href={href} className="link-arrow">
                 View source<span className="sr-only"> in {e.source_label}</span>
+                <ArrowUpRight size={14} strokeWidth={1.5} aria-hidden="true" />
               </Link>
             ) : null}
           </li>

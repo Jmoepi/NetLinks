@@ -1,10 +1,13 @@
 "use client";
 
+import { ArrowRight, ArrowUpRight, CircleCheck, EqualNot, FileText, Minus, TriangleAlert } from "lucide-react";
 import Link from "next/link";
 import { useId, useState, type FormEvent } from "react";
 import { Dialog } from "@/components/Dialog";
+import { Eyebrow } from "@/components/Eyebrow";
 import { Notice } from "@/components/Notice";
 import { RoleGate } from "@/components/RoleGate";
+import { SectionIndex } from "@/components/SectionIndex";
 import { SourceBadge } from "@/components/SourceBadge";
 import { UploadForm } from "@/components/UploadForm";
 import { api, errorMessage } from "@/lib/api";
@@ -54,8 +57,9 @@ function SourceLink({ c }: { c: Candidate }) {
   const href = sourceHref(c);
   if (!href) return <span className="muted">{c.source_label || "SME entry"}</span>;
   return (
-    <Link href={href}>
+    <Link href={href} className="link-arrow">
       View source<span className="sr-only"> for {c.field_key} in {c.source_label}</span>
+      <ArrowUpRight size={14} strokeWidth={1.5} aria-hidden="true" />
     </Link>
   );
 }
@@ -139,7 +143,12 @@ function FieldRow({ field, onChanged }: { field: ProfileField; onChanged: () => 
         ) : (
           <span>{formatValue(field.field_key, field.value)}</span>
         )}
-        {field.low_confidence ? <span className="flag-text">Low confidence - please confirm</span> : null}
+        {field.low_confidence ? (
+          <span className="flag-text">
+            <TriangleAlert size={14} strokeWidth={1.5} aria-hidden="true" />
+            Low confidence - please confirm
+          </span>
+        ) : null}
         {field.selected?.quote && !field.conflict ? (
           <span className="hint" style={{ display: "block" }}>
             Source text: <q>{field.selected.quote}</q>
@@ -185,9 +194,7 @@ function FieldRow({ field, onChanged }: { field: ProfileField; onChanged: () => 
           <span className="muted">Not provided</span>
         ) : field.conflict ? (
           <span className="badge badge-fail">
-            <span aria-hidden="true" className="badge-icon">
-              ≠
-            </span>
+            <EqualNot size={14} strokeWidth={1.5} aria-hidden="true" />
             Conflict
           </span>
         ) : (
@@ -196,7 +203,7 @@ function FieldRow({ field, onChanged }: { field: ProfileField; onChanged: () => 
           </>
         )}
       </td>
-      <td>{field.status === "missing" || field.conflict ? "-" : confidenceText(field.confidence)}</td>
+      <td className="num">{field.status === "missing" || field.conflict ? "-" : confidenceText(field.confidence)}</td>
       <td>{field.selected && !field.conflict ? <SourceLink c={field.selected} /> : null}</td>
       <td>
         <div className="button-row" style={{ marginTop: 0 }}>
@@ -245,17 +252,22 @@ function ConsentPanel({ sme, onAnswered }: { sme: Sme; onAnswered: () => Promise
   const status = sme.consent_status || "pending";
   return (
     <section className="panel" aria-labelledby="consent-heading">
+      <SectionIndex n={3} label="Sharing" />
       <h2 id="consent-heading">Sharing with buyers</h2>
       {status === "granted" ? (
         <p>
           <span className="badge badge-eligible">
-            <span aria-hidden="true">✓</span>Shared with buyers
+            <CircleCheck size={14} strokeWidth={1.5} aria-hidden="true" />
+            Shared with buyers
           </span>{" "}
           Consent given {formatDateTime(sme.consent_at)}. Buyers on NetLinks can see this profile and include it in matching.
         </p>
       ) : status === "declined" ? (
         <p>
-          <span className="badge badge-neutral">Not shared</span> You declined sharing, so buyers cannot see this profile and
+          <span className="badge badge-neutral">
+            <Minus size={14} strokeWidth={1.5} aria-hidden="true" />
+            Not shared
+          </span> You declined sharing, so buyers cannot see this profile and
           it is excluded from matching.
         </p>
       ) : (
@@ -303,26 +315,42 @@ function SmeProfile() {
     <>
       <div className="page-header">
         <div>
+          <Eyebrow label="SME workspace" />
           <h1>{data.sme.name}</h1>
-          <p className="muted">
+          <p className="meta">
             {data.sme.base_town} · {data.sme.size_band} business · SME profile
           </p>
         </div>
-        <Link href="/sme/readiness">Go to readiness and buyer requests</Link>
+        <Link href="/sme/readiness" className="link-arrow">
+          Go to readiness and buyer requests
+          <ArrowRight size={16} strokeWidth={1.5} aria-hidden="true" />
+        </Link>
       </div>
 
       <section className="panel" aria-labelledby="upload-heading">
+        <SectionIndex n={1} label="Upload" />
         <h2 id="upload-heading">1. Upload your documents</h2>
         <UploadForm onUploaded={() => void reload()} />
         {data.documents.length ? (
           <>
             <h3>Your documents</h3>
-            <ul>
-              {data.documents.map((d) => (
-                <li key={d.id}>
-                  <Link href={`/documents/${d.id}`}>{d.filename}</Link> - {docTypeLabel(d.doc_type)}
-                  {d.period_end ? `, valid to ${d.period_end}` : ""}
-                  {d.superseded_by_document_id ? " (replaced by a newer document)" : ""}
+            <ul className="row-list">
+              {data.documents.map((d, i) => (
+                <li key={d.id} className="row">
+                  <div className="row-inner">
+                    <span className="row-index" aria-hidden="true">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <span className="doc-row">
+                      <FileText size={16} strokeWidth={1.5} aria-hidden="true" />
+                      <Link href={`/documents/${d.id}`}>{d.filename}</Link>
+                      <span className="muted">
+                        - {docTypeLabel(d.doc_type)}
+                        {d.period_end ? `, valid to ${d.period_end}` : ""}
+                        {d.superseded_by_document_id ? " (replaced by a newer document)" : ""}
+                      </span>
+                    </span>
+                  </div>
                 </li>
               ))}
             </ul>
@@ -333,6 +361,7 @@ function SmeProfile() {
       </section>
 
       <section className="panel" aria-labelledby="profile-heading">
+        <SectionIndex n={2} label="Profile" />
         <h2 id="profile-heading">2. Review your extracted profile</h2>
         <p>
           AI suggests, you confirm. Each value shows where it came from. Nothing is treated as verified just because a model

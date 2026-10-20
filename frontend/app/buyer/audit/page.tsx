@@ -2,6 +2,7 @@
 
 import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
+import { Eyebrow } from "@/components/Eyebrow";
 import { Notice } from "@/components/Notice";
 import { RoleGate } from "@/components/RoleGate";
 import { formatDateTime } from "@/lib/format";
@@ -76,58 +77,62 @@ function AuditTable() {
   if (!data) return loading ? <p>Loading audit log…</p> : <Notice kind="error">{error}</Notice>;
 
   return (
-    <>
-      <div className="page-header">
+    <div className="timeline">
+      <div className="timeline-aside">
         <div>
+          <Eyebrow label="Audit" />
           <h1>Audit log</h1>
           <p className="muted">
             Append-only. Every entry is timestamped and attributed to a role. {data.entries.length} entries, oldest first.
           </p>
+          <div className="button-row">
+            <button type="button" className="secondary" onClick={() => void reload()}>
+              Refresh
+            </button>
+          </div>
         </div>
-        <button type="button" className="secondary" onClick={() => void reload()}>
-          Refresh
-        </button>
       </div>
-      <div className="table-wrap">
-        <table>
-          <caption className="sr-only">Audit log entries</caption>
-          <thead>
-            <tr>
-              <th scope="col">Time</th>
-              <th scope="col">Role</th>
-              <th scope="col">Actor</th>
-              <th scope="col">Action</th>
-              <th scope="col">Entity</th>
-              <th scope="col">Details</th>
-              <th scope="col">Reason</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.entries.map((e) => (
-              <tr key={e.id}>
-                <td>{formatDateTime(e.at)}</td>
-                <td>{e.actor_role}</td>
-                <td>{e.actor_label}</td>
-                <td>{ACTION_LABELS[e.action] || e.action}</td>
-                <td>
+      <ol className="timeline-list" aria-label="Audit log entries">
+        {data.entries.map((e) => (
+          <li key={e.id}>
+            <time dateTime={e.at}>{formatDateTime(e.at)}</time>
+            <div>
+              <h3>{ACTION_LABELS[e.action] || e.action}</h3>
+              <div className="timeline-who">
+                <span className="pill">
+                  <span className="sr-only">Role: </span>
+                  {e.actor_role}
+                </span>
+              </div>
+              <dl className="audit-meta">
+                <dt>Actor</dt>
+                <dd>{e.actor_label}</dd>
+                <dt>Entity</dt>
+                <dd className="mono">
                   {e.entity_type} {e.entity_id ?? ""}
-                </td>
-                <td>
+                </dd>
+                <dt>Details</dt>
+                <dd>
                   {summarize(e)}
                   <details>
                     <summary>
                       Full details<span className="sr-only"> for entry {e.id}</span>
                     </summary>
-                    <pre style={{ whiteSpace: "pre-wrap", fontSize: "0.8rem" }}>{formatDetail(e.details)}</pre>
+                    <pre>{formatDetail(e.details)}</pre>
                   </details>
-                </td>
-                <td>{e.reason || ""}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </>
+                </dd>
+                {e.reason ? (
+                  <>
+                    <dt>Reason</dt>
+                    <dd>{e.reason}</dd>
+                  </>
+                ) : null}
+              </dl>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
   );
 }
 

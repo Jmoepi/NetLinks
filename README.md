@@ -136,7 +136,7 @@ Locally all three services run in Docker Compose. The production target is descr
 ## Layout
 
 - `backend/`: FastAPI app. `app/engine/` holds the deterministic eligibility rules and fit scoring (no LLM). `app/ai/` is the AI gateway with Bedrock and local-fallback providers. `app/ingestion/` handles PDF text and field lineage. `app/services/` handles matching, seed and dashboard.
-- `frontend/`: Next.js (app router, TypeScript) web UI.
+- `frontend/`: Next.js (app router, TypeScript) web UI. UI design tokens and patterns: `docs/design-system.md` (icons via lucide-react, no remote assets).
 - `demo-assets/`: fictional demo PDFs and the raw RFQ text.
 - `ai-cache/`: committed AI results used in Cached mode.
 - `db/init/`: creates the test database.
