@@ -163,7 +163,7 @@ Computed contrast and automated keyboard and axe checks aren't full WCAG validat
 4. Primary buttons use black text on #FF3000, because white measures 3.70:1 and fails for small text. White on the accent appears only at manifesto display size (large text, ≥ 3:1).
 5. Status colours are separate from the accent (green, amber, rose, sky, violet, teal), and every status carries a text label and an icon, so colour is never the only signal.
 6. Scrollbars stay visible (`scrollbar-width: thin`, dark thumb). Hiding them removes an affordance.
-7. The header has no `mix-blend-difference`; it is a translucent #050505 bar with blur and a hairline, which keeps text contrast predictable. Below 768px the header (which wraps to two rows to keep the role switcher and AI mode visible) scrolls with the page instead of sticking, so it doesn't cover a quarter of a phone screen.
+7. The header has no `mix-blend-difference`; it is a translucent #050505 bar with blur and a hairline, which keeps text contrast predictable. Below 768px the header (which wraps to two rows to keep the account menu and AI mode visible) scrolls with the page instead of sticking, so it doesn't cover a quarter of a phone screen.
 8. Nothing is revealed only on hover. The reference hides service descriptions until hover; here they are always visible, and hover/focus-within only adds decoration. That works for keyboard and touch.
 9. Reduced motion is honoured (see section 6).
 10. Every interactive element has a visible accent focus ring. The Dialog keeps its focus trap, and the mobile menu traps focus, closes on Escape and restores focus to its trigger.
