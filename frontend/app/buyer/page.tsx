@@ -2,7 +2,8 @@
 
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
-import { Suspense } from "react";
+import { useRouter } from "next/navigation";
+import { Suspense, useEffect } from "react";
 import { Eyebrow } from "@/components/Eyebrow";
 import { Notice } from "@/components/Notice";
 import { Pagination } from "@/components/Pagination";
@@ -15,10 +16,19 @@ import type { OpportunitySummary, Paginated } from "@/lib/types";
 const PAGE_SIZE = 10;
 
 function OpportunityList() {
-  const { page, setPage } = usePageParam("page");
+  const router = useRouter();
+  const { page, setPage, hrefFor } = usePageParam("page");
   const { data, error, loading } = useLoad<Paginated<OpportunitySummary>>(
     `/api/opportunities?page=${page}&page_size=${PAGE_SIZE}`,
   );
+
+  // A page past the end (e.g. a stale or edited URL) jumps to the last page instead of showing an empty list.
+  useEffect(() => {
+    if (data && data.items.length === 0 && data.total > 0 && data.page > 1) {
+      router.replace(hrefFor(Math.ceil(data.total / data.page_size)), { scroll: false });
+    }
+  }, [data, hrefFor, router]);
+
   if (!data) return loading ? <p>Loading opportunities…</p> : <Notice kind="error">{error}</Notice>;
   const offset = (data.page - 1) * data.page_size;
 
