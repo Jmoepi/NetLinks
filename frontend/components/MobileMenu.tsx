@@ -97,7 +97,7 @@ export function MobileMenu({ id, open, onClose, links, triggerRef }: MobileMenuP
           ))}
         </ul>
       </nav>
-      <p className="mobile-menu-note">Role switcher and AI mode stay in the header</p>
+      <p className="mobile-menu-note">Account menu and AI mode stay in the header</p>
     </div>
   );
 }

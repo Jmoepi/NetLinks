@@ -324,6 +324,8 @@ label {
 }
 
 input[type="text"],
+input[type="email"],
+input[type="password"],
 input[type="number"],
 input[type="time"],
 textarea,
@@ -345,6 +347,8 @@ input[type="time"] {
 }
 
 input[type="text"]:hover,
+input[type="email"]:hover,
+input[type="password"]:hover,
 input[type="number"]:hover,
 input[type="time"]:hover,
 textarea:hover,
@@ -353,6 +357,8 @@ select:hover {
 }
 
 input[type="text"]:focus-visible,
+input[type="email"]:focus-visible,
+input[type="password"]:focus-visible,
 input[type="number"]:focus-visible,
 input[type="time"]:focus-visible,
 textarea:focus-visible,
@@ -1366,6 +1372,103 @@ mark {
   grid-column: 2;
 }
 
+/* ------------------------------------------------------------------ Sign-in choice rows */
+.choice-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--line);
+}
+
+label.choice {
+  display: grid;
+  grid-template-columns: 2.5rem auto minmax(0, 1fr);
+  gap: var(--space-1) var(--space-3);
+  align-items: baseline;
+  padding: var(--space-3) var(--space-3) var(--space-3) var(--space-2);
+  border-bottom: 1px solid var(--line);
+  border-left: 2px solid transparent;
+  cursor: pointer;
+  text-transform: none;
+  letter-spacing: normal;
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-regular);
+  color: var(--text);
+  transition: background-color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease);
+}
+
+label.choice:hover,
+label.choice:focus-within {
+  background: var(--surface-1);
+}
+
+label.choice:hover .row-index,
+label.choice:focus-within .row-index,
+label.choice:has(input:checked) .row-index {
+  color: var(--accent);
+}
+
+label.choice:has(input:checked) {
+  border-left-color: var(--accent);
+  background: var(--surface-1);
+}
+
+label.choice input {
+  align-self: center;
+  margin: 0;
+}
+
+label.choice input:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+}
+
+.choice-text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.choice-title {
+  color: var(--text-strong);
+  font-weight: var(--fw-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.choice-desc {
+  color: var(--text-muted);
+  overflow-wrap: anywhere;
+}
+
+.login-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0 var(--space-8);
+  align-items: start;
+  margin-top: var(--space-6);
+}
+
+@media (min-width: 1024px) {
+  .login-grid {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  }
+}
+
+.login-credentials input {
+  width: 100%;
+}
+
+.login-credentials button[type="submit"] {
+  width: 100%;
+}
+
+.signed-in-row p {
+  margin: 0;
+  color: var(--text-strong);
+}
+
 /* ------------------------------------------------------------------ Timeline (audit log) */
 .timeline {
   display: grid;
@@ -1590,25 +1693,135 @@ mark {
   margin-left: auto;
   display: flex;
   flex-wrap: wrap;
-  align-items: flex-end;
+  align-items: center;
   gap: var(--space-3) var(--space-4);
 }
 
-.role-switcher {
+/* Account menu (simulated sign-in): disclosure button + panel */
+.account-menu {
+  position: relative;
+}
+
+button.account-trigger {
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  background: transparent;
+  border: 1px solid var(--control-border);
+  color: var(--text-strong);
+  font-size: var(--fs-xs);
+  letter-spacing: var(--tr-widest);
+  max-width: 100%;
+}
+
+button.account-trigger:hover:not(:disabled),
+button.account-trigger:focus-visible:not(:disabled),
+button.account-trigger[aria-expanded="true"] {
+  background: var(--surface-2);
+  border-color: var(--text-strong);
+  color: var(--text-strong);
+}
+
+.account-trigger-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 16rem;
+}
+
+.account-trigger .pill {
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.account-chevron {
+  transition: transform var(--dur-fast) var(--ease);
+}
+
+.account-trigger[aria-expanded="true"] .account-chevron {
+  transform: rotate(180deg);
+}
+
+.account-panel {
+  position: absolute;
+  top: calc(100% + var(--space-2));
+  right: 0;
+  z-index: 60;
+  min-width: 18rem;
+  padding: var(--space-4);
+  background: var(--surface-1);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-none);
+}
+
+.account-panel[hidden] {
+  display: none;
+}
+
+.account-name {
+  margin: 0;
+  color: var(--text-strong);
+  font-weight: var(--fw-semibold);
+}
+
+.account-meta {
+  margin: var(--space-1) 0 0;
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+}
+
+h2.account-heading {
+  margin: var(--space-4) 0 var(--space-2);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--line-strong);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-medium);
+  letter-spacing: var(--tr-widest);
+  color: var(--text-muted);
+}
+
+.account-list {
+  list-style: none;
+  margin: 0 0 var(--space-4);
+  padding: 0;
   display: flex;
   flex-direction: column;
   gap: var(--space-1);
 }
 
-.role-switcher label {
-  font-size: 0.6875rem;
-  letter-spacing: 0.06em;
+button.account-option {
+  width: 100%;
+  justify-content: space-between;
+  text-align: left;
+  padding: var(--space-2) var(--space-3);
+  background: transparent;
+  border: 1px solid transparent;
+  border-left: 2px solid transparent;
+  color: var(--text);
+  text-transform: none;
+  letter-spacing: normal;
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-regular);
 }
 
-.role-switcher select {
-  font-size: var(--fs-sm);
-  padding: var(--space-2) var(--space-3);
-  min-width: 18rem;
+button.account-option:hover:not(:disabled),
+button.account-option:focus-visible:not(:disabled) {
+  background: var(--surface-2);
+  border-color: transparent;
+  border-left-color: var(--text-strong);
+  color: var(--text-strong);
+}
+
+button.account-option[aria-current="true"] {
+  border-left-color: var(--accent);
+  color: var(--text-strong);
+}
+
+button.account-option svg {
+  color: var(--accent);
+}
+
+button.account-signout {
+  width: 100%;
 }
 
 .topbar-controls .badge {
@@ -1644,16 +1857,31 @@ mark {
     width: 100%;
     margin-left: 0;
   }
-  .role-switcher {
-    flex: 1 1 16rem;
+}
+
+/* Below 768px the account panel spans the header width. */
+@media (max-width: 767px) {
+  .topbar-inner,
+  .topbar-controls {
+    position: relative;
   }
-  .role-switcher select {
+  .account-menu {
+    position: static;
     min-width: 0;
-    width: 100%;
+    max-width: 100%;
+  }
+  .account-panel {
+    left: 0;
+    right: 0;
+    width: auto;
+    min-width: 0;
+  }
+  .account-trigger-name {
+    max-width: 10rem;
   }
 }
 
-/* On phones the two-row header (role switcher + AI mode) would cover a quarter of the screen if sticky,
+/* On phones the two-row header (account menu + AI mode) would cover a quarter of the screen if sticky,
    so it scrolls away with the page there; it is sticky from 768px up. */
 @media (max-width: 767px) {
   .topbar {

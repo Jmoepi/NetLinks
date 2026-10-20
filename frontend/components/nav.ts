@@ -17,6 +17,17 @@ export const NAV: Record<Role, { href: string; label: string }[]> = {
   ],
 };
 
+/** Whether a role may open a path (used to validate the sign-in `next` target; the API still decides). */
+export function canAccess(role: Role, pathname: string): boolean {
+  const under = (base: string) => pathname === base || pathname.startsWith(`${base}/`);
+  if (under("/documents")) return true;
+  if (under("/buyer/audit")) return role === "buyer" || role === "admin";
+  if (under("/sme")) return role === "sme";
+  if (under("/buyer")) return role === "buyer";
+  if (under("/admin")) return role === "admin";
+  return true;
+}
+
 export function belongsTo(role: Role, pathname: string): boolean {
   if (pathname.startsWith("/documents")) return true;
   return pathname === ROLE_HOME[role] || pathname.startsWith(`${ROLE_HOME[role]}/`);

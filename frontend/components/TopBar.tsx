@@ -1,34 +1,24 @@
 "use client";
 
-import { Crosshair, Database, Menu } from "lucide-react";
+import { ArrowRight, Crosshair, Database, Menu } from "lucide-react";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import { useCallback, useId, useRef, useState, type ChangeEvent } from "react";
-import { keyOf, ROLE_HOME, useIdentity } from "@/lib/identity";
+import { usePathname } from "next/navigation";
+import { useCallback, useId, useRef, useState } from "react";
+import { useIdentity } from "@/lib/identity";
+import { AccountMenu } from "./AccountMenu";
 import { MobileMenu } from "./MobileMenu";
-import { belongsTo, NAV } from "./nav";
+import { NAV } from "./nav";
 
 export function TopBar() {
-  const { identities, identity, identityKey, setIdentity, aiMode, loadError } = useIdentity();
-  const router = useRouter();
+  const { identity, signedIn, aiMode, loadError } = useIdentity();
   const pathname = usePathname();
-  const selectId = useId();
   const menuId = useId();
   const [menuOpen, setMenuOpen] = useState(false);
   const menuButton = useRef<HTMLButtonElement>(null);
   const closeMenu = useCallback(() => setMenuOpen(false), []);
 
-  function onChange(e: ChangeEvent<HTMLSelectElement>) {
-    const next = identities.find((i) => keyOf(i.role, i.sme_slug) === e.target.value);
-    if (!next) return;
-    setIdentity(next.role, next.sme_slug);
-    if (!belongsTo(next.role, pathname)) router.push(ROLE_HOME[next.role]);
-  }
-
-  const smes = identities.filter((i) => i.role === "sme");
-  const others = identities.filter((i) => i.role !== "sme");
   const live = aiMode?.mode === "live";
-  const links = identity ? NAV[identity.role] : [];
+  const links = signedIn && identity ? NAV[identity.role] : [];
 
   return (
     <>
@@ -63,41 +53,31 @@ export function TopBar() {
             <Menu size={24} strokeWidth={1.5} aria-hidden="true" />
           </button>
           <div className="topbar-controls">
-            <div className="role-switcher">
-              <label htmlFor={selectId}>Demo role (demo simplification; production uses Cognito)</label>
-              <select id={selectId} value={identityKey} onChange={onChange} disabled={!identities.length}>
-                {!identities.length && identityKey ? <option value={identityKey}>Loading roles…</option> : null}
-                <optgroup label="SME">
-                  {smes.map((i) => (
-                    <option key={keyOf(i.role, i.sme_slug)} value={keyOf(i.role, i.sme_slug)}>
-                      SME - {i.name}
-                    </option>
-                  ))}
-                </optgroup>
-                <optgroup label="Buyer and YES">
-                  {others.map((i) => (
-                    <option key={keyOf(i.role, i.sme_slug)} value={keyOf(i.role, i.sme_slug)}>
-                      {i.role === "buyer" ? `Buyer - ${i.name} (Ubuntu Office Parks)` : i.label}
-                    </option>
-                  ))}
-                </optgroup>
-              </select>
-            </div>
-            <span
-              className={`badge ${live ? "badge-live" : "badge-cached"}`}
-              title={
-                live
-                  ? "Live: documents are processed by Amazon Bedrock now."
-                  : "Cached: AI results were generated earlier by the pipeline from these exact documents."
-              }
-            >
-              {live ? (
-                <span className="live-dot" aria-hidden="true" />
-              ) : (
-                <Database size={14} strokeWidth={1.5} aria-hidden="true" />
-              )}
-              {aiMode ? `AI mode: ${live ? "Live" : "Cached"}` : "AI mode: unknown"}
-            </span>
+            {signedIn ? (
+              <>
+                <AccountMenu />
+                <span
+                  className={`badge ${live ? "badge-live" : "badge-cached"}`}
+                  title={
+                    live
+                      ? "Live: documents are processed by Amazon Bedrock now."
+                      : "Cached: AI results were generated earlier by the pipeline from these exact documents."
+                  }
+                >
+                  {live ? (
+                    <span className="live-dot" aria-hidden="true" />
+                  ) : (
+                    <Database size={14} strokeWidth={1.5} aria-hidden="true" />
+                  )}
+                  {aiMode ? `AI mode: ${live ? "Live" : "Cached"}` : "AI mode: unknown"}
+                </span>
+              </>
+            ) : pathname !== "/login" ? (
+              <Link href="/login" className="link-arrow">
+                Sign in
+                <ArrowRight size={16} strokeWidth={1.5} aria-hidden="true" />
+              </Link>
+            ) : null}
           </div>
         </div>
         {loadError ? (

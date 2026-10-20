@@ -5,6 +5,7 @@ import { ArrowLeft } from "lucide-react";
 import { Suspense, useEffect, useRef } from "react";
 import { Eyebrow } from "@/components/Eyebrow";
 import { Notice } from "@/components/Notice";
+import { RoleGate } from "@/components/RoleGate";
 import { SectionIndex } from "@/components/SectionIndex";
 import { docTypeLabel } from "@/lib/format";
 import { useLoad } from "@/lib/useLoad";
@@ -84,8 +85,10 @@ function Viewer() {
 
 export default function DocumentPage() {
   return (
-    <Suspense fallback={<p>Loading document…</p>}>
-      <Viewer />
-    </Suspense>
+    <RoleGate roles={["sme", "buyer", "admin"]}>
+      <Suspense fallback={<p>Loading document…</p>}>
+        <Viewer />
+      </Suspense>
+    </RoleGate>
   );
 }
