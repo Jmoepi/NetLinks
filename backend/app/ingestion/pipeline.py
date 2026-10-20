@@ -62,7 +62,7 @@ def ingest_document(
     superseded = lineage.apply_document_supersession(session, doc)
 
     write_audit(
-        session, actor.role, actor.label, "extraction", "document", doc.id,
+        session, actor, "extraction", "document", doc.id,
         {
             "sme_id": sme.id,
             "filename": filename,

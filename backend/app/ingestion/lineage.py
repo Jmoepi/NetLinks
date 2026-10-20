@@ -194,7 +194,7 @@ def correct_field(
     _supersede(old, new)
     session.flush()
     write_audit(
-        session, actor.role, actor.label, "sme_correction", "profile_field", new.id,
+        session, actor, "sme_correction", "profile_field", new.id,
         {
             "sme_id": sme_id,
             "field_key": field_key,
@@ -247,7 +247,7 @@ def confirm_field(
     _supersede(candidates, new)
     session.flush()
     write_audit(
-        session, actor.role, actor.label, "sme_confirmation", "profile_field", new.id,
+        session, actor, "sme_confirmation", "profile_field", new.id,
         {
             "sme_id": sme_id,
             "field_key": field_key,

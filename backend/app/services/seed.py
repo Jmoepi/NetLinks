@@ -71,7 +71,7 @@ def seed(session: Session) -> dict[str, int]:
                 source_label=conf["source_label"], confidence=lineage.SME_CONFIRMED_CONFIDENCE,
                 created_by_role="sme", note=conf.get("note"),
             )
-            write_audit(session, actor.role, actor.label, "sme_profile_entry", "profile_field", row.id,
+            write_audit(session, actor, "sme_profile_entry", "profile_field", row.id,
                         {"sme_id": sme.id, "field_key": conf["field_key"], "value": conf["value"],
                          "source_label": conf["source_label"], "seeded": True})
         else:
@@ -89,8 +89,8 @@ def seed(session: Session) -> dict[str, int]:
             sme.consent_status = "granted"
             sme.consent_at = now
             actor = _seed_actor(sme.name)
-            write_audit(session, actor.role, actor.label, "consent", "sme", sme.id,
-                        {"granted": True, "seeded": True})
+            write_audit(session, actor, "consent", "sme", sme.id,
+                        {"sme_id": sme.id, "granted": True, "seeded": True})
 
     embedding_count = 0
     for sme in smes.values():
@@ -146,7 +146,7 @@ def reset(session: Session, actor: ActorLike | None = None) -> dict[str, int]:
     clear_uploads()
     gateway.set_mode(session, "cached")
     counts = seed(session)
-    write_audit(session, actor.role, actor.label, "demo_reset", "demo", None, {"seeded": counts})
+    write_audit(session, actor, "demo_reset", "demo", None, {"seeded": counts})
     session.flush()
     return counts
 

@@ -213,8 +213,7 @@ def run_match(session: Session, opportunity_id: int, actor: ActorLike, mode: str
     session.flush()
     write_audit(
         session,
-        actor.role,
-        actor.label,
+        actor,
         "match_run",
         "match_run",
         run.id,
@@ -310,8 +309,7 @@ def mark_requests_responded(session: Session, sme_id: int, actor: ActorLike) -> 
         req.responded_at = now
         write_audit(
             session,
-            actor.role,
-            actor.label,
+            actor,
             "info_request_responded",
             "info_request",
             req.id,
