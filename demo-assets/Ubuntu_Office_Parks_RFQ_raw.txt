@@ -1,0 +1,18 @@
+REQUEST FOR QUOTATION (FICTIONAL - DEMO ONLY)
+
+Buyer: Ubuntu Office Parks (fictional)
+Contact: Naledi, Procurement (fictional)
+Title: Managed IT support & end-user computing: 450 users, 3 sites (Midrand, Centurion, Sandton), 36-month contract, 4-hour on-site response SLA
+Closing date: 2027-02-26
+Contract start: 2027-04-01
+
+Background
+Ubuntu Office Parks is looking for a small or medium IT company to look after about 450 users across our three office parks in Midrand, Centurion and Sandton. The contract runs for 36 months. We expect an engineer on site within 4 hours of a priority call being logged.
+
+What every bidder must have
+Bidders must hold a valid tax compliance status that remains valid after the closing date. Bidders must be registered on the Central Supplier Database (CSD) and give their CSD supplier number. Bidders must be at least 51% Black-owned or hold a B-BBEE Level 1 or Level 2 status. Bidders must operate in Gauteng. Bidders must hold professional indemnity insurance of at least R1 million that is still current at the closing date. Because the supplier will handle our staff's personal information, bidders must provide an information security and POPIA policy. Bidders must have at least two technicians with current certifications, for example CompTIA A+, Microsoft 365 Certified or ITIL 4 Foundation.
+
+What we would like to see
+We would prefer a supplier with proven service desk, desktop and device support, and Microsoft 365 administration capability. We would prefer at least 3 years of trading and experience with comparable clients of 200 or more users. We would prefer a team of 8 or more technicians and service desk hours that cover 07:00 to 18:00 on weekdays. Because of the 4-hour on-site response time, we would prefer a supplier based within about 50 km of our Midrand site.
+
+This request for quotation and the buyer named in it are fictional and were written for the NetLinks hackathon prototype demo.

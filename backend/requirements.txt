@@ -1,0 +1,11 @@
+fastapi==0.115.12
+uvicorn[standard]==0.34.0
+sqlalchemy==2.0.40
+psycopg[binary]==3.2.6
+pgvector==0.4.0
+pydantic==2.11.3
+pydantic-settings==2.8.1
+python-multipart==0.0.20
+boto3==1.37.30
+pypdf==5.4.0
+reportlab==4.3.1

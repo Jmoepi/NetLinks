@@ -1,0 +1,56 @@
+# NetLinks prototype stack. All ports bind to 127.0.0.1 only: the prototype has no
+# real authentication (demo role switcher) and must never be exposed publicly.
+services:
+  db:
+    image: pgvector/pgvector:0.8.7-pg16
+    environment:
+      POSTGRES_USER: netlinks
+      POSTGRES_PASSWORD: netlinks
+      POSTGRES_DB: netlinks
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U netlinks -d netlinks"]
+      interval: 2s
+      timeout: 5s
+      retries: 30
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./db/init:/docker-entrypoint-initdb.d:ro
+    ports:
+      - "127.0.0.1:5432:5432"
+
+  backend:
+    build: ./backend
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000
+    environment:
+      DATABASE_URL: postgresql+psycopg://netlinks:netlinks@db:5432/netlinks
+      TEST_DATABASE_URL: postgresql+psycopg://netlinks:netlinks@db:5432/netlinks_test
+      AI_CACHE_DIR: /ai-cache
+      DEMO_ASSETS_DIR: /demo-assets
+      UPLOAD_DIR: /data/uploads
+      CORS_ORIGINS: http://localhost:3000
+      BEDROCK_REGION: ${BEDROCK_REGION:-af-south-1}
+      BEDROCK_EXTRACTION_MODEL_ID: ${BEDROCK_EXTRACTION_MODEL_ID:-}
+      BEDROCK_EMBEDDING_MODEL_ID: ${BEDROCK_EMBEDDING_MODEL_ID:-amazon.titan-embed-text-v2:0}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID:-}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY:-}
+      AWS_SESSION_TOKEN: ${AWS_SESSION_TOKEN:-}
+      AWS_PROFILE: ${AWS_PROFILE:-}
+      STORAGE_BACKEND: ${STORAGE_BACKEND:-local}
+      S3_BUCKET: ${S3_BUCKET:-}
+    volumes:
+      - ./backend:/app
+      - ./demo-assets:/demo-assets
+      - ./ai-cache:/ai-cache
+      - uploads:/data/uploads
+    ports:
+      - "127.0.0.1:8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  # frontend: added in FEAT-005 (Next.js, pinned node:22-alpine, NEXT_PUBLIC_API_URL build arg,
+  # port "127.0.0.1:3000:3000").
+
+volumes:
+  pgdata:
+  uploads:

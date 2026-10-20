@@ -1,0 +1,5 @@
+# Generated demo documents and AI cache are keyed by sha256 of their exact bytes:
+# never let git normalise line endings in them.
+demo-assets/** binary
+ai-cache/** -text
+*.sh text eol=lf
