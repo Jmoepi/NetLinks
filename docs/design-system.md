@@ -102,11 +102,15 @@ Computed contrast and automated keyboard and axe checks aren't full WCAG validat
   - `button.secondary`: transparent with a `--control-border` outline, white text, and a `--surface-2` hover.
   - `button.danger`: rose outline that fills rose with black text on hover. It never uses the accent.
   - `.compact` for the shortlist Move up/down buttons, which carry `ArrowUp`/`ArrowDown` icons.
+  - `.button-link`: a link that looks like the primary button (accent fill, black text, square, xs uppercase widest, white inversion on hover and focus, accent focus ring). Used for "Sign in to the demo" on the landing page.
   - `.link-arrow`: underlined uppercase text link with an accent `ArrowRight`/`ArrowUpRight` that nudges 4px on hover and focus.
   - `.btn-circle`: 64px (48px on mobile) outline circle. Its row's `:hover`/`:focus-within` fills it with the accent and rotates the `Plus` 45°.
   - `.icon-button`: menu open/close.
 - Pills (`.badge`, `.pill`): rounded-full, 1px border, xs. Status and lineage variants recolour the border and text and add the 8% tint. The header AI-mode pill is mono uppercase: Cached is a neutral outline with `Database`, and Live has an accent outline and text with a pulsing 6px accent dot. Its text is unchanged ("AI mode: Cached" / "AI mode: Live" / "AI mode: unknown").
-- Numbered row lists (`.row-list`, `.row`, `.row-inner`, `.row-index`): hairline-separated rows with a mono `01` index that turns accent and a `--surface-1` background on hover/focus-within. Used for documents, buyer requests, readiness actions, opportunities, gaps, skills and overrides.
+- Numbered row lists (`.row-list`, `.row`, `.row-inner`, `.row-index`): hairline-separated rows with a mono `01` index that turns accent and a `--surface-1` background on hover/focus-within. Used for documents, buyer requests, readiness actions, opportunities, gaps, skills, overrides and the landing sections.
+- Sign-in choice rows (`.choice-list`, `label.choice`): each row is a `<label>` wrapping a native radio, a mono `01` index and `.choice-title` / `.choice-desc` text, inside a `<fieldset>` with a numbered `<legend>`. The checked row gets a 2px accent left edge and a `--surface-1` background via `:has(input:checked)`; the radio keeps its own accent focus ring.
+- Pagination (`components/Pagination.tsx`, `.pagination`): `<nav aria-label="{list} pagination">` with a `role="status"` line "Showing 21–40 of 57", Previous/Next and numbered page buttons. The current page has `aria-current="page"` and the accent fill. The ends use `aria-disabled="true"` (still focusable and announced, muted text, no low opacity). Gaps (`…`) are `aria-hidden`. The page lives in the URL (`?page=`, `?eligible_page=`, …) so refresh and Back work, and the component renders nothing when the list fits on one page.
+- Capability line (`.capability-line`): an always-visible "Capability match (n / 100): …" line under each result card's meta, with a hairline top border. The Score breakdown `<details>` stays collapsed.
 - Result rows (`.result-card`): a bordered row with a 2px left edge in the status colour. The grid shows a mono 3xl rank (accent, `aria-label="Rank n"`, text `#n`), an uppercase name with pills, and a right-aligned mono score.
 - Timeline (`.timeline`, `.timeline-list`): a 4/8 grid with a sticky left heading column. Each entry has a mono `<time>`, an uppercase action h3, a role pill (visually hidden "Role: " prefix) and a `<dl class="audit-meta">` with visible Actor / Entity / Details / Reason labels.
 - Stat grid (`.stat-grid`): big mono `--fs-5xl` numbers with uppercase labels. DOM order is label then number (textContent "Eligible 2"), and `flex-direction: column-reverse` shows the number on top. Decision stats keep a visually hidden colon, so the text reads "Overrides: 1".
@@ -121,29 +125,30 @@ Computed contrast and automated keyboard and axe checks aren't full WCAG validat
   - Header: sticky from 768px up, `rgb(5 5 5 / .85)` with `backdrop-filter: blur(12px)` and a hairline bottom border.
   - `NET / LINKS` lockup: `Crosshair` icon that rotates 90° on hover/focus, accent slash, `aria-label="NetLinks home"`.
   - Nav links: xs uppercase widest, with an accent dot on the active link.
-  - Role switcher: label text unchanged, dark select.
+  - Account menu (`components/AccountMenu.tsx`): a disclosure button (`aria-expanded`, `aria-controls`, accessible name "Account: {name}, {role}") showing the persona name and a role pill, and a square `--surface-1` panel with the persona, role and mono demo email, a "Switch account (demo)" heading over persona buttons (the current one has `aria-current="true"` and a check icon) and a secondary "Sign out" button. Opening focuses the first persona button; Escape closes it and restores focus to the trigger; outside click and route change close it. Signed out, the header shows a "Sign in" `.link-arrow` instead (hidden on `/login`).
   - Mobile overlay menu (`components/MobileMenu.tsx`, below 1024px): full-screen `role="dialog" aria-modal="true" aria-label="Menu"`. It traps Tab/Shift+Tab, closes on Escape, link click or route change, locks body scroll, restores focus to "Open menu", and is `inert` when closed.
-  - Footer (`components/Footer.tsx`): lockup, "Fictional demo data · Hackathon prototype · No real authentication", "© NetLinks prototype".
+  - Footer (`components/Footer.tsx`): lockup, "Built for the YES AI Hackathon 2026 · Prototype with fictional demo data · No real authentication", "© NetLinks prototype".
 - Landing:
-  - Hero: eyebrow, display h1 "Match. / Prove. / Shortlist.", light lead, `.link-arrow` links.
+  - Hero: eyebrow, display h1 "Match. / Prove. / Shortlist.", light lead, a `.button-link` "Sign in to the demo" and `.link-arrow` links.
   - `.hero-graphic`: CSS radial and conic grayscale gradients plus an inline SVG `feTurbulence` noise layer, fading to the canvas.
   - Decorative accent square with `ArrowDownLeft`, shown from 1100px so it never collides with the headline.
   - Rotating `.stamp` with "Explainable matching •" on a circular `textPath` (`useId` path id).
-  - Numbered role rows 01/02/03, each one `<button>` named "Enter as SME/Buyer/YES Admin: …".
+  - Full-bleed `.landing-section` blocks (alternating `.alt`), each with a section index and an h2: `01 / PROBLEM`, `02 / HOW IT WORKS` (`id="how"`, five numbered steps), `03 / WHO IT'S FOR`, `04 / TRUST & PRIVACY`, `05 / ROADMAP`, `06 / DEMO` (sign-in call to action). Static text only: no metrics, logos, testimonials or partner claims, and no role rows (sign-in lives on `/login`).
   - Full-bleed accent `.manifesto`: "Rules decide eligibility." in black and "AI explains. Humans decide." in white at display size.
 
 ## 5. Where each pattern is used
 | Page | Patterns |
 |---|---|
-| `/` | hero, hero graphic, accent square, stamp, eyebrow, link-arrow, section index `01 / DEMO ROLES`, numbered role rows with circle buttons, manifesto |
-| `/sme` | eyebrow "SME workspace", page title, mono meta, link-arrow, `01 / UPLOAD`, `02 / PROFILE`, `03 / SHARING`, document rows with `FileText`, profile table with lineage pills, low-confidence and conflict rows, dialog |
-| `/sme/readiness` | eyebrow "SME readiness", `01 / REQUESTS`, `02 / UPLOAD`, `03 / OPPORTUNITY` (+n), numbered request and action rows, status pills |
+| `/` | hero, hero graphic, accent square, stamp, eyebrow, button-link, link-arrow, landing sections `01 / PROBLEM` … `06 / DEMO` with numbered rows, manifesto |
+| `/login` | eyebrow "Demo sign-in", info notice, numbered fieldsets with sign-in choice rows (role, persona), read-only demo email and password fields, primary button |
+| `/sme` | eyebrow "SME workspace", page title, mono meta, link-arrow, `01 / UPLOAD`, `02 / PROFILE`, `03 / SHARING`, document rows with `FileText`, profile table with lineage pills, low-confidence and conflict rows, dialog, pagination (documents) |
+| `/sme/readiness` | eyebrow "SME readiness", `01 / REQUESTS`, `02 / UPLOAD`, `03 / OPPORTUNITY` (+n), numbered request and action rows, status pills, pagination (requests) |
 | `/documents/[id]` | eyebrow "Source document", `01 / PAGE`, mono document page, accent `mark` |
-| `/buyer` | eyebrow "Buyer workspace", numbered opportunity rows, mono meta, link-arrows |
+| `/buyer` | eyebrow "Buyer workspace", numbered opportunity rows, mono meta, link-arrows, pagination (server-side) |
 | `/buyer/opportunities/[id]` | eyebrow "Requirements", `01 / RFQ`, `02 / MANDATORY`, `03 / PREFERRED`, `04 / WEIGHTS`, dark fields, mono weights and total |
-| `/buyer/opportunities/[id]/results` | eyebrow "Matching results", `01 / RUN`, `02 / ELIGIBLE`, `03 / NEEDS REVIEW`, `04 / NOT ELIGIBLE`, `SHORTLIST`, result rows, side-by-side panels (amber dates, rose conflicts), score table with mono cells, numbered shortlist; at ≥1280px a 4/8 grid with a sticky shortlist |
-| `/buyer/audit` | timeline with sticky left heading, mono times, role pills, labelled `dl` |
-| `/admin` | eyebrow "YES Admin", `01 / PIPELINE` … `07 / RESET`, stat grids, mono captions, numbered gap/skill/override rows, fairness tables, radio rows, rose danger button, dialog |
+| `/buyer/opportunities/[id]/results` | eyebrow "Matching results", `01 / RUN`, `02 / ELIGIBLE`, `03 / NEEDS REVIEW`, `04 / NOT ELIGIBLE`, `SHORTLIST`, result rows, side-by-side panels (amber dates, rose conflicts), score table with mono cells, capability line, numbered shortlist, pagination per group; at ≥1280px a 4/8 grid with a sticky shortlist |
+| `/buyer/audit` | timeline with sticky left heading, mono times, role pills, labelled `dl`, Event type and Role filters, pagination (20 per page, newest first, server-side) |
+| `/admin` | eyebrow "YES Admin", `01 / PIPELINE` … `07 / RESET`, stat grids, mono captions, numbered gap/skill/override rows, fairness tables, radio rows, rose danger button, dialog, pagination (overrides) |
 
 ## 6. Motion
 - Colour, border and background transitions run at 300ms (`--dur-fast`): buttons, links, nav, fields, the summary chevron. Row hover backgrounds and circle fills run at 500ms (`--dur-med`).
@@ -163,9 +168,11 @@ Computed contrast and automated keyboard and axe checks aren't full WCAG validat
 9. Reduced motion is honoured (see section 6).
 10. Every interactive element has a visible accent focus ring. The Dialog keeps its focus trap, and the mobile menu traps focus, closes on Escape and restores focus to its trigger.
 11. UX changes: `/` is now a landing page with role entries instead of an auto-redirect (the walkthrough never relied on the redirect, and the top-bar switcher still works everywhere). The audit log is a labelled timeline instead of a table, with the same seven data points, each labelled. The fairness tables became focusable scroll regions to fix the axe finding.
+12. The top-bar role-switcher `<select>` is replaced by an account menu. It uses the disclosure pattern (a button with `aria-expanded` plus a panel of ordinary buttons) rather than an ARIA `role="menu"`: it is simpler, fully keyboard operable (Tab, Enter, Escape with focus restore) and works with screen readers in browse mode, where ARIA menus need application-mode keyboard handling.
 
 ## 8. Verification record
 - `npm run lint`, `npm run typecheck` and `npm run build` in `frontend/` all pass, building all 9 app routes plus `/_not-found`.
 - `docker compose up -d --build`: web `http://127.0.0.1:3000/` returns HTTP 200, and the API returns 200. `docker compose run --rm backend pytest -q` reports 247 passed.
 - `node .agents/tasks/restyle-walkthrough.mjs` reports 221 PASS / 0 FAIL against the Docker stack in headless Chromium (puppeteer-core 25.15.0 + chrome-headless-shell). It covers the full demo-script section 2 (R-SHELL, R-SME, R-BUY, R-RES, R-DEC, R-AUD, R-RDY, R-ADM, R-MOB, R-CON), the restyle checks S-1…S-9, computed-style checks (canvas, uppercase semibold headings, mono accent section index, manifesto accent, circular buttons, hairline header) and axe. It produced 0 console errors and 0 non-local requests. It starts and ends with a demo reset.
 - Viewport-only screenshots (never full-page) of every page at 1280x800 and 390x844 are in `.agents/tasks/restyle-shots/` (local evidence, not committed).
+- Landing, sign-in and pagination: `node .agents/tasks/landing-login-walkthrough.mjs` (supersedes the restyle walkthrough, whose role-switcher checks no longer apply) reports 300 PASS / 0 FAIL. It re-runs every demo-script section 2 check through the sign-in page and the account menu, adds the landing (S-1), sign-in and account-menu (L-1…L-6) and pagination checks, finds 0 axe violations on `/`, `/login` and every workspace page at 1280 and 390, and has 0 console errors and 0 non-local requests. `pytest -q` reports 269 passed.
