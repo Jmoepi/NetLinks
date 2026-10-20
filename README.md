@@ -50,6 +50,9 @@ Pick the role in the top-bar switcher, labelled "Demo role (demo simplification;
 | 8:30-9:15 | YES Admin | **YES dashboard**: pipeline before and after, readiness gaps, requested skills, overrides with reasons, fairness by province and size. |
 | 9:15-10:00 | any | Architecture slide and close (talk only). |
 
+On the results page, Mmapula's "AI-assisted semantic match" explanation sits inside the collapsed **Score breakdown** panel of her card. Expand it before you read the line at 4:30-6:45.
+### Reset the demo
+YES Admin -> **Reset demo** -> "Yes, reset the demo". This restores the seed state (Thuto with no documents and consent pending, no match runs, requests or decisions) and sets AI mode back to Cached. The reset itself is recorded in the audit log. API equivalent: `POST /api/admin/reset` with `X-Demo-Role: admin`. Reset before every rehearsal and before going on stage.
 Fallbacks (script section 3):
 - **Live AI**: YES Admin -> AI mode -> Live. This only works if Bedrock is configured (see below). Otherwise the option is disabled and shows the reason. To prove the pipeline is real, Reset demo, switch to Live, then upload Thuto's PDF as SME: Thuto.
 - **No Wi-Fi**: everything runs locally. Cached mode makes no network calls.
@@ -117,6 +120,19 @@ cd frontend && npm ci && npm run lint && npm run typecheck && npm run build
 
 The integration tests drive the full demo flow through the API and assert the outcomes listed above, plus RBAC and audit behaviour.
 
+## Architecture
+```text
+Next.js PWA (frontend, :3000)
+   │  REST + X-Demo-Role headers (demo role switcher)
+   ▼
+FastAPI (backend, :8000)
+   ├─ deterministic eligibility rules + fit scoring (plain code, no LLM)
+   ├─ AI gateway: Cached (ai-cache/) or Live (Amazon Bedrock: Claude for extraction/RFQ structuring,
+   │  Titan Text Embeddings v2 for semantic matching)
+   ├─ document storage: local volume, or private encrypted S3 (STORAGE_BACKEND=s3)
+   └─ PostgreSQL 16 + pgvector (profiles, field lineage, embeddings, match runs, append-only audit log)
+```
+Locally all three services run in Docker Compose. The production target is described below.
 ## Layout
 
 - `backend/`: FastAPI app. `app/engine/` holds the deterministic eligibility rules and fit scoring (no LLM). `app/ai/` is the AI gateway with Bedrock and local-fallback providers. `app/ingestion/` handles PDF text and field lineage. `app/services/` handles matching, seed and dashboard.
