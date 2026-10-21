@@ -1,7 +1,7 @@
 /*
  * NetLinks styles. All values come from tokens.css (imported first in app/layout.tsx).
  * Visual language adapted from docs/design-reference.html; see docs/design-system.md.
- * Rule of thumb: informational text is never darker than --text-muted (#a3a3a3, 8.08:1 on #050505).
+ * Rule of thumb: informational text uses --text-muted; it remains legible without competing with primary content.
  */
 
 /* ------------------------------------------------------------------ Base */
@@ -13,7 +13,7 @@
 
 html {
   /* Scrollbars stay visible (deviation from the reference, which hid them). */
-  scrollbar-color: #525252 var(--canvas);
+  scrollbar-color: var(--control-border) var(--canvas);
   scrollbar-width: thin;
 }
 
@@ -37,7 +37,7 @@ body {
 
 ::selection {
   background: var(--accent);
-  color: #ffffff;
+  color: var(--on-accent);
 }
 
 :focus-visible {
@@ -62,8 +62,7 @@ h1,
 h2,
 h3 {
   color: var(--text-strong);
-  font-weight: var(--fw-semibold);
-  text-transform: uppercase;
+  font-weight: var(--fw-medium);
   letter-spacing: var(--tr-tight);
   line-height: var(--lh-heading);
 }
@@ -196,6 +195,7 @@ pre {
   border-radius: var(--radius-none);
   padding: var(--space-6);
   margin-bottom: var(--space-8);
+  box-shadow: none;
 }
 
 @media (min-width: 768px) {
@@ -207,6 +207,7 @@ pre {
 .panel .panel {
   background: var(--surface-0);
   padding: var(--space-4);
+  box-shadow: none;
 }
 
 .grid-2 {
@@ -310,16 +311,14 @@ pre {
 label {
   font-size: var(--fs-xs);
   font-weight: var(--fw-medium);
-  text-transform: uppercase;
-  letter-spacing: var(--tr-widest);
+  letter-spacing: 0.01em;
   color: var(--text-muted);
 }
 
 .field-label {
   font-size: var(--fs-xs);
   font-weight: var(--fw-medium);
-  text-transform: uppercase;
-  letter-spacing: var(--tr-widest);
+  letter-spacing: 0.01em;
   color: var(--text-muted);
 }
 
@@ -332,6 +331,7 @@ textarea,
 select {
   font: inherit;
   font-size: var(--fs-base);
+  min-height: 2.75rem;
   padding: var(--space-3) var(--space-4);
   border: 1px solid var(--control-border);
   border-radius: var(--radius-none);
@@ -369,7 +369,7 @@ select:focus-visible {
 }
 
 input[type="time"]::-webkit-calendar-picker-indicator {
-  filter: invert(1);
+  filter: none;
 }
 
 select option,
@@ -402,10 +402,9 @@ input[type="file"] {
 
 input[type="file"]::file-selector-button {
   font: inherit;
-  font-size: var(--fs-xs);
-  font-weight: var(--fw-semibold);
-  text-transform: uppercase;
-  letter-spacing: var(--tr-widest);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  letter-spacing: 0;
   margin-right: var(--space-4);
   padding: var(--space-3) var(--space-4);
   border: 1px solid var(--control-border);
@@ -454,9 +453,8 @@ fieldset {
 
 legend {
   font-size: var(--fs-sm);
-  font-weight: var(--fw-semibold);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
+  font-weight: var(--fw-medium);
+  letter-spacing: 0.01em;
   color: var(--text-strong);
   padding: 0 var(--space-2);
 }
@@ -465,11 +463,11 @@ legend {
 /* Primary (default): accent fill + black text (5.67:1); inverts to white/black on hover. */
 button {
   font: inherit;
-  font-size: var(--fs-xs);
-  font-weight: var(--fw-semibold);
-  text-transform: uppercase;
-  letter-spacing: var(--tr-widest);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  letter-spacing: 0;
   line-height: 1.2;
+  min-height: 2.75rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -486,9 +484,9 @@ button {
 
 button:hover:not(:disabled),
 button:focus-visible:not(:disabled) {
-  background: #ffffff;
-  border-color: #ffffff;
-  color: #000000;
+  background: var(--accent-strong);
+  border-color: var(--accent-strong);
+  color: var(--on-accent);
 }
 
 button.secondary {
@@ -499,7 +497,7 @@ button.secondary {
 
 button.secondary:hover:not(:disabled),
 button.secondary:focus-visible:not(:disabled) {
-  background: var(--surface-2);
+  background: var(--surface-0);
   border-color: var(--text-strong);
   color: var(--text-strong);
 }
@@ -515,7 +513,7 @@ button.danger:hover:not(:disabled),
 button.danger:focus-visible:not(:disabled) {
   background: var(--fail);
   border-color: var(--fail);
-  color: #000000;
+  color: var(--canvas);
 }
 
 button.compact {
@@ -570,10 +568,10 @@ button.icon-button:focus-visible:not(:disabled) {
   justify-content: center;
   gap: var(--space-3);
   padding: var(--space-4) var(--space-6);
-  font-size: var(--fs-xs);
-  font-weight: var(--fw-semibold);
-  text-transform: uppercase;
-  letter-spacing: var(--tr-widest);
+  min-height: 2.75rem;
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  letter-spacing: 0;
   line-height: 1.2;
   text-decoration: none;
   border-radius: var(--radius-none);
@@ -586,24 +584,23 @@ button.icon-button:focus-visible:not(:disabled) {
 
 .button-link:hover,
 .button-link:focus-visible {
-  background: #ffffff;
-  border-color: #ffffff;
-  color: #000000;
+  background: var(--accent-strong);
+  border-color: var(--accent-strong);
+  color: var(--on-accent);
 }
 
 .button-link svg {
   flex: none;
 }
 
-/* Underlined uppercase text link with accent arrow that nudges on hover/focus */
+/* Underlined text link with accent arrow that nudges on hover/focus */
 .link-arrow {
   display: inline-flex;
   align-items: center;
   gap: var(--space-3);
-  font-size: var(--fs-xs);
-  font-weight: var(--fw-semibold);
-  text-transform: uppercase;
-  letter-spacing: var(--tr-widest);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  letter-spacing: 0;
   color: var(--text-strong);
   text-decoration: none;
   border-bottom: 1px solid var(--control-border);
@@ -814,6 +811,7 @@ p.weights-sum {
   position: relative;
   overflow-x: auto;
   border: 1px solid var(--line-strong);
+  border-radius: var(--radius-none);
 }
 
 table {
@@ -1010,7 +1008,8 @@ tr.row-missing td {
   border-left: 2px solid var(--line-strong);
   padding: var(--space-6) var(--space-4) var(--space-6) var(--space-6);
   background: transparent;
-  transition: background-color var(--dur-med) var(--ease);
+  transition: background-color var(--dur-med) var(--ease), transform var(--dur-med) var(--ease),
+    border-color var(--dur-med) var(--ease);
 }
 
 .results-group > h2 + .result-card,
@@ -1021,6 +1020,7 @@ tr.row-missing td {
 .result-card:hover,
 .result-card:focus-within {
   background: var(--surface-1);
+  transform: translateY(-2px);
 }
 
 .result-card.status-eligible {
@@ -1278,8 +1278,8 @@ details > summary:hover {
 
 mark {
   background: var(--accent);
-  color: #000000;
-  outline: 2px solid #ffffff;
+  color: var(--on-accent);
+  outline: 2px solid var(--surface-0);
   scroll-margin-block: 8rem;
 }
 
@@ -1292,6 +1292,7 @@ mark {
   max-width: 34rem;
   width: calc(100% - 2rem);
   padding: var(--space-8);
+  box-shadow: 0 24px 64px rgb(21 32 26 / 0.18);
 }
 
 .dialog h2 {
@@ -1299,7 +1300,7 @@ mark {
 }
 
 .dialog::backdrop {
-  background: rgb(0 0 0 / 0.8);
+  background: rgb(21 32 26 / 0.32);
   backdrop-filter: blur(4px);
 }
 
@@ -1465,7 +1466,7 @@ label.choice input:focus-visible {
 .choice-title {
   color: var(--text-strong);
   font-weight: var(--fw-semibold);
-  text-transform: uppercase;
+  text-transform: none;
   letter-spacing: 0.04em;
 }
 
@@ -1608,14 +1609,12 @@ label.choice input:focus-visible {
   align-items: center;
   justify-content: center;
   gap: var(--space-3);
-  background: var(--surface-0);
+  background: var(--canvas);
   border-bottom: 1px solid var(--line);
   color: var(--text);
   padding: var(--space-2) var(--gutter);
-  font-family: var(--font-mono);
   font-size: var(--fs-xs);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.01em;
   text-align: center;
 }
 
@@ -1636,7 +1635,7 @@ label.choice input:focus-visible {
   position: sticky;
   top: 0;
   z-index: 50;
-  background: rgb(5 5 5 / 0.85);
+  background: rgb(var(--canvas-rgb) / 0.92);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--line);
@@ -1659,9 +1658,8 @@ label.choice input:focus-visible {
   gap: var(--space-3);
   color: var(--text-strong);
   font-size: var(--fs-sm);
-  font-weight: var(--fw-semibold);
-  text-transform: uppercase;
-  letter-spacing: var(--tr-widest);
+  font-weight: var(--fw-medium);
+  letter-spacing: var(--tr-tight);
   text-decoration: none;
   white-space: nowrap;
 }
@@ -1696,10 +1694,9 @@ label.choice input:focus-visible {
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
-  font-size: var(--fs-xs);
-  font-weight: var(--fw-medium);
-  text-transform: uppercase;
-  letter-spacing: var(--tr-widest);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-regular);
+  letter-spacing: 0;
   color: var(--text-muted);
   text-decoration: none;
 }
@@ -1740,8 +1737,8 @@ button.account-trigger {
   background: transparent;
   border: 1px solid var(--control-border);
   color: var(--text-strong);
-  font-size: var(--fs-xs);
-  letter-spacing: var(--tr-widest);
+  font-size: var(--fs-sm);
+  letter-spacing: 0;
   max-width: 100%;
 }
 
@@ -1783,6 +1780,7 @@ button.account-trigger[aria-expanded="true"] {
   background: var(--surface-1);
   border: 1px solid var(--line-strong);
   border-radius: var(--radius-none);
+  box-shadow: var(--shadow);
 }
 
 .account-panel[hidden] {
@@ -1807,7 +1805,7 @@ h2.account-heading {
   border-top: 1px solid var(--line-strong);
   font-size: var(--fs-xs);
   font-weight: var(--fw-medium);
-  letter-spacing: var(--tr-widest);
+  letter-spacing: 0.01em;
   color: var(--text-muted);
 }
 
@@ -1967,8 +1965,7 @@ button.account-signout {
 
 .mobile-menu-list a {
   font-size: var(--fs-4xl);
-  font-weight: var(--fw-semibold);
-  text-transform: uppercase;
+  font-weight: var(--fw-medium);
   letter-spacing: var(--tr-tight);
   line-height: 1;
   color: var(--text-strong);
@@ -1993,8 +1990,7 @@ button.account-signout {
   font-family: var(--font-mono);
   font-size: var(--fs-xs);
   color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.01em;
   text-align: center;
 }
 
@@ -2015,8 +2011,7 @@ button.account-signout {
 .footer-note {
   font-size: var(--fs-xs);
   font-weight: var(--fw-medium);
-  text-transform: uppercase;
-  letter-spacing: var(--tr-widest);
+  letter-spacing: 0.01em;
   color: var(--text-muted);
   margin: 0;
 }
@@ -2045,6 +2040,7 @@ button.account-signout {
   overflow: hidden;
   margin-top: calc(-1 * var(--space-12));
   padding-block: var(--space-16) var(--space-24);
+  background: var(--accent);
 }
 
 .hero-graphic {
@@ -2057,10 +2053,10 @@ button.account-signout {
 .hero-graphic-art {
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse 60% 70% at 70% 40%, #3a3a3a 0%, #1c1c1c 35%, transparent 70%),
-    radial-gradient(ellipse 40% 50% at 90% 85%, #2a2a2a 0%, transparent 70%),
-    conic-gradient(from 210deg at 65% 55%, #0d0d0d, #262626, #0d0d0d, #171717, #0d0d0d);
-  opacity: 0.9;
+  background: radial-gradient(ellipse 55% 75% at 72% 34%, rgb(255 221 178 / 0.65) 0%, transparent 57%),
+    radial-gradient(ellipse 55% 60% at 96% 90%, rgb(64 22 8 / 0.58) 0%, transparent 68%),
+    linear-gradient(125deg, #f06a18 0%, #ff7a2b 48%, #c8430b 100%);
+  opacity: 1;
 }
 
 .hero-graphic svg {
@@ -2068,14 +2064,14 @@ button.account-signout {
   inset: 0;
   width: 100%;
   height: 100%;
-  opacity: 0.35;
-  mix-blend-mode: overlay;
+  opacity: 0.12;
+  mix-blend-mode: soft-light;
 }
 
 .hero-graphic-fade {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to right, var(--canvas) 0%, rgb(5 5 5 / 0.85) 40%, rgb(5 5 5 / 0.1) 100%);
+  background: linear-gradient(to right, rgb(72 20 3 / 0.38) 0%, rgb(176 58 11 / 0.12) 48%, rgb(255 106 26 / 0.03) 100%);
 }
 
 @media (min-width: 768px) {
@@ -2095,13 +2091,54 @@ button.account-signout {
   line-height: var(--lh-display);
   font-weight: var(--fw-semibold);
   letter-spacing: var(--tr-tight);
-  text-transform: uppercase;
+  text-transform: none;
   color: var(--text-strong);
   margin: 0 0 var(--space-8);
 }
 
 .hero .lead {
+  color: rgb(255 255 255 / 0.88);
   margin-bottom: var(--space-10);
+}
+
+.hero .eyebrow {
+  color: rgb(255 255 255 / 0.8);
+}
+
+.hero .eyebrow-dot {
+  background: var(--on-accent);
+}
+
+.hero .eyebrow-line {
+  background: rgb(255 255 255 / 0.5);
+}
+
+.hero .link-arrow {
+  color: var(--text-strong);
+  border-color: rgb(255 255 255 / 0.55);
+}
+
+.hero .link-arrow svg {
+  color: var(--on-accent);
+}
+
+.hero .link-arrow:hover,
+.hero .link-arrow:focus-visible {
+  color: var(--text-strong);
+  border-color: var(--text-strong);
+}
+
+.hero .button-link {
+  background: var(--text-strong);
+  border-color: var(--text-strong);
+  color: var(--on-accent);
+}
+
+.hero .button-link:hover,
+.hero .button-link:focus-visible {
+  background: var(--canvas);
+  border-color: var(--canvas);
+  color: var(--text-strong);
 }
 
 .hero-links {
@@ -2224,6 +2261,7 @@ button.account-signout {
 
 .landing-cta p {
   margin: 0;
+  max-width: 42rem;
 }
 
 .row:hover .btn-circle,
@@ -2252,7 +2290,7 @@ button.account-signout {
   font-size: var(--fs-manifesto);
   line-height: var(--lh-manifesto);
   letter-spacing: var(--tr-tight);
-  color: #000000;
+  color: var(--on-accent);
   max-width: 72rem;
   margin: 0;
   transition: transform var(--dur-slow) var(--ease);
@@ -2263,9 +2301,8 @@ button.account-signout {
   transform: scale(1.05);
 }
 
-/* White on the accent is 3.70:1: only used at display size (large-text rule, >= 3:1). */
 .on-accent-light {
-  color: #ffffff;
+  color: #fff3df;
 }
 
 @media (min-width: 768px) {

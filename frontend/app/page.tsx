@@ -9,24 +9,25 @@ import { ROLE_HOME, useIdentity } from "@/lib/identity";
 
 /** Static landing content. Plain statements only: no metrics, logos, testimonials or partner claims. */
 const PROBLEMS = [
-  "SMEs struggle to present their capabilities in a form buyers can assess.",
-  "Buyers spend hours screening documents.",
+  "Youth-owned SMEs often have strong capability but fragmented evidence of it.",
+  "Buyers spend hours reviewing documents without a consistent way to assess fit.",
+  "Missing or unclear evidence can hide capable suppliers from opportunities.",
 ];
 
 const STEPS: { title: string; text: string }[] = [
-  { title: "Structured SME profiles", text: "AI-assisted extraction from documents, which the SME confirms." },
+  { title: "Structured SME profiles", text: "AI-assisted extraction from documents, reviewed and confirmed by the SME." },
   {
     title: "Structured opportunity requirements",
-    text: "Buyers turn a request into mandatory requirements and weighted criteria.",
+    text: "Buyers define mandatory requirements and preferred fit criteria.",
   },
-  { title: "Deterministic mandatory eligibility", text: "Eligible / Needs Review / Not Eligible." },
+  { title: "Deterministic eligibility", text: "Mandatory rules return Eligible, Needs Review or Not Eligible." },
   {
     title: "Transparent fit scoring",
-    text: "40% capability, 25% experience, 20% capacity, 15% location, with semantic matching.",
+    text: "Configurable capability, experience, capacity and location factors, combined with semantic matching.",
   },
   {
     title: "Explainable shortlists",
-    text: "Evidence, gaps and readiness actions for every match, plus an audit trail.",
+    text: "Evidence, gaps and readiness actions for every match, with an audit trail.",
   },
 ];
 
@@ -43,10 +44,12 @@ const AUDIENCES: { title: string; text: string }[] = [
 ];
 
 const TRUST = [
-  "POPIA-aligned",
-  "SME consent before buyers see a profile",
+  "SME consent before a profile is shared with a buyer",
   "Role-based access enforced server-side",
-  "Data in AWS Cape Town (af-south-1) in production",
+  "Evidence states: AI-extracted, SME-confirmed, independently verified",
+  "Audit trail for recommendations and buyer decisions",
+  "Missing evidence prompts review, not automatic exclusion",
+  "Production design targets AWS Africa (Cape Town)",
 ];
 
 const ROADMAP = [
@@ -54,6 +57,17 @@ const ROADMAP = [
   "Buyer feedback with an SME right of reply",
   "Procurement portal integrations",
 ];
+
+const DEMO_FLOW = [
+  "Upload a fictional SME capability statement.",
+  "Review AI-extracted fields and evidence.",
+  "Open a sample procurement opportunity.",
+  "See eligibility, fit factors, gaps and readiness actions.",
+  "Review and record a buyer decision.",
+];
+
+const DEMO_PROMISE =
+  "Upload a fictional capability statement, review extracted evidence, match it to a sample RFQ, and inspect an explainable shortlist.";
 
 /** Decorative grayscale noise texture (local SVG filter, no remote image). */
 function HeroGraphic() {
@@ -132,8 +146,8 @@ export default function Home() {
               Shortlist.
             </h1>
             <p className="lead">
-              NetLinks is an explainable supplier-readiness and opportunity-intelligence platform connecting youth-owned
-              SMEs with corporate procurement.
+              NetLinks is an explainable supplier-readiness and opportunity-intelligence layer for youth-owned SMEs,
+              corporate buyers and YES.
             </p>
             <div className="hero-links">
               <Link href="/login" className="button-link">
@@ -228,16 +242,29 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="landing-section full-bleed" aria-labelledby="demo-flow-heading">
+        <div className="container">
+          <SectionIndex n={6} label="Demo flow" />
+          <h2 id="demo-flow-heading">What you&apos;ll see</h2>
+          <ol className="row-list">
+            {DEMO_FLOW.map((text, i) => (
+              <LandingRow key={text} i={i} text={text} />
+            ))}
+          </ol>
+        </div>
+      </section>
+
       <section className="landing-section full-bleed" aria-labelledby="demo-heading">
         <div className="container">
-          <SectionIndex n={6} label="Demo" />
+          <SectionIndex n={7} label="Demo" />
           <h2 id="demo-heading">Try the demo</h2>
           <div className="landing-cta">
             <Link href="/login" className="button-link">
               Sign in to the demo
               <ArrowRight size={16} strokeWidth={1.5} aria-hidden="true" />
             </Link>
-            <p className="muted">Prototype with fictional demo data.</p>
+            <p className="muted">{DEMO_PROMISE}</p>
+            <span className="badge badge-neutral">Fictional data · Local prototype</span>
           </div>
         </div>
       </section>

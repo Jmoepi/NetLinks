@@ -1,50 +1,52 @@
 /*
  * NetLinks design tokens: the single source for colour, type scale, spacing, motion and the status palette.
- * Visual language adapted from docs/design-reference.html. Documented in docs/design-system.md.
- * Contrast ratios (WCAG 2.x, on --canvas #050505) are listed next to each text colour.
+ * The product uses a restrained charcoal workspace with editorial type, fine borders and a single warm-orange signal.
  */
 :root {
   color-scheme: dark;
 
   /* Canvas and surfaces */
-  --canvas: #050505; /* body background */
-  --surface-0: #000000; /* alternate section, document page, form fields */
-  --surface-1: #0a0a0a; /* neutral-950: panels, row hover, dialog */
-  --surface-2: #171717; /* neutral-900: table header, pressed states */
+  --canvas: #111213; /* charcoal page background */
+  --canvas-rgb: 17 18 19;
+  --surface-0: #171819; /* forms, tables and document pages */
+  --surface-1: #1c1d1f; /* elevated panels and hover surface */
+  --surface-2: #282a2c; /* table header and pressed states */
 
   /* Lines (decorative hairlines; never the only boundary of a control) */
-  --line: #171717; /* neutral-900 dividers */
-  --line-strong: #262626; /* neutral-800 panel borders, pill outlines */
-  --control-border: #737373; /* neutral-500 form-field and secondary-button borders: 4.30:1 (non-text >= 3:1) */
+  --line: #393a3c; /* dividers */
+  --line-strong: #55575a; /* panel borders, pill outlines */
+  --control-border: #8f9193; /* form-field and secondary-button borders */
 
   /* Text */
-  --text-strong: #ffffff; /* headings, values: 20.38:1 */
-  --text: #d4d4d4; /* neutral-300 body text: 13.75:1 */
-  --text-muted: #a3a3a3; /* neutral-400 small informational text, labels, hints: 8.08:1 (minimum for information) */
-  --text-decor: #525252; /* neutral-600 DECORATIVE ONLY: 2.61:1 */
+  --text-strong: #f4f2ed; /* headings and values */
+  --text: #deddd8; /* body text */
+  --text-muted: #aaa9a4; /* labels, hints and secondary information */
+  --text-decor: #747575; /* decorative-only text */
 
   /* Signal accent (single) */
-  --accent: #ff3000; /* primary buttons, active nav, dots, section indices, focus ring, selection: 5.51:1 */
-  --on-accent: #000000; /* text on accent fills: 5.67:1 (white would be 3.70:1, fails for small text) */
+  --accent: #ff6a1a; /* primary actions, active navigation and focus */
+  --accent-strong: #ff8444;
+  --on-accent: #111213;
   --focus: var(--accent);
+  --shadow: 0 12px 30px rgb(0 0 0 / 0.24);
 
   /* Status palette: deliberately distinct from the accent; always icon + text label + colour */
-  --ok: #4ade80; /* green-400  Eligible, Pass, SME-confirmed, success: 11.70:1 */
-  --warn: #fbbf24; /* amber-400  Needs Review, Low confidence: 12.21:1 */
-  --fail: #fda4af; /* rose-300   Not Eligible, Fail, error, danger: 10.78:1 (pink hue ~350deg vs accent ~11deg) */
-  --info: #7dd3fc; /* sky-300    Awaiting SME, info: 12.22:1 */
-  --ai: #c4b5fd; /* violet-300 AI-extracted: 11.04:1 */
-  --verified: #5eead4; /* teal-300   Verified: 13.78:1 */
-  --neutral-status: #a3a3a3; /* Not yet assessed, Not shared: 8.08:1 */
-  --ok-tint: rgb(74 222 128 / 0.08);
-  --warn-tint: rgb(251 191 36 / 0.08);
-  --fail-tint: rgb(253 164 175 / 0.08);
-  --info-tint: rgb(125 211 252 / 0.08);
-  --ai-tint: rgb(196 181 253 / 0.08);
-  --verified-tint: rgb(94 234 212 / 0.08);
+  --ok: #62e3a0;
+  --warn: #ffd166;
+  --fail: #ff9eb5;
+  --info: #7dd3fc;
+  --ai: #c4b5fd;
+  --verified: #5eead4;
+  --neutral-status: #b4c4ba;
+  --ok-tint: rgb(98 227 160 / 0.12);
+  --warn-tint: rgb(255 209 102 / 0.12);
+  --fail-tint: rgb(255 158 181 / 0.1);
+  --info-tint: rgb(125 211 252 / 0.1);
+  --ai-tint: rgb(196 181 253 / 0.1);
+  --verified-tint: rgb(94 234 212 / 0.1);
 
   /* Type */
-  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-sans: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-mono: ui-monospace, "SFMono-Regular", "Cascadia Mono", Consolas, "Liberation Mono", monospace;
   --fs-xs: 0.75rem;
   --fs-sm: 0.875rem;
@@ -61,7 +63,7 @@
   --fw-light: 300;
   --fw-regular: 400;
   --fw-medium: 500;
-  --fw-semibold: 600;
+  --fw-semibold: 500;
   --lh-display: 0.9;
   --lh-manifesto: 0.85;
   --lh-heading: 1.05;
@@ -84,7 +86,7 @@
   --space-12: 3rem;
   --space-16: 4rem;
   --space-24: 6rem;
-  --radius-none: 0;
+  --radius-none: 0.375rem;
   --radius-pill: 999px;
 
   /* Motion */
