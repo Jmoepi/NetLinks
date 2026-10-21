@@ -565,7 +565,8 @@ function Results({ id }: { id: string }) {
           <Eyebrow label="Matching results" />
           <h1>Matching results</h1>
           <p className="muted">
-            Rules decide eligibility; AI only helps with understanding capability text. A human makes every decision.
+            Step 2 of 2 · Rules decide eligibility; AI only helps with understanding capability text. A human makes every
+            decision.
           </p>
         </div>
         <div className="page-header-actions">
@@ -582,7 +583,10 @@ function Results({ id }: { id: string }) {
 
       <section className="panel" aria-labelledby="run-heading">
         <SectionIndex n={1} label="Run" />
-        <h2 id="run-heading">Run</h2>
+        <h2 id="run-heading">Run matching</h2>
+        <p className="hint">
+          Start here after saving requirements. You can re-run whenever a supplier adds new evidence or the requirements change.
+        </p>
         <button type="button" onClick={run} disabled={running}>
           {running ? "Running matching…" : data.run ? "Re-run matching" : "Run matching"}
         </button>

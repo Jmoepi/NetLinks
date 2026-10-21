@@ -1,12 +1,12 @@
 "use client";
 
-// Simulated sign-in: pick a role and a fictional persona. No real authentication: the demo email and the
-// "demo" password are display-only and are never sent to the API or stored. Production uses Amazon Cognito.
+// Simulated sign-in: pick a role and a fictional persona. No real authentication: the displayed demo email is
+// informational only and is never sent to the API or stored. Production uses Amazon Cognito.
 
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Suspense, useId, useState, type FormEvent } from "react";
+import { Suspense, useState, type FormEvent } from "react";
 import { Eyebrow } from "@/components/Eyebrow";
 import { canAccess } from "@/components/nav";
 import { Notice } from "@/components/Notice";
@@ -43,7 +43,6 @@ function LoginForm() {
   const { identities, identity, signedIn, setIdentity, loadError } = useIdentity();
   const router = useRouter();
   const next = useSearchParams().get("next");
-  const uid = useId();
   const [role, setRole] = useState<Role>(identity?.role ?? "sme");
   const [smeSlug, setSmeSlug] = useState<string | null>(identity?.role === "sme" ? identity.sme_slug : null);
 
@@ -136,27 +135,14 @@ function LoginForm() {
           </fieldset>
         </div>
         <fieldset className="login-credentials">
-          <legend>3. Demo credentials</legend>
-          <div className="field">
-            <label htmlFor={`${uid}-email`}>Demo email</label>
-            <input id={`${uid}-email`} type="email" value={persona ? demoEmail(persona) : ""} readOnly />
-          </div>
-          <div className="field">
-            <label htmlFor={`${uid}-password`}>Password (demo)</label>
-            <input
-              id={`${uid}-password`}
-              type="password"
-              value="demo"
-              readOnly
-              autoComplete="off"
-              aria-describedby={`${uid}-password-hint`}
-            />
-            <p id={`${uid}-password-hint`} className="hint">
-              Not checked or stored. Any persona can sign in.
-            </p>
-          </div>
+          <legend>3. Start the demo</legend>
+          <p className="muted">
+            You&apos;ll enter as {persona ? personaLabel(persona) : "the selected persona"}. This local prototype does not
+            require a password.
+          </p>
           <button type="submit" disabled={!identities.length || !persona}>
-            Sign in
+            {role === "sme" ? "Open my SME workspace" : role === "buyer" ? "Open buyer workspace" : "Open YES dashboard"}
+            <ArrowRight size={16} strokeWidth={1.5} aria-hidden="true" />
           </button>
         </fieldset>
       </form>

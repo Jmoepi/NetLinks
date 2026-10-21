@@ -234,7 +234,10 @@ function DashboardView() {
                 </div>
               ))
             ) : (
-              <p className="muted">No matching runs yet.</p>
+              <p className="muted">
+                No matching runs yet. Switch to the Buyer demo account, open an opportunity and run matching to populate
+                this dashboard.
+              </p>
             )}
           </section>
 

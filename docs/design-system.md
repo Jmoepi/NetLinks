@@ -127,20 +127,20 @@ Computed contrast and automated keyboard and axe checks aren't full WCAG validat
   - Nav links: xs uppercase widest, with an accent dot on the active link.
   - Account menu (`components/AccountMenu.tsx`): a disclosure button (`aria-expanded`, `aria-controls`, accessible name "Account: {name}, {role}") showing the persona name and a role pill, and a square `--surface-1` panel with the persona, role and mono demo email, a "Switch account (demo)" heading over persona buttons (the current one has `aria-current="true"` and a check icon) and a secondary "Sign out" button. Opening focuses the first persona button; Escape closes it and restores focus to the trigger; outside click and route change close it. Signed out, the header shows a "Sign in" `.link-arrow` instead (hidden on `/login`).
   - Mobile overlay menu (`components/MobileMenu.tsx`, below 1024px): full-screen `role="dialog" aria-modal="true" aria-label="Menu"`. It traps Tab/Shift+Tab, closes on Escape, link click or route change, locks body scroll, restores focus to "Open menu", and is `inert` when closed.
-  - Footer (`components/Footer.tsx`): lockup, "Built for the YES AI Hackathon 2026 · Prototype with fictional demo data · No real authentication", "© NetLinks prototype".
+  - Footer (`components/Footer.tsx`): minimal brand lockup and copyright only; no repeated demo disclaimer.
 - Landing:
-  - Hero: eyebrow, display h1 "Match. / Prove. / Shortlist.", light lead, a `.button-link` "Sign in to the demo" and `.link-arrow` links.
+  - Hero: eyebrow, display h1 "Match. / Prove. / Shortlist.", light lead, a `.button-link` that opens the signed-in persona's workspace or the demo sign-in, plus `.link-arrow` links.
   - `.hero-graphic`: CSS radial and conic grayscale gradients plus an inline SVG `feTurbulence` noise layer, fading to the canvas.
   - Decorative accent square with `ArrowDownLeft`, shown from 1100px so it never collides with the headline.
   - Rotating `.stamp` with "Explainable matching •" on a circular `textPath` (`useId` path id).
-  - Full-bleed `.landing-section` blocks (alternating `.alt`), each with a section index and an h2: `01 / PROBLEM`, `02 / HOW IT WORKS` (`id="how"`, five numbered steps), `03 / WHO IT'S FOR`, `04 / TRUST & PRIVACY`, `05 / ROADMAP`, `06 / DEMO` (sign-in call to action). Static text only: no metrics, logos, testimonials or partner claims, and no role rows (sign-in lives on `/login`).
+  - Full-bleed `.landing-section` blocks (alternating `.alt`), each with a section index and an h2: `01 / PROBLEM`, `02 / HOW IT WORKS` (`id="how"`, five numbered steps), `03 / WHO IT'S FOR`, `04 / TRUST & PRIVACY`, `05 / ROADMAP`, `06 / DEMO FLOW`, `07 / DEMO` (role-aware workspace or sign-in call to action). Static text only: no metrics, logos, testimonials or partner claims, and no role rows (sign-in lives on `/login`).
   - Full-bleed accent `.manifesto`: "Rules decide eligibility." in black and "AI explains. Humans decide." in white at display size.
 
 ## 5. Where each pattern is used
 | Page | Patterns |
 |---|---|
-| `/` | hero, hero graphic, accent square, stamp, eyebrow, button-link, link-arrow, landing sections `01 / PROBLEM` … `06 / DEMO` with numbered rows, manifesto |
-| `/login` | eyebrow "Demo sign-in", info notice, numbered fieldsets with sign-in choice rows (role, persona), read-only demo email and password fields, primary button |
+| `/` | hero, hero graphic, accent square, stamp, eyebrow, role-aware workspace/sign-in CTA, link-arrow, landing sections `01 / PROBLEM` … `07 / DEMO` with numbered rows, manifesto |
+| `/login` | eyebrow "Demo sign-in", info notice, numbered fieldsets with sign-in choice rows (role, persona), demo email labels, password-free primary action |
 | `/sme` | eyebrow "SME workspace", page title, mono meta, link-arrow, `01 / UPLOAD`, `02 / PROFILE`, `03 / SHARING`, document rows with `FileText`, profile table with lineage pills, low-confidence and conflict rows, dialog, pagination (documents) |
 | `/sme/readiness` | eyebrow "SME readiness", `01 / REQUESTS`, `02 / UPLOAD`, `03 / OPPORTUNITY` (+n), numbered request and action rows, status pills, pagination (requests) |
 | `/documents/[id]` | eyebrow "Source document", `01 / PAGE`, mono document page, accent `mark` |

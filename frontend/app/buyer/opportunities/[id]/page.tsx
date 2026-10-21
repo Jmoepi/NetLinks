@@ -1,8 +1,8 @@
 "use client";
 
-import { ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useId, useState, type FormEvent } from "react";
 import { Eyebrow } from "@/components/Eyebrow";
 import { Notice } from "@/components/Notice";
@@ -157,6 +157,7 @@ function CriteriaEditor({
 }
 
 function Editor({ id }: { id: string }) {
+  const router = useRouter();
   const { data, error, loading, setData } = useLoad<OpportunityDetail>(`/api/opportunities/${id}`);
   const [rfq, setRfq] = useState("");
   const [mandatory, setMandatory] = useState<Criterion[]>([]);
@@ -205,8 +206,7 @@ function Editor({ id }: { id: string }) {
     }
   }
 
-  async function save(e: FormEvent) {
-    e.preventDefault();
+  async function save(continueToMatching = false) {
     if (!weightsValid) {
       setErr(`Weights must be whole numbers that sum to 100 (currently ${sum}).`);
       return;
@@ -236,11 +236,17 @@ function Editor({ id }: { id: string }) {
       } catch {
         // the save succeeded; the change summary is optional
       }
+      if (continueToMatching) router.push(`/buyer/opportunities/${id}/results`);
     } catch (e2) {
       setErr(errorMessage(e2));
     } finally {
       setBusy(false);
     }
+  }
+
+  function submitSave(e: FormEvent) {
+    e.preventDefault();
+    void save();
   }
 
   return (
@@ -251,12 +257,12 @@ function Editor({ id }: { id: string }) {
           <h1>Requirements</h1>
           <p className="muted">{data.title}</p>
           <p className="meta">
-            Closes {data.closing_date} · contract starts {data.contract_start}
+            Step 1 of 2 · Closes {data.closing_date} · contract starts {data.contract_start}
           </p>
         </div>
-        <Link href={`/buyer/opportunities/${id}/results`} className="link-arrow">
-          Go to matching results
-          <ArrowRight size={16} strokeWidth={1.5} aria-hidden="true" />
+        <Link href="/buyer" className="link-arrow">
+          <ArrowLeft size={16} strokeWidth={1.5} aria-hidden="true" />
+          All opportunities
         </Link>
       </div>
 
@@ -284,7 +290,7 @@ function Editor({ id }: { id: string }) {
         ) : null}
       </section>
 
-      <form onSubmit={save}>
+      <form onSubmit={submitSave}>
         <CriteriaEditor
           index={{ n: 2, label: "Mandatory" }}
           title="Mandatory criteria (pass / needs review / fail)"
@@ -333,6 +339,10 @@ function Editor({ id }: { id: string }) {
         <div className="button-row">
           <button type="submit" disabled={busy || !weightsValid}>
             Save requirements
+          </button>
+          <button type="button" disabled={busy || !weightsValid} onClick={() => void save(true)}>
+            Save and continue to matching
+            <ArrowRight size={16} strokeWidth={1.5} aria-hidden="true" />
           </button>
         </div>
         <Notice kind="success">{message}</Notice>

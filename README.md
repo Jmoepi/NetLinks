@@ -37,7 +37,7 @@ Environment variables are documented in [`.env.example`](.env.example). `docker-
 ## Landing page, sign-in and pagination
 
 - `/` is a public landing page: what NetLinks does, how it works, who it is for, trust and privacy, roadmap, and a **Sign in to the demo** link.
-- `/login` is a simulated sign-in. Pick a role (SME, Buyer or YES Admin), then a persona, then **Sign in**. The demo emails are:
+- `/login` is a simulated sign-in. Pick a role (SME, Buyer or YES Admin), then a persona, then open that persona's workspace. No password is needed. The demo emails shown beside personas are:
 
   | Persona | Demo email |
   |---|---|
@@ -49,7 +49,6 @@ Environment variables are documented in [`.env.example`](.env.example). `docker-
   | Buyer: Naledi (Ubuntu Office Parks) | `naledi@demo.netlinks.local` |
   | YES Admin | `admin@demo.netlinks.local` |
 
-  The password field shows `demo`. It is never checked, sent or stored.
 - Visiting a workspace page while signed out goes to `/login?next=…`, and signing in returns you there. Pages that belong to another role show "Access denied for this role" with a **Switch account** link.
 - The account menu in the top bar shows the current persona and role. **Switch account (demo)** switches persona in one click; **Sign out** returns to `/`.
 - Pagination: the audit log shows 20 entries per page, newest first, with **Event type** and **Role** filters. Other long lists show 10 per page. The controls are hidden when everything fits on one page, and the page is kept in the URL (`?page=2`, `?eligible_page=2`, …), so refresh and Back work.

@@ -126,7 +126,7 @@ function LandingRow({ i, title, text }: { i: number; title?: string; text?: stri
   );
 }
 
-/** Public landing page: hero, numbered content sections and a sign-in call to action. */
+/** Public landing page: hero, numbered content sections and a role-aware workspace call to action. */
 export default function Home() {
   const { identities, identity, signedIn } = useIdentity();
   const loaded = identities.length > 0;
@@ -150,20 +150,21 @@ export default function Home() {
               corporate buyers and YES.
             </p>
             <div className="hero-links">
-              <Link href="/login" className="button-link">
-                Sign in to the demo
-                <ArrowRight size={16} strokeWidth={1.5} aria-hidden="true" />
-              </Link>
+              {signedIn && identity && loaded ? (
+                <Link href={ROLE_HOME[identity.role]} className="button-link">
+                  Continue as {identity.name || identity.label}
+                  <ArrowRight size={16} strokeWidth={1.5} aria-hidden="true" />
+                </Link>
+              ) : (
+                <Link href="/login" className="button-link">
+                  Sign in to the demo
+                  <ArrowRight size={16} strokeWidth={1.5} aria-hidden="true" />
+                </Link>
+              )}
               <a href="#how" className="link-arrow">
                 How it works
                 <ArrowRight size={16} strokeWidth={1.5} aria-hidden="true" />
               </a>
-              {signedIn && identity && loaded ? (
-                <Link href={ROLE_HOME[identity.role]} className="link-arrow">
-                  Continue as {identity.name || identity.label}
-                  <ArrowRight size={16} strokeWidth={1.5} aria-hidden="true" />
-                </Link>
-              ) : null}
             </div>
           </div>
         </div>
@@ -259,10 +260,17 @@ export default function Home() {
           <SectionIndex n={7} label="Demo" />
           <h2 id="demo-heading">Try the demo</h2>
           <div className="landing-cta">
-            <Link href="/login" className="button-link">
-              Sign in to the demo
-              <ArrowRight size={16} strokeWidth={1.5} aria-hidden="true" />
-            </Link>
+            {signedIn && identity && loaded ? (
+              <Link href={ROLE_HOME[identity.role]} className="button-link">
+                Continue to your workspace
+                <ArrowRight size={16} strokeWidth={1.5} aria-hidden="true" />
+              </Link>
+            ) : (
+              <Link href="/login" className="button-link">
+                Sign in to the demo
+                <ArrowRight size={16} strokeWidth={1.5} aria-hidden="true" />
+              </Link>
+            )}
             <p className="muted">{DEMO_PROMISE}</p>
             <span className="badge badge-neutral">Fictional data · Local prototype</span>
           </div>

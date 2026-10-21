@@ -316,6 +316,30 @@ function SmeProfile() {
   const docs = pageSlice(data.documents, docsPage, DOCS_PAGE_SIZE);
   const activeDocs = data.documents.filter((d) => !d.superseded_by_document_id);
   const needsAttention = data.low_confidence.length + data.conflicts.length;
+  const nextStep =
+    data.documents.length === 0
+      ? {
+          href: "#upload-heading",
+          action: "Upload a document",
+          detail: "Start with a capability statement, certificate or policy so NetLinks can build your evidence-backed profile.",
+        }
+      : needsAttention > 0
+        ? {
+            href: "#profile-heading",
+            action: `Review ${needsAttention} field${needsAttention === 1 ? "" : "s"}`,
+            detail: "Confirm low-confidence or conflicting information before you share your profile with buyers.",
+          }
+        : data.sme.consent_status !== "granted"
+          ? {
+              href: "#consent-heading",
+              action: "Choose profile sharing",
+              detail: "Your profile remains private until you decide whether buyers can include it in matching.",
+            }
+          : {
+              href: "/sme/readiness",
+              action: "Check my readiness",
+              detail: "See buyer requests, current opportunity status and the next evidence that could help you qualify.",
+            };
 
   return (
     <>
@@ -332,6 +356,16 @@ function SmeProfile() {
           <ArrowRight size={16} strokeWidth={1.5} aria-hidden="true" />
         </Link>
       </div>
+
+      <section className="panel journey-next" aria-labelledby="next-step-heading">
+        <p className="section-index">Next step</p>
+        <h2 id="next-step-heading">{nextStep.action}</h2>
+        <p className="muted">{nextStep.detail}</p>
+        <Link href={nextStep.href} className="button-link">
+          {nextStep.action}
+          <ArrowRight size={16} strokeWidth={1.5} aria-hidden="true" />
+        </Link>
+      </section>
 
       <section className="panel" aria-labelledby="upload-heading">
         <SectionIndex n={1} label="Upload" />

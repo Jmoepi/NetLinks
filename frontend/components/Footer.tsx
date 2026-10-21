@@ -1,6 +1,6 @@
 import { Crosshair } from "lucide-react";
 
-/** Small site footer in the reference "footer bottom" style. */
+/** Minimal site footer with brand and copyright only. */
 export function Footer() {
   return (
     <footer className="site-footer">
@@ -12,9 +12,6 @@ export function Footer() {
           </span>
           <span className="sr-only">NetLinks</span>
         </div>
-        <p className="footer-note">
-          Built for the YES AI Hackathon 2026 · Prototype with fictional demo data · No real authentication
-        </p>
         <p className="footer-copy">© NetLinks prototype</p>
       </div>
     </footer>

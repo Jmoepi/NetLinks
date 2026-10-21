@@ -24,12 +24,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <a href="#main" className="skip-link">
           Skip to main content
         </a>
-        <div className="demo-banner" role="note">
-          <span>
-            <strong>Fictional demo data</strong> - every company, person, document and buyer shown here is fictional.
-            Hackathon prototype with no real authentication.
-          </span>
-        </div>
         <AppShell>{children}</AppShell>
       </body>
     </html>

@@ -58,15 +58,22 @@ function OpportunityList() {
               ? `Last matching run ${formatDateTime(o.latest_run.run_at)}: Eligible ${o.latest_run.counts.eligible}, Needs Review ${o.latest_run.counts.needs_review}, Not Eligible ${o.latest_run.counts.not_eligible}.`
               : "Matching has not been run yet."}
           </p>
+          <p className="hint">
+            {o.latest_run
+              ? "Next step: review the latest matching results and decide which suppliers to shortlist."
+              : "Next step: review the requirements, then run matching when they are ready."}
+          </p>
           <div className="link-row">
-            <Link href={`/buyer/opportunities/${o.id}`} className="link-arrow">
-              Requirements and weights
+            <Link href={`/buyer/opportunities/${o.id}`} className="button-link">
+              Open opportunity
               <ArrowRight size={16} strokeWidth={1.5} aria-hidden="true" />
             </Link>
-            <Link href={`/buyer/opportunities/${o.id}/results`} className="link-arrow">
-              Matching results and shortlist
-              <ArrowRight size={16} strokeWidth={1.5} aria-hidden="true" />
-            </Link>
+            {o.latest_run ? (
+              <Link href={`/buyer/opportunities/${o.id}/results`} className="link-arrow">
+                Review matching results
+                <ArrowRight size={16} strokeWidth={1.5} aria-hidden="true" />
+              </Link>
+            ) : null}
             <Link href={`/buyer/audit?opportunity_id=${o.id}`} className="link-arrow">
               Audit log
               <ArrowRight size={16} strokeWidth={1.5} aria-hidden="true" />

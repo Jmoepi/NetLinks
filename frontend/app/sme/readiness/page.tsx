@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowLeft, CircleCheck, Hourglass } from "lucide-react";
+import { ArrowLeft, ArrowRight, CircleCheck, Hourglass } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
 import { Eyebrow } from "@/components/Eyebrow";
@@ -55,10 +55,16 @@ function ReadinessView() {
                 <strong>{r.kind === "information" ? "Request for information" : "Request for clarification"}</strong> from{" "}
                 {r.buyer_org} ({formatDateTime(r.created_at)}): <q>{r.message}</q>{" "}
                 {r.status === "open" ? (
-                  <span className="badge badge-awaiting">
-                    <Hourglass size={14} strokeWidth={1.5} aria-hidden="true" />
-                    Open - awaiting your response
-                  </span>
+                  <>
+                    <span className="badge badge-awaiting">
+                      <Hourglass size={14} strokeWidth={1.5} aria-hidden="true" />
+                      Open - awaiting your response
+                    </span>
+                    <a href="#reupload-heading" className="link-arrow request-action">
+                      Upload evidence to respond
+                      <ArrowRight size={14} strokeWidth={1.5} aria-hidden="true" />
+                    </a>
+                  </>
                 ) : (
                   <span className="badge badge-eligible">
                     <CircleCheck size={14} strokeWidth={1.5} aria-hidden="true" />
