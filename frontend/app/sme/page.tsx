@@ -310,9 +310,23 @@ function ConsentPanel({ sme, onAnswered }: { sme: Sme; onAnswered: () => Promise
 function SmeProfile() {
   const { data, error, loading, reload } = useLoad<Profile>("/api/sme/me/profile");
   const { page: docsPage, setPage: setDocsPage } = usePageParam("docs_page");
+  const [sort, setSort] = useState<{ key: "confidence" | "field"; dir: "asc" | "desc" }>({ key: "confidence", dir: "asc" });
 
   if (!data) return loading ? <p>Loading profile…</p> : <Notice kind="error">{error}</Notice>;
 
+  const sortedFields = [...data.fields].sort((a, b) => {
+    if (sort.key === "confidence") {
+      const rank = (f: ProfileField) =>
+        f.conflict || f.status === "missing" ? Number.POSITIVE_INFINITY : (f.confidence ?? Number.NEGATIVE_INFINITY);
+      const av = rank(a);
+      const bv = rank(b);
+      if (av === bv) return 0;
+      const cmp = av < bv ? -1 : 1;
+      return sort.dir === "asc" ? cmp : -cmp;
+    }
+    const cmp = a.label.localeCompare(b.label);
+    return sort.dir === "asc" ? cmp : -cmp;
+  });
   const docs = pageSlice(data.documents, docsPage, DOCS_PAGE_SIZE);
   const activeDocs = data.documents.filter((d) => !d.superseded_by_document_id);
   const needsAttention = data.low_confidence.length + data.conflicts.length;
@@ -420,6 +434,25 @@ function SmeProfile() {
             sources).
           </Notice>
         ) : null}
+        <div className="field-inline">
+          <div className="field">
+            <label htmlFor="profile-field-sort">Sort profile fields</label>
+            <select
+              id="profile-field-sort"
+              value={`${sort.key}:${sort.dir}`}
+              onChange={(e) => {
+                const parts = e.target.value.split(":");
+                const key = parts[0] === "field" ? "field" : "confidence";
+                const dir = parts[1] === "desc" ? "desc" : "asc";
+                setSort({ key, dir });
+              }}
+            >
+              <option value="confidence:asc">Lowest confidence first</option>
+              <option value="confidence:desc">Highest confidence first</option>
+              <option value="field:asc">Field A-Z</option>
+            </select>
+          </div>
+        </div>
         <div className="table-wrap">
           <table>
             <caption className="sr-only">Extracted profile fields with source and confidence</caption>
@@ -434,7 +467,7 @@ function SmeProfile() {
               </tr>
             </thead>
             <tbody>
-              {data.fields.map((f) => (
+              {sortedFields.map((f) => (
                 <FieldRow
                   key={`${f.field_key}-${f.selected?.id ?? "none"}-${f.candidates.length}`}
                   field={f}

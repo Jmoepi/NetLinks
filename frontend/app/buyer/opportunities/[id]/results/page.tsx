@@ -6,8 +6,10 @@ import { Eyebrow } from "@/components/Eyebrow";
 import { useParams } from "next/navigation";
 import { Suspense, useEffect, useId, useState, type FormEvent } from "react";
 import { EvidenceLinks } from "@/components/EvidenceLinks";
+import { FitScore } from "@/components/FitScore";
 import { Notice } from "@/components/Notice";
 import { Pagination } from "@/components/Pagination";
+import { ProvenanceStrip } from "@/components/ProvenanceStrip";
 import { RoleGate } from "@/components/RoleGate";
 import { SectionIndex } from "@/components/SectionIndex";
 import { SourceBadge } from "@/components/SourceBadge";
@@ -17,7 +19,7 @@ import { formatDateTime, formatValue, sourceHref } from "@/lib/format";
 import { useIdentity } from "@/lib/identity";
 import { pageSlice, usePageParam } from "@/lib/pagination";
 import { useLoad } from "@/lib/useLoad";
-import type { Check, MatchResult, MatchStatus, RunPayload, ShortlistEntry } from "@/lib/types";
+import type { AuditEntry, Check, MatchResult, MatchStatus, RunPayload, ShortlistEntry, SourceType } from "@/lib/types";
 
 const GROUP_PAGE_SIZE = 10;
 
@@ -199,6 +201,9 @@ function ResultCard({
   const passCount = mandatory.filter((c) => c.outcome === "pass").length;
   const cap = result.components.find((c) => c.name === "capability");
   const headingId = useId();
+  const capSources = cap
+    ? Array.from(new Set((cap.evidence ?? []).map((e) => e.source_type).filter((s): s is SourceType => Boolean(s))))
+    : [];
 
   return (
     <article className={`result-card status-${result.status}`} aria-labelledby={headingId}>
@@ -225,10 +230,10 @@ function ResultCard({
             ) : null}
           </div>
         </div>
-        <span className="score">
+        <div className="score result-score">
           {result.provisional ? "Provisional score" : "Fit score"}{" "}
-          <span className="score-num">{result.score_total.toFixed(1)}</span> / 100
-        </span>
+          <FitScore score={result.score_total} provisional={result.provisional} />
+        </div>
       </div>
       <p className="meta result-meta">
         {result.sme.base_town} · {result.sme.size_band} business
@@ -243,6 +248,7 @@ function ResultCard({
           <strong>Capability match ({cap.score.toFixed(1)} / 100):</strong> {cap.explanation}
         </p>
       ) : null}
+      {capSources.length ? <ProvenanceStrip sources={capSources} /> : null}
 
       {issues.length ? (
         <div>
